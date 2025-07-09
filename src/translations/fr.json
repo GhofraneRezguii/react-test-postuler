@@ -1,0 +1,19 @@
+{
+    "navbar": {
+      "accueil": "Accueil",
+      "solutions": "Solutions",
+      "societe": "Société",
+      "carrieres": "Carrières",
+      "votre_carriere": "Votre carrière chez nous",
+      "offres": "Nos offres d'emploi",
+      "postuler": "Postuler",
+      "actualites": "Nos actualités",
+      "contact": "Contact",
+      "langue": "Français"
+    },
+    "home": {
+      "bienvenue": "Bienvenue",
+      "description": "Page avec animation particles.js en arrière-plan"
+    }
+  }
+  
