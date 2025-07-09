@@ -1,5 +1,6 @@
 :root {
     --shadow-color: rgb(110, 164, 235);
+   /* color: #072b62; */
   }
   
 
@@ -119,7 +120,7 @@ body {
     overflow: hidden;
     position: relative;
     border-radius: 10px; 
-  overflow: hidden;  
+    overflow: hidden;  
   }
   
   .btn-shine:after {

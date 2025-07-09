@@ -15,3 +15,63 @@ body, html, #root {
   left: 0;
   background-color:transparent ;
 }
+/* descp anim */
+/* ========== ANIMATION SLIDE-IN GAUCHE ========== */
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 1s ease-out forwards;
+  
+}
+
+/* ========== GRADIENT TEXT ANIMÉ ========== */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(270deg, #1e90ff, #110f79,rgb(117, 168, 235));
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite;
+  font-weight: 500;
+  font-size: 1.2rem;
+  /* text-shadow:7px 4px 9px #7ba6ea; */
+}
+
+
+
+
+/* popup title */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pop-up {
+  animation: popIn 0.6s ease forwards;
+}

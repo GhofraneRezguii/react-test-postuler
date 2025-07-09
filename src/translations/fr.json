@@ -12,8 +12,9 @@
       "langue": "Français"
     },
     "home": {
-      "bienvenue": "Bienvenue",
-      "description": "Page avec animation particles.js en arrière-plan"
+      "title": "Nos Offres d'emploi",
+      "description": "Rejoignez une équipe dynamique et contribuez à construire l’innovation de demain. Découvrez nos opportunités dès maintenant !"
     }
+    
   }
   

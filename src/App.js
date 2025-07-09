@@ -1,7 +1,8 @@
-import './App.css';
-import ParticlesBackground from './Components/ParticlesBackground';
-import Navbar from './Components/Navbar';
-import { useTranslation } from 'react-i18next';
+import "./App.css";
+import ParticlesBackground from "./Components/ParticlesBackground";
+import Navbar from "./Components/Navbar";
+import Offres from './Components/Offres';
+import { useTranslation } from "react-i18next";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -25,9 +26,32 @@ function App() {
       </div> */}
 
       {/* Contenu traduit */}
-      <div className="container text-center pt-5" style={{ marginTop: '20px' }}>
-        <h1 style={{ color: "#0d6efd" }}>{t('home.bienvenue')}</h1>
-        <p>{t('home.description')}</p>
+      <div className="container text-center pt-5" style={{ marginTop: "20px" }}>
+        <h1
+          style={{
+            color: "#072b62",
+            lineHeight: "45px",
+            margin: 0,
+            fontFamily: "Georgia, serif",
+            textShadow: "0 0 10px rgb(110, 164, 235)",
+          }}
+          className="pop-up"
+        >
+          {t("home.title")}
+        </h1>
+        <br></br>
+        <div className="slide-in-left">
+          <p
+            className="slide-in-left gradient-text"
+            style={{
+              fontFamily: "'Lucida Sans', Geneva, Verdana, sans-serif",
+              fontSize: "15px",
+            }}
+          >
+            {t("home.description")}
+          </p>
+        </div>
+        <Offres />
       </div>
     </div>
   );
