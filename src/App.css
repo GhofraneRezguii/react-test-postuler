@@ -201,9 +201,89 @@ ul {
 /* Positionnement à droite du contenu */
 .media-icons {
   position: absolute;
-  right: 50px;
-  top: 320px; /* Ajuste selon la hauteur souhaitée */
+  right: 20px;
+  top: 260px; /* Ajuste selon la hauteur souhaitée */
   z-index: 999;
   display: flex;
   flex-direction: column;
 }
+/* =====button back====== */
+
+.subscribe-btn {
+  padding: 0;
+  margin: 0;
+  padding-left: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  --primary-color: #072b62;
+  --hovered-color: #c84747;
+
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  font-size: 20px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.subscribe-btn p {
+  margin: 0;
+  position: relative;
+  font-size: 20px;
+  color: var(--primary-color);
+}
+
+.subscribe-btn::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.3s ease-out;
+}
+
+.subscribe-btn p::before {
+  position: absolute;
+  content: "Retour";
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.3s ease-out;
+}
+
+.subscribe-btn:hover::after {
+  width: 100%;
+}
+
+.subscribe-btn:hover p::before {
+  width: 100%;
+}
+
+.subscribe-btn:hover svg {
+  transform: translateX(-4px);
+  color: var(--hovered-color);
+}
+
+.subscribe-btn svg {
+  color: var(--primary-color);
+  transition: 0.2s;
+  position: relative;
+  width: 18px;
+  transition-delay: 0.2s;
+}
+
+/* Inverser la direction (svg à gauche du texte) */
+.subscribe-btn.reverse {
+  flex-direction: row-reverse;
+}
+
+.subscribe-btn.reverse:hover svg {
+  transform: translateX(4px);
+}
+/* ========== footer=========== */
+
