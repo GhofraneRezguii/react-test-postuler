@@ -1,10 +1,14 @@
 .flip-card {
   background-color: transparent;
-  width: 200px;
-  height: 254px;
+  width: 300px;
+  height: 400px;
   perspective: 1000px;
   font-family: 'Lucida Sans', sans-serif;
   z-index:2 ;
+  
+  
+  
+
 }
 
 .flip-card-inner {
@@ -15,6 +19,8 @@
   transition: transform 0.6s;
   transition-timing-function: cubic-bezier(0.61, 0.98, 0.48, 1.01);
   transform-style: preserve-3d;
+
+  
 }
 
 .flip-card:hover .flip-card-inner {
@@ -29,38 +35,69 @@
   border-radius: 1rem;
   -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-
-  /* backface-visibility: hidden; */
-  display: flex;
+     display: flex;
   flex-direction: column;
   justify-content: center;
+  
   padding: 10px;
   box-shadow: 0 8px 14px rgb(60, 97, 229);
 }
 
 /* Front (titre de l'offre) */
 .flip-card-front {
-  background: #0f3a7b;
-  color: #f5f5f8;
+  background: white;
+  color: #0c2068;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 0;
+   
+
 }
+.card-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+
 
 /* Back (détails + lien) */
 .flip-card-back {
-  background: #0959d8;
-  color: #f5f5f8;
+  background: #063177;
+  color: white;
   transform: rotateY(180deg);
+  text-align: left;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
+
 .title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  height: 30%;
+  width: 100%;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  text-align: center;
+  padding: 10px;
+  font-size: 60px;
+  font-weight: 900;
   margin-bottom: 10px;
+  animation: slide-in-left 1s ease-out forwards;
+ 
 }
 
 .arrow-link {
   display: flex;
   justify-content: center;
   margin-top: 10px;
+
 }
 
 .arrow-button {
@@ -79,18 +116,33 @@
 
 .job-card {
   position: relative;
-  width: 190px;
-  height: 254px;
+  width: 300px;
+  height: 400px;
   background-color: rgb(6, 39, 69); /* ou un fond selon ta charte */
   color: white;
   border-radius: 10px;
-  padding: 12px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: end;
   overflow: hidden;
   z-index: 1;
+  /* margin-right: 50px; */
+  padding: 8px;
+  margin-bottom: 50px;
+  animation: slide-right-to-left 2s ease forwards;
 }
+@keyframes slide-right-to-left {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 
 .job-card-bg {
   position: absolute;
@@ -98,21 +150,22 @@
   left: 5px;
   width: calc(100% - 10px);
   height: calc(100% - 10px);
-  background: rgba(83, 138, 221, 0.95);
+  background: rgba(21, 71, 150, 0.95);
   filter: blur(12px);
-  border-radius: 10px;
+  border-radius: 20px;
   outline: 2px solid rgb(255, 255, 255);
-  z-index: 1;
+  z-index: -1;
+  
 }
 
 .job-card-blob {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-  background-color: #1e90ff; /* adapte à ta charte */
+  background-color: #a1c7ed; /* adapte à ta charte */
   opacity: 0.6;
   filter: blur(15px);
   animation: blob-bounce 6s infinite ease;
@@ -139,13 +192,28 @@
 
 /* Contenu */
 .heading {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 60px;
+  font-weight: 900;
   z-index: 2;
+  animation: slide-in-left 1s ease-out forwards;
+  
 }
 
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
 .job-card p:not(.heading) {
-  font-size: 14px;
+  font-size: 18px;
   z-index: 2;
 }
 
@@ -156,16 +224,99 @@
   z-index: 2;
 }
 
-.arrow-button {
-  font-size: 22px;
-  color: #1988c0;
+.cta {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
   text-decoration: none;
-  transition: transform 0.3s ease;
+  color: #aad4ff;
+  font-size: 12px;
+  margin-top: 10px;
 }
 
-.arrow-button:hover {
-  transform: translateX(5px);
-  color: #154a9f;
+.cta span {
+  padding-bottom: 4px;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding-right: 8px;
+  text-transform: uppercase;
 }
 
-  
+.cta svg {
+  transform: translateX(-8px);
+  transition: all 0.3s ease;
+  fill: #aad4ff;
+}
+
+.cta:hover svg {
+  transform: translateX(0);
+}
+
+.cta:active svg {
+  transform: scale(0.9);
+}
+
+.hover-underline-animation {
+  position: relative;
+  color: #aad4ff;
+  padding-bottom: 4px;
+}
+
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #aad4ff;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.cta:hover .hover-underline-animation:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+
+.job-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 3 cartes adaptables */
+  gap: 30px;
+  justify-content: center;
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-right: 80px;
+}
+
+.back-department {
+  font-weight: 600;   /* très gras */
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: rgb(95, 129, 221);
+}
+
+.back-label {
+  font-size: 18px;  /* gras pour les labels */
+  color: #aad4ff; 
+  margin-right: 5px;   /* couleur douce, harmonieuse */
+}
+
+.flip-card-back p {
+  font-size: 10px;
+  font-weight: 500;
+  margin: 6px 0;
+  color: white;
+  line-height: 1.2;
+}
+.back-content {
+  font-size: 14px;        /* plus petit que le label */
+  font-weight: 400;
+  color: white;
+}

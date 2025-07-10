@@ -2,6 +2,7 @@ import "./App.css";
 import ParticlesBackground from "./Components/ParticlesBackground";
 import Navbar from "./Components/Navbar";
 import Offres from './Components/Offres';
+import SocialMediaIcons from "./Components/SocialMediaIcons";
 import { useTranslation } from "react-i18next";
 
 function App() {
@@ -39,18 +40,20 @@ function App() {
         >
           {t("home.title")}
         </h1>
-        <br></br>
+        
         <div className="slide-in-left">
           <p
             className="slide-in-left gradient-text"
             style={{
               fontFamily: "'Lucida Sans', Geneva, Verdana, sans-serif",
               fontSize: "15px",
+              
             }}
           >
             {t("home.description")}
           </p>
         </div>
+        <SocialMediaIcons />
         <Offres />
       </div>
     </div>
