@@ -1,0 +1,148 @@
+/* 
+*/
+.styled-footer-btn {
+    border: none;
+    display: block;
+    position: relative;
+    padding: 0.7em 2.4em;
+    font-size: 18px;
+    background: transparent;
+    cursor: pointer;
+    -webkit-user-select: none; /* pour Safari */
+    -moz-user-select: none;    /* pour Firefox */
+    -ms-user-select: none;     /* pour IE/Edge legacy */
+    user-select: none;
+    overflow: hidden;
+    color: royalblue;
+    z-index: 1;
+    font-family: inherit;
+    font-weight: 500;
+    margin-left: auto;         /* Aligner à droite */
+    margin-top: -60px;         /* Légèrement plus haut dans le footer */
+    border-radius: 12px;
+  }
+  
+  .styled-footer-btn span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: -1;
+    border: 4px solid royalblue;
+    border-radius: 12px;
+  }
+  
+  .styled-footer-btn span::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 8%;
+    height: 500%;
+    background: #ffffff; /* couleur claire pour l'effet */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-60deg);
+    transition: all 0.3s;
+    border-radius: 12px;
+  }
+  
+  .styled-footer-btn:hover span::before {
+    transform: translate(-50%, -50%) rotate(-90deg);
+    width: 100%;
+    background: royalblue;
+  }
+  
+  .styled-footer-btn:hover {
+    color: white;
+  }
+  
+  .styled-footer-btn:active span::before {
+    background: #2751cd;
+  }
+  
+  .footer-copy {
+    position: relative;
+    margin-top: 3rem;
+    padding: 1.2rem;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    font-size: 0.98rem;
+    font-weight: 500;
+    z-index: 1;
+    overflow: hidden;
+    height: 100px;
+    display: flex;
+    align-items: center;  /* Centrage vertical */
+    justify-content: center;  /* Centrage horizontal */
+    text-align: center;
+    animation: slide-footer 5s ease-in-out infinite;
+
+  }
+  
+  .footer-copy p {
+    margin: 0;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Fond flou (inspiré de .job-card-bg) */
+  .footer-bg {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    background: rgba(21, 71, 150, 1);
+    filter: blur(12px);
+    border-radius: 20px;
+    outline: 2px solid white;
+    z-index: 1;
+  }
+  
+  /* Bulle animée (inspirée de .job-card-blob) */
+  .footer-blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: #9bc8f9;
+    opacity: 0.3;
+    filter: blur(15px);
+    animation: blob-bounce 6s infinite ease;
+    z-index: 1;
+  }
+  
+  @keyframes blob-bounce {
+    0% {
+      transform: translate(-100%, -100%) translate3d(0, 0, 0);
+    }
+    25% {
+      transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+    }
+    50% {
+      transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+    }
+    75% {
+      transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+    }
+    100% {
+      transform: translate(-100%, -100%) translate3d(0, 0, 0);
+    }
+  }
+  @keyframes slide-footer {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(50px); /* Distance de glissement */
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
