@@ -7,7 +7,6 @@ import SocialMediaIcons from "../../Components/SocialMediaIcons.js";
 import "../../App.css";
 import "../../Components/Footer.css";
 import { useTranslation } from "react-i18next";
-
 function OffresEmp(){
     const { t, i18n } = useTranslation();
     // const navigate = useNavigate();

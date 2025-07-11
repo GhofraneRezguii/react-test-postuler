@@ -1,0 +1,303 @@
+.offre-detail-container {
+    padding: 40px;
+    background: rgb(228, 240, 252);
+    border-radius: 10px;
+    max-width: 950px;
+    margin: 50px auto;
+    box-shadow: 0 2px 10px rgb(20, 70, 188);
+  }
+  
+  .offre-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #1e3a8a;
+    margin-left: 180px;
+  }
+  
+  .offre-paragraphe {
+    color: #1e3a8a;
+    font-size: 1em;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 1.9;
+    margin-left: 10px;
+    font-weight: 620;
+  }
+  .offre-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .offre-text {
+    flex: 1;
+  }
+  
+  .image-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  /* Image à droite avec le texte qui s'enroule */
+  .image-container {
+    position: relative;
+    width: 320px;
+    height: 200px;
+    float: right; /* texte va entourer l'image */
+    margin: 0 0 1rem 1rem;
+    flex-shrink: 0;
+  }
+  
+  .offre-image {
+    width: 95%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 80px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0px 9px 8px #1e3a8a;
+    animation: zoomAnimation 2s ease-in-out infinite;
+  }
+  
+  .job-card-bg {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: 100%;
+    background: rgba(21, 71, 150, 0.95);
+    filter: blur(12px);
+    border-radius: 80px !important;
+    outline: 2px solid white;
+    z-index: 0;
+  }
+  
+  .job-card-blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 180px!important;
+    height: 90px!important;
+    border-radius: 50%;
+    background-color: #b1d2f2;
+    opacity: 0.3;
+    filter: blur(3px);
+    animation: blob-bounce 6s infinite ease;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    /* background-color: #06206a; */
+  }
+  
+  
+  @keyframes blob-bounce {
+    0% { transform: translate(-100%, -100%) translate3d(0, 0, 0); }
+    25% { transform: translate(-100%, -100%) translate3d(100%, 0, 0); }
+    50% { transform: translate(-100%, -100%) translate3d(100%, 100%, 0); }
+    75% { transform: translate(-100%, -100%) translate3d(0, 100%, 0); }
+    100% { transform: translate(-100%, -100%) translate3d(0, 0, 0); }
+  }
+    
+  /* Animation d'entrée du container */
+@keyframes slideInFromLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .offre-detail-container {
+    animation: slideInFromLeft 1s ease-out forwards;
+  }
+  
+  /* Animation d'entrée différée de l'image */
+  @keyframes slideInFromRight {
+    0% {
+      opacity: 0;
+      transform: translateX(100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .image-container {
+    animation: slideInFromRight 1s ease-out 0.5s forwards;
+    opacity: 0; /* nécessaire pour cacher au départ */
+  }
+
+  @keyframes zoomAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.06); /* zoom léger */
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .offre-title-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .subscribe-btn {
+    padding: 0;
+    margin: 0;
+    padding-left: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  
+    --primary-color: #072b62;
+    --hovered-color: #c84747;
+  
+    position: relative;
+    display: flex;
+    font-weight: 600;
+    font-size: 20px;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .subscribe-btn p {
+    margin: 0;
+    position: relative;
+    font-size: 20px;
+    color: var(--primary-color);
+  }
+  
+  .subscribe-btn::after {
+    position: absolute;
+    content: "";
+    width: 0;
+    left: 0;
+    bottom: -7px;
+    background: var(--hovered-color);
+    height: 2px;
+    transition: 0.3s ease-out;
+  }
+  
+  .subscribe-btn p::before {
+    position: absolute;
+    content: "Retour";
+    width: 0%;
+    inset: 0;
+    color: var(--hovered-color);
+    overflow: hidden;
+    transition: 0.3s ease-out;
+  }
+  
+  .subscribe-btn:hover::after {
+    width: 100%;
+  }
+  
+  .subscribe-btn:hover p::before {
+    width: 100%;
+  }
+  
+  .subscribe-btn:hover svg {
+    transform: translateX(-4px);
+    color: var(--hovered-color);
+  }
+  
+  .subscribe-btn svg {
+    color: var(--primary-color);
+    transition: 0.2s;
+    position: relative;
+    width: 18px;
+    transition-delay: 0.2s;
+  }
+  
+  /* Inverser la direction (svg à gauche du texte) */
+  .subscribe-btn.reverse {
+    flex-direction: row-reverse;
+    position: fixed;
+    top: 10px;
+    left: 20px;
+     z-index: 1000;
+  }
+  
+  .subscribe-btn.reverse:hover svg {
+    transform: translateX(4px);
+  }
+  .mission-title {
+    color: #0e36a5;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size: 26px;
+    font-weight: bold;
+    
+  }
+  
+  .styled-footer-btn {
+    border: none;
+    display: block;
+    position: relative;
+    padding: 0.7em 2.4em;
+    font-size: 18px;
+    background: transparent;
+    cursor: pointer;
+    -webkit-user-select: none; /* pour Safari */
+    -moz-user-select: none;    /* pour Firefox */
+    -ms-user-select: none;     /* pour IE/Edge legacy */
+    user-select: none;
+    overflow: hidden;
+    color: royalblue;
+    z-index: 1;
+    font-family: inherit;
+    font-weight: 500;
+    margin-left: auto;         /* Aligner à droite */
+    /* margin-top: -20px;        */
+    border-radius: 12px;
+  }
+  
+  .styled-footer-btn span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #bfd3f7 ;
+    z-index: -1;
+    border: 4px solid royalblue;
+    border-radius: 12px;
+  }
+  
+  .styled-footer-btn span::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 8%;
+    height: 500%;
+    background: #d6e5fe !important; /* couleur claire pour l'effet */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-60deg);
+    transition: all 0.3s;
+    border-radius: 12px;
+  }
+  
+  .styled-footer-btn:hover span::before {
+    transform: translate(-50%, -50%) rotate(-90deg);
+    width: 100%;
+    background: #061d5f !important;
+  }
+  
+  .styled-footer-btn:hover {
+    color: white;
+  }
+  
+  .styled-footer-btn:active span::before {
+    background: #061d5f !important;
+  }

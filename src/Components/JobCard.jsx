@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import './JobCard.css';
 
 function JobCard({
@@ -64,7 +65,7 @@ function JobCard({
 
       {/* Bouton animé en dehors de la carte retournée */}
       <div className="arrow-link">
-        <a href={link} className="cta">
+      <Link to={link} className="cta">
           <span className="hover-underline-animation">Voir plus</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +79,7 @@ function JobCard({
               fill="currentColor"
             />
           </svg>
-        </a>
+          </Link>
       </div>
     </div>
   );

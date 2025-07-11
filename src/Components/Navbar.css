@@ -16,10 +16,13 @@ body {
   
   /* =================== NAVBAR =================== */
   .navbar {
-    /* position: sticky; */
+    /* position: -webkit-sticky; */
+    position: fixed;
+    overflow: visible;
     z-index: 1050;
+    
    
-    /* top:0; */
+    top:0;
     
   }
   
@@ -43,7 +46,7 @@ body {
   /* NAVBAR ANIMATION UNDERLINE */
   .navbar-nav .nav-link {
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
   
   .navbar-nav .nav-link::after {
@@ -81,7 +84,7 @@ body {
     color: #1d89ff;
     font-weight: 400;
     cursor: pointer;
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
   }
   
@@ -120,7 +123,7 @@ body {
     overflow: hidden;
     position: relative;
     border-radius: 10px; 
-    overflow: hidden;  
+    /* overflow: hidden;   */
   }
   
   .btn-shine:after {

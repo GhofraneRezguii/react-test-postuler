@@ -2,8 +2,10 @@ import React from 'react';
 import JobCard from './JobCard';
 import './JobCard.css';
 
+
+
 function Offres() {
-  const jobs = [
+  const Jobs = [
     {
       title: "Consultant Sécurité Technique",
       département: "Sécurité des Systèmes d’Information",
@@ -61,7 +63,7 @@ function Offres() {
 
   return (
     <div className="job-container">
-    {jobs.map((job, index) => (
+    {Jobs.map((job, index) => (
       <JobCard
         key={index}
         title={job.title}
@@ -72,6 +74,7 @@ function Offres() {
         status={job.status}
         link={`/offre/${index}`}
         image={job.image}
+        details={job.details}
         style={{ animationDelay: `${index * 0.3}s` }}  // délai progressif
       />
     ))}

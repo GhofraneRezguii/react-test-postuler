@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import OffreDetail from "./pages/Carrieres/OffreDetail.jsx"; // à créer ensuite
+
 import Layout from "./Components/Layout.jsx";
 import Accueil from "./pages/Accueil.jsx";
 // import Carrieres from "./pages/Carrieres";
@@ -22,12 +24,9 @@ function App() {
         {/* Route pour la page des offres */}
         <Route
           path="/carrieres/offres"
-          element={
-            
-              <OffresEmp />
-            
-          }
+          element={<OffresEmp />}
         />
+        <Route path="/offre/:id" element={<OffreDetail />} />
       </Routes>
     </Router>
   );
