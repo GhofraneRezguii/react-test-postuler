@@ -1,8 +1,10 @@
 // src/components/Navbar.js
 import React from "react";
 import "./Navbar.css";
+import ThemeToggle from './ThemeToggle.jsx';
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom"; // Ajouté pour React Router
+import { Link } from "react-router-dom"; 
+import ScrollLineEffect from "./ScrollLineEffect.jsx"; 
 
 function Navbar() {
   const { t, i18n } = useTranslation();
@@ -13,7 +15,9 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      
       <div className="container">
+      
         {/* Brand logo */}
         <Link className="navbar-brand" to="/">
           <img
@@ -216,7 +220,7 @@ function Navbar() {
               </ul>
             </li>
           </ul>
-
+          <ThemeToggle />
           {/* Contact button */}
           <button className="btn-shine mx-3">
             <span>{t("navbar.contact")}</span>

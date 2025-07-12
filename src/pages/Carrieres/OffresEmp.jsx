@@ -1,12 +1,13 @@
 import React from "react";
 import ParticlesBackground from '../../Components/ParticlesBackground.js';
-
+import ScrollLineEffect from "../../Components/ScrollLineEffect.jsx"; 
 import Navbar from "../../Components/Navbar.js";
 import Offres from "../../Components/Offres.jsx";
 import SocialMediaIcons from "../../Components/SocialMediaIcons.js";
 import "../../App.css";
 import "../../Components/Footer.css";
 import { useTranslation } from "react-i18next";
+
 function OffresEmp(){
     const { t, i18n } = useTranslation();
     // const navigate = useNavigate();
@@ -18,11 +19,13 @@ function OffresEmp(){
     return (
         <div>
           <ParticlesBackground />
+          <div className="scroll-line"></div>
+          <ScrollLineEffect/>
           <Navbar />
     
           <div
-            className="container pt-5"
-            style={{ marginTop: "20px", position: "relative" }}
+            className="container pt-5 "
+            style={{ marginTop: "20px", position: "relative",maxHeight:"100%" }}
           >
             {/* Bouton à gauche absolue */}
             <button className="subscribe-btn reversed fixed-left">
@@ -63,7 +66,7 @@ function OffresEmp(){
                 className="slide-in-left gradient-text"
                 style={{
                   fontFamily: "'Lucida Sans', Geneva, Verdana, sans-serif",
-                  fontSize: "15px",
+                  fontSize: "18px",
                 }}
               >
                 {t("home.description")}

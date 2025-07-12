@@ -1,0 +1,45 @@
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    inset:0;
+    background: white;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 100px;
+  }
+  
+  /* Carrés animés */
+  .square {
+    width: 8px;
+    height: 30px;
+    background: rgb(5, 51, 131);
+    border-radius: 10px;
+    display: block;
+    animation: turn 2.5s ease infinite;
+    box-shadow: rgb(15, 48, 165) 0px 1px 15px 0px;
+  }
+  
+  .top, .bottom, .left, .right {
+    position: absolute;
+    left: 40%;
+    top: 50%;
+  }
+  
+  .top    { transform: rotate(90deg); }
+  .bottom { transform: rotate(-90deg); }
+  .left   { /* no rotation */ }
+  .right  { transform: rotate(-180deg); }
+  
+  @keyframes turn {
+    0%   { transform: translateX(0) translateY(0) rotate(0); }
+    70%  { transform: translateX(400%) translateY(100%) rotate(90deg); }
+    100% { transform: translateX(0) translateY(0) rotate(0); }
+  }
+  
+  
+  

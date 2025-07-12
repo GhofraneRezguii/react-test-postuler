@@ -40,7 +40,7 @@
     position: absolute;
     width: 8%;
     height: 500%;
-    background: #ffffff; /* couleur claire pour l'effet */
+    background: rgb(235, 240, 246) !important; /* couleur claire pour l'effet */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-60deg);

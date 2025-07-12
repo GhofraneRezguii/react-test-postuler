@@ -1,10 +1,12 @@
 .offre-detail-container {
     padding: 40px;
-    background: rgb(228, 240, 252);
+    background: rgb(221, 236, 249);
     border-radius: 10px;
     max-width: 950px;
     margin: 50px auto;
     box-shadow: 0 2px 10px rgb(20, 70, 188);
+    margin-bottom:10px !important;
+    margin-top: 15px !important;
   }
   
   .offre-title {
@@ -49,13 +51,14 @@
     width: 320px;
     height: 200px;
     float: right; /* texte va entourer l'image */
-    margin: 0 0 1rem 1rem;
-    flex-shrink: 0;
-  }
+    margin: 0 0 1rem 1rem; 
+     flex-shrink: 0;
+  } 
+  
   
   .offre-image {
     width: 95%;
-    height: 180px;
+    height: 230px;
     object-fit: cover;
     border-radius: 80px;
     position: relative;
@@ -301,3 +304,102 @@
   .styled-footer-btn:active span::before {
     background: #061d5f !important;
   }
+
+
+
+
+  @media (max-width: 1024px) {
+    .offre-detail-container {
+      padding: 30px 20px;
+      margin: 20px;
+    }
+  
+    .offre-title {
+      font-size: 1.6em;
+      margin-left: 0;
+      text-align: center;
+    }
+  
+    .offre-paragraphe {
+      font-size: 1em;
+      margin-left: 0;
+      text-align: justify;
+    }
+  
+    .offre-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .image-container {
+      width: 100%;
+      max-width: 350px;
+      height: auto;
+      float: none;
+      margin: 20px auto 0;
+    }
+  
+    .offre-image {
+      width: 100%;
+      height: auto;
+      border-radius: 30px;
+    }
+  
+    .job-card-bg,
+    .job-card-blob {
+      display: none; /* Masque les effets lourds sur petit écran */
+    }
+  
+    .subscribe-btn.reverse {
+      position: fixed;
+      top: 15px;
+      left: 10px;
+      font-size: 16px;
+      gap: 0.3rem;
+    }
+  
+    .styled-footer-btn {
+      font-size: 16px;
+      padding: 0.6em 1.8em;
+    }
+  
+    .styled-footer-btn span::before {
+      height: 300%;
+    }
+  }
+  
+  
+
+
+  @media (max-width: 768px) {
+    .offre-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .offre-title,
+    .offre-paragraphe {
+      text-align: center;
+      margin-left: 0;
+    }
+  
+    .image-container {
+      width: 100%;
+      max-width: 350px;
+      margin: 20px auto 0;
+    }
+  
+    .offre-image {
+      width: 100%;
+      height: auto;
+      border-radius: 30px;
+    }
+  
+    .job-card-bg,
+    .job-card-blob {
+      display: none;
+    }
+  }
+  

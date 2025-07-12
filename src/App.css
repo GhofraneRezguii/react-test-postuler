@@ -5,6 +5,8 @@ body, html, #root {
   padding: 0;
   
 }
+
+
 /* Anim background */
 #particles-js {
   position: fixed;
@@ -287,3 +289,63 @@ ul {
 }
 /* ========== footer=========== */
 
+
+/* 🌞 Mode clair */
+body.light-mode {
+  --bg: #ffffff;
+  --text: #111111;
+  --card-bg: #f8f9fa;
+  --button-bg: #0056d2;
+  --button-text: #ffffff;
+  --navbar-bg: #eaeaea;
+}
+
+/* 🌙 Mode sombre */
+body.dark-mode {
+  --bg: #121212;
+  --text: #f5f5f5;
+  --card-bg: #1f1f1f;
+  --button-bg: #2196f3;
+  --button-text: #000000;
+  --navbar-bg: #1a1a1a;
+}
+
+/* 🌐 Application générale */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* a, p, h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+  transition: color 0.3s;
+} */
+
+/* ligne horriz scroll */
+.scroll-line {
+  position: fixed; 
+  top: 0; 
+  left: 0;
+  height: 4px;
+  width: 200px; 
+  background: rgb(14, 57, 184);
+  z-index: 20000;
+  transition: transform 0.1s linear;
+}
+/* .scroll-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 4px;
+  background-image: repeating-linear-gradient(
+    to right,
+    #1e3a8a,
+    #1e3a8a 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  z-index: 9999;
+  transition: transform 0.1s linear;
+} */
