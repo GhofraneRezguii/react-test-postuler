@@ -7,6 +7,7 @@ import Accueil from "./pages/Accueil.jsx";
 // import Carrieres from "./pages/Carrieres";
 import { useState, useEffect } from "react";
 import Loader from "./Components/Loader.jsx";
+import Postuler from "./pages/Carrieres/Postuler.jsx";
 import OffresEmp from "./pages/Carrieres/OffresEmp.jsx";
 
 function App() {
@@ -45,7 +46,14 @@ function App() {
             </Layout>
           }
         />
-
+         {/* Route pour la page Postuler */}
+         <Route
+          path="/carrieres/Postuler"
+          element={<Postuler />}
+        />
+        <Route path="/carrieres/offres" element={<OffresEmp />} />
+        
+       
         {/* Route pour la page des offres */}
         <Route
           path="/carrieres/offres"

@@ -169,7 +169,7 @@ function Navbar() {
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/postuler">
+                  <Link className="dropdown-item" to="/carrieres/Postuler">
                     {t("navbar.postuler")}
                   </Link>
                 </li>

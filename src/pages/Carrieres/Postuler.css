@@ -1,0 +1,438 @@
+*{
+  box-sizing: border-box;
+}
+/* =================== VARIABLES =================== */
+:root {
+  --shadow-color: rgb(110, 164, 235);
+}
+
+
+/* =================== HEADER =================== */
+  .header-post {
+    color: rgb(11, 84, 133);
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -1.5px;
+    margin: 30px 0 0;
+    text-align: center;
+  }
+  
+  /* =================== FORM =================== */
+  #postuler-container {
+    border-radius: 25px;
+    box-shadow: 0 14px 28px var(--shadow-color), 0 10px 10px rgba(0, 0, 0, 0.22);
+    margin-top: 0.5%;
+    position: relative;
+    overflow: hidden;
+    width: 900px;
+    max-width: 100%;
+    min-height: 500px;
+    margin-bottom: 20px;
+  }
+  
+ 
+  
+  
+
+ 
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transition: all 0.6s ease-in-out;
+    padding: 20px;
+     z-index: 3; 
+     background-color: transparent;
+
+  }
+
+  
+  .recruteur-container {
+    left: 0;
+    z-index: 2;
+  }
+  
+  .condidat-container {
+    /* modif 100% */
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.6s ease-in-out;
+    /* modif */
+    transform: translateX(100%); 
+    /* mofif scroll */
+    overflow-y: auto; /* ✅ active le scroll vertical */
+    max-height: 100%;  /* ✅ limite à la hauteur du container parent */
+    padding-right: 10px; /* optionnel : éviter que la scrollbar recouvre le contenu */
+  }
+  .recruteur-container, .condidat-container {
+    transform: translateX(0); /* ⬅️ important */
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out; /* ⬅️ ajout transform */
+    /* modif */
+    
+  }
+
+  
+  
+  #postuler-container.right-panel-active .recruteur-container {
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+  }
+  
+  #postuler-container.right-panel-active .condidat-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+  }
+  
+  @keyframes show {
+    0%, 49.99% {
+      opacity: 0;
+      z-index: 1;
+    }
+    50%, 100% {
+      opacity: 1;
+      z-index: 5;
+    }
+  }
+  
+  /* =================== FORM INPUT =================== */
+  .form-control,
+  #offerSearch {
+    max-width: 300px;
+    padding: 0.875rem;
+    font-size: 1rem;
+    border: 1.5px solid rgb(11, 67, 208);
+    border-radius: 0.5rem;
+    box-shadow: 2.5px 3px 0 rgb(128, 172, 252);
+    outline: none;
+    transition: ease 0.25s;
+  }
+  
+  .form-control:focus {
+    box-shadow: 5px 7px 0 rgb(44, 79, 207);
+  }
+  
+  /* =================== CUSTOM SELECT =================== */
+  .custom-select-input {
+    padding: 5px;
+    border-radius: 5px;
+    cursor: text;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .custom-select-input input {
+    border: none;
+    outline: none;
+    flex: 1;
+    min-width: 100px;
+    padding: 5px;
+  }
+  
+  .offer-list {
+    list-style: none;
+    padding: 0;
+    /* margin-top: 310px; */
+    margin-bottom:400px ;
+    border: 2px solid rgb(33, 99, 204);
+    border-radius: 5px;
+    border-top: none;
+    max-height: 150px;
+    overflow-y: auto;
+    background: white;
+    position: absolute;
+    width: 300px;
+    z-index: 10;
+  }
+  
+  .offer-list li {
+    padding: 8px;
+    cursor: pointer;
+    width: 450px;
+  }
+  
+  .offer-list li:hover {
+    background-color: #adcaf6;
+    border-radius: 7px;
+  }
+  
+  .selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .tag {
+    background-color: #cce5ff;
+    padding: 3px 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .tag span {
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* =================== OVERLAY =================== */
+  .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    /* modif 100 */
+    z-index: 3;
+    transition: transform 0.6s ease-in-out;
+  }
+    
+  #postuler-container.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+  }
+  
+  .overlay {
+    background: url(https://i.pinimg.com/736x/d5/4a/00/d54a0076d493ce9c0d95d99a16ecec15.jpg) center / cover no-repeat;
+    position: relative;
+    width: 200%;
+    height: 100%;
+    display: flex;
+    background-size: cover;
+    background-repeat: no-repeat;
+     background-position: center;
+     text-align: center;
+     transform: translateX(0);
+     transition: transform 0.6s ease-in-out; 
+     
+     
+    /* background: url(https://i.pinimg.com/736x/d5/4a/00/d54a0076d493ce9c0d95d99a16ecec15.jpg) center / cover no-repeat; */
+    
+
+  }
+  
+  #postuler-container.right-panel-active .overlay {
+    transform: translateX(-50%);
+  }
+  
+  .overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+   /* modif  */
+    pointer-events: none;
+  }
+  
+  .overlay-panel {
+    width: 50%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    color: white;
+    transition: all 0.6s ease-in-out;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  .overlay-left {
+    transform: translateX(0);
+  }
+  #postuler-container.right-panel-active .overlay-left {
+    transform: translateX(-20%);
+  }
+  
+  .overlay-right {
+    transform: translateX(20%);
+  }
+  #postuler-container.right-panel-active .overlay-right {
+    transform: translateX(0);
+  }
+  
+
+  .recruteur-container, .condidat-container {
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+  }
+  
+  /* =================== BUTTON POSTULER =================== */
+  .btn-postuler {
+    border-radius: 20px;
+    border: 1px solid #164ca7;
+    background-color: #072348;
+    color: #e1e3e7;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 10px;
+    margin-left: 100px;
+    margin-top: 50px;
+    padding: 9px 40px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .btn-postuler:hover {
+    letter-spacing: 3px;
+  }
+  
+  .btn-postuler:active {
+    transform: scale(0.95);
+  }
+  
+  .btn-postuler:focus {
+    outline: none;
+  }
+  
+  .ghost {
+    background-color: rgb(8, 25, 76);
+    border: 2px solid #fff;
+    color: #fff;
+    z-index: 2;
+    padding: 12px 50px; 
+    border-radius: 20px;    
+  }
+  
+  .ghost i {
+    position: absolute;
+    opacity: 0;
+    transition: 0.3s ease-in-out;
+    z-index: 2;
+  }
+  
+  .ghost i.envoyer {
+    right: 70px;
+  }
+  
+  .ghost i.acceder {
+    left: 70px;
+  }
+  
+  .ghost:hover i.envoyer {
+    right: 5px;
+    opacity: 1;
+    letter-spacing: 3px;
+  }
+  
+  .ghost:hover i.acceder {
+    left: 5px;
+    opacity: 1;
+    letter-spacing: 3px;
+  }
+  
+  #acceder {
+    padding-left: 30px;
+    padding-right:30px;
+    
+  }
+  
+  #envoyer {
+    padding-right: 40px;
+    padding-left: 30px;
+  }
+  
+
+ /* responsive screen */
+ @media (max-width: 992px) {
+    #container {
+      width: 100%;
+      flex-direction: column;
+    }
+    .overlay-container, .form-container {
+      width: 100%;
+      position: relative;
+    }
+  }
+  @media (max-width: 768px) {
+    #postuler-container {
+      width: 95%;
+      flex-direction: column;
+      min-height: auto;
+    }
+  
+    .form-container, .overlay-container {
+      width: 100%;
+      position: relative;
+      left: 0;
+      transform: none !important;
+    }
+  
+    .overlay {
+      display: none;
+    }
+  
+    .recruteur-container, .condidat-container {
+      position: relative;
+      opacity: 1 !important;
+      z-index: auto;
+    }
+  }
+  
+  h1.title{
+    font-size: 35px;
+    line-height: 45px;
+    margin:0;
+    text-shadow: 0 0 10px var(--shadow-color);
+    color: #f5f5f8;
+    z-index: 2;
+  }
+  
+  #postuler-container.right-panel-active .overlay-container {
+    z-index: 1;
+}
+   #postuler-container.right-panel-active .condidat-container {
+    z-index: 3;
+}
+
+
+#postuler-container.right-panel-active .overlay {
+  z-index: 0 !important;
+}
+ /* styler bouton fichier cv et motiv  */
+ input[type="file"] {
+  background-color: #0a0e25;
+  color: white;
+  padding: 5px;
+
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#media-footer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+}
+/* modif  */
+/* CENTRER LE CONTAINER PRINCIPAL */
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px; /* pour éviter que ça touche les bords sur petits écrans */
+}
+
+
+  
