@@ -203,7 +203,7 @@
   }
   
   .overlay {
-    background: url(https://i.pinimg.com/736x/d5/4a/00/d54a0076d493ce9c0d95d99a16ecec15.jpg) center / cover no-repeat;
+    background: url(https://i.pinimg.com/1200x/91/4f/fe/914ffef913a050b88628b74cdcea26f0.jpg) center / cover no-repeat;
     position: relative;
     width: 200%;
     height: 100%;
@@ -434,5 +434,219 @@
   padding: 20px; /* pour éviter que ça touche les bords sur petits écrans */
 }
 
+.footer-social {
+  padding: 30px 0;
+  background-color: transparent;
+  text-align: center;
+  position: relative;
+  z-index: 100000;
+  display:flex;
+  /* overflow: visible!important; */
+}
 
+.example-2 {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.icon-content {
+  padding-bottom: 40px;
+  position: relative;
+  background-color: #072348;
+  border-radius: 25px;
+}
+
+.icon-content a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #4d4d4d;
+  background-color: #fff ;
+  transition: all 0.3s ease-in-out;
   
+}
+
+.icon-content a:hover {
+  color: #fff;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+}
+
+.icon-content a .filled {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #000;
+  transition: height 0.3s ease-in-out;
+  z-index: 0;
+}
+
+.icon-content a:hover .filled {
+  height: 100%;
+}
+
+.icon-content i {
+  position: relative;
+  z-index: 1;
+  font-size: 24px;
+}
+
+/* Tooltips */
+.tooltip {
+  position: absolute;
+  top: 70px;  
+  margin-top: 8px;    /* place le tooltip au-dessus de l’icône */
+  left: 70%;         /* centre horizontalement */
+  transform: translateX(-50%);
+  white-space: nowrap;  /* pour éviter le retour à la ligne */
+  background-color: #000;
+  color: #fff;
+  padding: 2px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  width: max-content;    
+  max-height: 40px;      
+   
+}
+
+.icon-content:hover .tooltip {
+  opacity: 1;
+  pointer-events: none;
+  margin-top: 34px;   
+}
+
+
+/* Couleurs spécifiques */
+a[data-social="linkedin"] .filled,
+a[data-social="linkedin"] ~ .tooltip {
+  background-color: #0274b3;
+}
+a[data-social="github"] .filled,
+a[data-social="github"] ~ .tooltip {
+  background-color: #24262a;
+}
+a[data-social="instagram"] .filled,
+a[data-social="instagram"] ~ .tooltip {
+  background: linear-gradient(
+    45deg,
+    #405de6,
+    #5b51db,
+    #b33ab4,
+    #c135b4,
+    #e1306c,
+    #fd1f1f
+  );
+}
+a[data-social="youtube"] .filled,
+a[data-social="youtube"] ~ .tooltip {
+  background-color: #ff0000;
+}
+a[data-social="facebook"] .filled,
+a[data-social="facebook"] ~ .tooltip {
+  background-color: #4267B2;
+}
+a[data-social="whatsapp"] .filled,
+a[data-social="whatsapp"] ~ .tooltip {
+  background-color: #25D366;
+}
+
+.footer-social, 
+.footer-social ul.example-2 {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 15px !important;
+  width: 100% !important;
+}
+
+
+#show-more {
+  height: 50px;
+  width: 250px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 20px; /* espace entre icônes et bouton */
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  color: rgb(11, 84, 133);
+  text-align: center;
+  
+  
+  box-shadow: 0px 8px 9px var(--shadow-color);
+  background: transparent; /* important si tu veux la transparence */
+}
+
+/* Garde ton hover */
+#show-more:hover {
+  box-shadow: 0.5px 0.5px 150px #252525;
+}
+
+/* Pseudo éléments */
+.type1::after {
+  content: "Afficher";
+  height: 50px;
+  width: 250px;
+  background-color: #1d62bc;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(50px);
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease-in-out;
+  text-shadow: 0px 2px 5px #ebecee;
+  border-radius: 10px;
+  padding-right:35px ;
+}
+
+.type1::before {
+  content: "Nos offres ---➢ ";
+  height: 50px;
+  width: 170px;
+  background-color: #fff;
+  color: #0f47a1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(0) scale(1.2);
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease-in-out;
+  text-shadow: 0px 2px 8px #164ca7;
+  border-radius: 10px;
+  padding-left: 35px;
+  text-align: center;
+}
+
+.type1:hover::after {
+  transform: translateY(0) scale(1.2);
+}
+
+.type1:hover::before {
+  transform: translateY(-50px) scale(0) rotate(120deg);
+}
