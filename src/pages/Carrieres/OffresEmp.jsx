@@ -7,11 +7,14 @@ import SocialMediaIcons from "../../Components/SocialMediaIcons.js";
 import "../../App.css";
 import "../../Components/Footer.css";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom"; // 🔁 Active cette ligne
+
 
 function OffresEmp(){
     const { t, i18n } = useTranslation();
-    // const navigate = useNavigate();
-  
+
+    const navigate = useNavigate();
+
     const changeLanguage = (lng) => {
       i18n.changeLanguage(lng);
     };
@@ -82,10 +85,11 @@ function OffresEmp(){
              </footer> */}
             <footer style={{ padding: "2rem" }}>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <button className="styled-footer-btn">
-                  Postuler
-                  <span></span>
+              <button className="styled-footer-btn" onClick={() => navigate("/carrieres/Postuler")}>
+               Postuler
+              <span></span>
                 </button>
+
               </div>
               {/* Bande Copyright animée */}
               <div className="footer-copy">

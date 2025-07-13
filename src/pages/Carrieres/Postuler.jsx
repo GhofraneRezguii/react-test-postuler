@@ -8,6 +8,8 @@ import SocialMediaIcons from "../../Components/SocialMediaIcons.js";
 
 function Postuler() {
   const navigate = useNavigate();
+ 
+ 
 
   const postulerRef = useRef(null);
   const offerInputRef = useRef(null);
@@ -114,6 +116,10 @@ function Postuler() {
   const handleAccederClick = () => {
     postulerRef.current.classList.remove("right-panel-active");
   };
+  const handleShowMoreClick = () => {
+    navigate("/carrieres/offres");
+  };
+  
 
   // Soumission formulaire candidat avec fichiers
   const handleSubmit = async (e) => {
@@ -440,7 +446,13 @@ function Postuler() {
       <div className="tooltip">WhatsApp</div>
     </li>
   </ul>
-  <button class="button type1" id="show-more" aria-label="afficher nos offres"></button>
+  <button
+  className="button type1"
+  id="show-more"
+  aria-label="afficher nos offres"
+  onClick={handleShowMoreClick}
+></button>
+
 </footer>
     </Layout>
   );
