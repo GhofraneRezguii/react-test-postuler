@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./SocialMediaIcons.css";
 
 export default function SocialMediaIcons() {
   return (

@@ -156,7 +156,7 @@ function Navbar() {
               </a>
               <ul className="dropdown-menu mx-3">
                 <li>
-                  <Link className="dropdown-item" to="/carrieres">
+                  <Link className="dropdown-item" to="/carrieres/nous">
                     {t("navbar.votre_carriere")}
                   </Link>
                 </li>

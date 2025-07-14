@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../../Components/Layout';
 import Jobs from '../../data/Jobs';
+import Postuler from './Postuler';
 import './OffreDetail.css';
 import SocialMediaIcons from "../../Components/SocialMediaIcons.js";
 function OffreDetail() {
@@ -83,7 +84,7 @@ function OffreDetail() {
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
        className="styled-footer-btn" 
-      onClick={() => navigate('/postuler')}
+      onClick={() => navigate('/carrieres/Postuler')}
          >
         Postuler
       <span></span>

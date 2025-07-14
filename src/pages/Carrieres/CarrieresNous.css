@@ -1,0 +1,363 @@
+.carrieres-nous-wrapper {
+    padding: 60px 20px;
+    max-width: 1180px;
+    margin: 0 auto;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  
+  .carrieres-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: #072b62;
+    margin-bottom: 60px;
+    text-shadow: 0 0 10px rgba(80, 137, 213, 0.841);
+    
+  }
+  
+  .carrieres-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+  }
+  
+  .carrieres-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .carrieres-section.left-text {
+    flex-direction: row;
+  }
+  
+  .carrieres-section.right-text {
+    flex-direction: row-reverse;
+  }
+  
+  .text-content {
+    flex: 1;
+    font-size: 20px;
+    line-height: 1.6;
+    color: #0d2e4d;
+    padding: 10px;
+    background-color: rgb(251, 255, 255)!important ;
+  }
+  
+  .text-content .section-subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #01366c;
+  }
+  
+  .image-content {
+    flex: 1;
+    max-width: 500px;
+  }
+  
+  .image-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 5px 10px 30px rgb(17, 60, 179);
+  }
+  /* Animation de glissement gauche/droite */
+  @keyframes slideFromLeft {
+    0% {
+      transform: translateX(-60px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideFromRight {
+    0% {
+      transform: translateX(60px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .slide-in-left {
+    animation: slideFromLeft 1.2s ease-in-out forwards;
+  }
+  
+  .slide-in-right {
+    animation: slideFromRight 1.2s ease-in-out forwards;
+  }
+  
+
+  
+  @keyframes popUp {
+    0% {
+      transform: scale(0.7);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .carrieres-title {
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-align: center;
+    /* margin-top: 100px; */
+    color: #e0e5ea;
+    animation: popUp 1s ease-out forwards;
+    text-shadow: 0 0 10px rgba(110, 164, 235, 0.6);
+    z-index: 3;
+    position: relative;
+  }
+
+
+
+  .title-container {
+    background-image: url('https://i.pinimg.com/1200x/8c/2c/2d/8c2c2d186bee5493f68ae7fa9a8b74a7.jpg'); /* Remplace par ton vrai chemin */
+    background-size: cover;
+    background-position: center;
+    image-rendering: auto;
+    margin-top: 0;
+    padding-top: 0;
+    max-height: 300px;
+    border-radius: 10px !important;
+    padding: 100px 20px; /* Espace autour du titre */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    box-shadow: 3px 5px 9px #114476 !important;
+  }
+
+  /* ✅ Overlay sombre */
+
+  
+  /* Optionnel: pour assombrir un peu l'image et bien faire ressortir le texte */
+  .title-container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(3, 25, 70, 0.406)!important;
+    z-index: 0;
+    border-radius: 10px;
+    box-shadow: 0px 9px 8px #01366c !important;
+
+  }
+
+  .section-title-with-line {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* ou center selon le style désiré */
+    gap: 0px;
+    margin-bottom: 15px;
+  }
+  
+  .section-subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #01366c;
+    margin-bottom: 4px !important;
+  }
+  
+  /* Ligne horizontale */
+  .title-line {
+    width: 100px;
+    height: 4px;
+    background-color: #01366c;
+    border-radius: 2px;
+  }
+  
+  /* Rond décoratif */
+  .elementskit-border-divider {
+    width: 8px;
+    height: 10px;
+    background-color: #01366c;
+    border-radius: 50%;
+  }
+  
+  /* Conteneur des deux éléments sous le titre */
+  .underline-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  
+  #media-footer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+  }
+  /* modif  */
+  /* CENTRER LE CONTAINER PRINCIPAL */
+  .page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px; /* pour éviter que ça touche les bords sur petits écrans */
+  }
+  
+  .footer-social {
+    padding: 30px 0;
+    background-color: transparent;
+    text-align: center;
+    position: relative;
+    z-index: 100000;
+    display:flex;
+    /* overflow: visible!important; */
+  }
+  
+  .example-2 {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .icon-content {
+    padding-bottom: 40px;
+    position: relative;
+    background-color: #072348;
+    border-radius: 15px;
+  }
+  
+  .icon-content a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #4d4d4d;
+    background-color: #fff ;
+    transition: all 0.3s ease-in-out;
+    
+  }
+  
+  .icon-content a:hover {
+    color: #fff;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .icon-content a .filled {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: #000;
+    transition: height 0.3s ease-in-out;
+    z-index: 0;
+  }
+  
+  .icon-content a:hover .filled {
+    height: 100%;
+  }
+  
+  .icon-content i {
+    position: relative;
+    z-index: 1;
+    font-size: 20px;
+    padding: 2px !important;
+  }
+  
+  /* Tooltips */
+  .tooltip {
+    position: absolute;
+    top: 70px;  
+    margin-top: 8px;    /* place le tooltip au-dessus de l’icône */
+    left: 70%;         /* centre horizontalement */
+    transform: translateX(-50%);
+    white-space: nowrap;  /* pour éviter le retour à la ligne */
+    background-color: #000;
+    color: #fff;
+    padding: 2px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+    width: max-content;    
+    max-height: 40px;      
+     
+  }
+  
+  .icon-content:hover .tooltip {
+    opacity: 1;
+    pointer-events: none;
+    margin-top: 34px;   
+  }
+  
+  
+  /* Couleurs spécifiques */
+  a[data-social="linkedin"] .filled,
+  a[data-social="linkedin"] ~ .tooltip {
+    background-color: #0274b3;
+  }
+  a[data-social="github"] .filled,
+  a[data-social="github"] ~ .tooltip {
+    background-color: #24262a;
+  }
+  a[data-social="instagram"] .filled,
+  a[data-social="instagram"] ~ .tooltip {
+    background: linear-gradient(
+      45deg,
+      #405de6,
+      #5b51db,
+      #b33ab4,
+      #c135b4,
+      #e1306c,
+      #fd1f1f
+    );
+  }
+  a[data-social="youtube"] .filled,
+  a[data-social="youtube"] ~ .tooltip {
+    background-color: #ff0000;
+  }
+  a[data-social="facebook"] .filled,
+  a[data-social="facebook"] ~ .tooltip {
+    background-color: #4267B2;
+  }
+  a[data-social="whatsapp"] .filled,
+  a[data-social="whatsapp"] ~ .tooltip {
+    background-color: #25D366 !important;
+  }
+  
+  .footer-social, 
+  .footer-social ul.example-2 {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 15px !important;
+    width: 100% !important;
+  }
+  
+  

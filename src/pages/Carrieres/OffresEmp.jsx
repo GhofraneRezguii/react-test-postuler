@@ -7,8 +7,8 @@ import SocialMediaIcons from "../../Components/SocialMediaIcons.js";
 import "../../App.css";
 import "../../Components/Footer.css";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom"; // 🔁 Active cette ligne
-
+import { useNavigate } from "react-router-dom"; 
+import CarrieresNous from "./CarrieresNous.jsx";
 
 function OffresEmp(){
     const { t, i18n } = useTranslation();
@@ -31,23 +31,25 @@ function OffresEmp(){
             style={{ marginTop: "20px", position: "relative",maxHeight:"100%" }}
           >
             {/* Bouton à gauche absolue */}
-            <button className="subscribe-btn reversed fixed-left">
-              {/* onClick={() => navigate("/postuler")} */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10 5L3 12m0 0l7 7m-7-7h18"
-                />
-              </svg>
-              <p>Retour</p>
-            </button>
+            <button
+      className="subscribe-btn reversed fixed-left"
+      onClick={() => navigate("/carrieres/nous")}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth="4"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M10 5L3 12m0 0l7 7m-7-7h18"
+        />
+      </svg>
+      <p>Retour</p>
+    </button>
     
             {/* Titre centré comme avant */}
             <h1
