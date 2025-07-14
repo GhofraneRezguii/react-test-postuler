@@ -29,7 +29,7 @@ function Postuler() {
   const [adminError, setAdminError] = useState("");
 
   // Valeurs admin initialisées
-  const ADMIN_EMAIL = "adminFin@gmail.com";
+  const ADMIN_EMAIL = "ghofranerezgui1911@gmail.com";
   const ADMIN_PASSWORD = "admin123";
 
   // ... ton useEffect existant pour l'offre, inchangé ...
@@ -192,6 +192,8 @@ function Postuler() {
     if (adminEmail === ADMIN_EMAIL && adminPassword === ADMIN_PASSWORD) {
       // Redirige vers dashboard admin (à créer)
       navigate("/admin-condidature");
+      localStorage.setItem("adminEmail", adminEmail);
+      localStorage.setItem("adminImg", "https://i.pinimg.com/736x/3c/e9/f9/3ce9f976d43d32fbb431b1733a14c69f.jpg");
     } else {
       setAdminError("Email ou mot de passe incorrect.");
     }

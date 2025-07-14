@@ -1,0 +1,565 @@
+.dashboard-wrapper {
+    display: flex;
+    height: 100vh;
+    transition: all 0.4s ease;
+    position: relative; /* ✅ pour que z-index s’applique */
+    z-index: 1;
+  }
+  
+  /* Sidebar 25% */
+  .sidebar {
+    width: 25%;
+    min-width: 240px;
+    background-color: #023388;
+    padding: 20px 45px;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.4s ease;
+    position: relative;
+    box-shadow:5px 8px 9px #6297f2;
+    border-radius: 10px;
+    box-sizing: border-box; 
+  
+  }
+  
+  /* Sidebar réduite à 5% */
+  .dashboard-wrapper.collapsed .sidebar {
+    width: 5%;
+    min-width: unset; /* Pour éviter min-width quand réduit */
+  }
+  
+  /* Header sidebar: logo + bouton */
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  /* Logo */
+  #brand {
+    border-radius: 7px;
+    filter: drop-shadow(8px 4px rgba(133, 185, 236, 0.959));
+    transition: opacity 0.3s ease;
+    /* margin-right: 40px; */
+  }
+  
+  /* Quand sidebar réduite, logo disparaît */
+  .dashboard-wrapper.collapsed #brand {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Bouton toggle: positionné absolument à droite de la sidebar */
+  .button {
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: -40px; /* Positionné juste à l'extérieur à droite */
+    width: 40px;
+    height: 40px;
+    /* margin: 0; */
+    overflow: visible;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    z-index: 100;
+    margin-left: 0px;
+  }
+  
+  .button:before,
+  .button:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: 5px;
+    pointer-events: none;
+  }
+  
+  .button:before {
+    /* border: 1px solid #f0eeef; */
+    transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+      transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+  }
+  
+  .button:after {
+    border: 2px solid #d7e9ef;     
+    transform: scale(1.5);           /* Cercle un peu plus grand */
+    transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+                transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+  }
+  
+  .button:hover:after,
+  .button:focus:after {
+    opacity: 1;
+    transform: scale(1);             /* Retour à la taille normale */
+    transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+                transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+  }
+  
+  
+
+  .button.active:after {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.4s ease, transform 0.5s ease;
+  }
+  
+  
+  .button-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: none !important; /* supprimer transform gênant */
+  }
+  
+  /* Flèche SVG */
+.button-elem {
+    width: 14px;
+    height: 20px;
+    margin: 0;
+    transform: rotate(180deg); /* si tu veux garder rotation */
+    fill: #eef0f8;
+    flex-shrink: 0;
+  }
+  
+  .button:hover .button-box,
+  .button:focus .button-box {
+    transition: 0.4s;
+    transform: translateX(-56px);
+  }
+  
+  /* Contenu sidebar */
+  .sidebar-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    color: rgb(246, 242, 242);
+  }
+  
+  /* Main content 75% */
+  .main-content {
+    width: 75%;
+    padding: 30px;
+    background-color: #fff;
+    transition: width 0.4s ease;
+  }
+  
+  /* Main content passe à 95% quand sidebar réduite */
+  .dashboard-wrapper.collapsed .main-content {
+    width: 95%;
+  }
+  
+  /* Effet visuel quand on clique (appliqué dynamiquement via classe `animate`) */
+.button.animate:after {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.4s ease, transform 0.5s ease;
+  }
+  /* Navbar */
+  .recruter-navbar {
+      border:1px solid #4c87ee;
+      border-radius: 8px;
+      box-shadow: 2px 3px 5px#4c87ee;
+      height: 65px;
+      
+      
+  }
+  
+  .sidebar-divider {
+    border: none;
+    border-top: 2px solid #fff !important;
+    height: 2px;
+    margin: 10px 0 0 0 !important ;
+    margin-bottom: 0;  
+    width: 110%; 
+    position: relative;
+    left: -5%; 
+    
+  }
+
+  .home-icon {
+      margin-left: 7px;
+    fill: #1654c1;
+    transition: transform 0.2s ease, fill 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .home-icon:hover {
+    transform: scale(1.5);
+    fill: #072b73; /* Couleur plus foncée ou différente au hover */
+  }
+  .Acceuil:hover{
+    transform: scale(1.2);
+    color: #082255 !important;
+  }
+  
+  
+  /* ✅ Responsive layout pour les écrans < 768px (mobile et tablette) */
+@media (max-width: 768px) {
+    .dashboard-wrapper {
+      /* flex-direction: column; Stack sidebar au-dessus */
+      height: auto;
+    }
+  
+    .sidebar {
+      width: 100%;
+      min-width: 100%;
+      border-radius: 0;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 10px;
+      min-width: unset !important;
+    }
+  
+    .sidebar-header {
+      justify-content: space-between;
+      width: 100%;
+    }
+  
+    .dashboard-wrapper.collapsed .sidebar {
+      width: 100%; /* Toujours pleine largeur sur petit écran */
+    }
+  
+    .main-content {
+      width: 100%;
+      padding: 15px;
+    }
+  
+    .button {
+      right: 10px;
+      top: 10px;
+    }
+  
+    .button:hover .button-box,
+    .button:focus .button-box {
+      transform: translateX(0); /* Ne déplace pas le bouton sur mobile */
+    }
+  
+    .sidebar-content {
+      overflow-x: auto;
+    }
+  
+    .recruter-navbar {
+      flex-direction: column;
+      height: auto;
+      padding: 10px;
+    }
+    .button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+      }
+      
+  }
+  @media (max-width: 768px) {
+    .form-control {
+      width: 100% !important;
+    }
+  }
+  
+  .search {
+    position: relative;
+    margin-top: 10px;
+    padding: 9px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid rgba(52, 147, 248, 0.975) !important;
+    border-radius: 10px!important;
+    color: #1d89ff!important;
+    font-weight: 400;
+    cursor: pointer;
+    /* overflow: hidden; */
+    transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
+  }
+  
+ .search span {
+    color: #164ca7;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+  }
+  
+  .search:hover {
+    animation: rotate624 0.7s ease-in-out both;
+  }
+  
+  .search:hover span {
+    animation: storm1261 0.7s ease-in-out both;
+    animation-delay: 0.06s;
+  }
+  
+  @keyframes rotate624 {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(3deg); }
+    50% { transform: rotate(-3deg); }
+    75% { transform: rotate(1deg); }
+  }
+  
+  @keyframes storm1261 {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    25% { transform: translate3d(4px, 0, 0); }
+    50% { transform: translate3d(-3px, 0, 0); }
+    75% { transform: translate3d(2px, 0, 0); }
+  }
+  
+  .search {
+    border: 1px solid;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px; 
+    /* overflow: hidden;   */
+  }
+  
+  .search:after {
+    background: #4891f1;
+    content: "";
+    height: 155px;
+    left: -75px;
+    opacity: 0.4;
+    position: absolute;
+    top: -50px;
+    transform: rotate(35deg);
+    transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+    width: 50px;
+    z-index: -10;
+  }
+  
+  .search:hover:after {
+    left: 120%;
+  }
+  /* Notification button  */
+  .notification {
+    width: 200px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0px 15px;
+    background-color: rgb(240, 246, 255);
+    border-radius: 10px;
+    color: rgb(28, 108, 246);
+    border: 1px solid rgb(42, 121, 224);
+    position: relative;
+    cursor: pointer;
+    transition-duration: 0.2s;
+  }
+  .notification .dot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: rgb(194, 3, 3);
+    border-radius: 100%;
+  }
+  .notification .bell {
+    width: 13px;
+  }
+  .notification .bell path {
+    fill: rgb(0, 65, 206);
+  }
+  .notification:hover .bell path {
+    fill: #fff;
+  }
+  .notification .arrow {
+    position: absolute;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .notification:hover {
+    background-color: rgb(4, 40, 79);
+    color:#fff;
+    transition-duration: 0.2s;
+  }
+  .notification:hover .arrow {
+    animation: slide-right 1s infinite;
+    color:#fff;
+  }
+  /* arrow animation */
+  @keyframes slide-right {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-5px);
+    }
+  }
+  .notification:active {
+    transform: translate(1px, 1px);
+    transition-duration: 0.2s;
+  }
+  
+  /* Admin button */
+  .admin-btn {
+    background: transparent;
+    position: relative;
+    padding: 2px 15px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgb(40, 144, 241);
+    border-radius: 25px;
+    outline: none;
+    overflow: hidden;
+    color: rgb(8, 93, 172)!important;
+    transition: color 0.3s 0.1s ease-out;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .admin-btn span {
+    margin-left: 10px;
+  }
+  .admin-btn:hover span {
+    color: white;
+  }
+  
+  
+  .admin-btn::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    content: '';
+    border-radius: 50%;
+    display: block;
+    width: 20em;
+    height: 5em !important;
+    left: -5em;
+    text-align: center;
+    transition: box-shadow 0.5s ease-out;
+    z-index: -1;
+  }
+  
+  .admin-btn:hover {
+    color: #fff !important;
+    border: 1px solid rgb(240, 247, 254);
+  }
+  
+  .admin-btn:hover::before {
+    box-shadow: inset 0 0 0 10em rgb(4, 36, 67);
+  }
+  
+  .admin-btn img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgb(40, 144, 241);
+  }
+  /* sidebar menu */
+  .sidebar-menu {
+    margin-top: 20px;
+    padding-left: 0;
+  }
+  
+  .sidebar-menu ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  
+  .sidebar-menu ul li {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar-menu ul li .sidebar-link {
+    display: block;
+    padding: 10px 20px;
+    color: #eef2f9;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .sidebar-menu ul li .sidebar-link:hover {
+    background-color: #9ebbff;
+    color: rgb(7, 37, 101);
+  }
+  
+  /* sider link */
+  .sidebar-link {
+    
+    display: flex;
+    align-items: center;
+    gap: 8px; /* espace entre icône et texte */
+    color: white; /* ou la couleur de ton choix */
+    text-decoration: none;
+    padding: 8px 12px;
+     
+  }
+  
+  .sidebar-link svg {
+    width: 20px;   /* taille fixe */
+  height: 20px;
+  flex-shrink: 0;  /* ne pas réduire l’icône */
+  min-width: 20px; /* réserver la place même si sidebar est étroite */
+  fill: #eef2f9;
+  transition: transform 0.3s ease;
+  transform: translateX(0); /* Valeur par défaut */
+  }
+  
+  .dashboard-wrapper.collapsed .sidebar-link span {
+    display: none;
+    transform: translateX(-6px); /* masque le texte mais pas l’icône */
+  }
+  .sidebar-link:hover svg {
+    transform: translateX(-8px);
+  }
+  .dashboard-wrapper.collapsed .sidebar-link svg {
+    transform: translateX(-25px);
+  }
+  .dashboard-wrapper.collapsed .sidebar-link:hover svg {
+    transform: translateX(-5px);
+  }
+  
+  .second-divider {
+    margin-top: 50px !important;
+  }
+  .admin-info p {
+    transition: all 0.3s ease;
+    color: #eef0f8!important;
+  }
+  
+  .hidden-email {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+  .admin-info img {
+    transition: margin-left 0.3s ease, width 0.3s ease, height 0.3s ease;
+    margin-left: 0;
+  }
+  
+  .admin-info.collapsed img {
+    margin-left: -10px; /* glisse vers la gauche quand sidebar est réduite */
+    width: 30px;
+    height: 30px;
+  }
+  
+  

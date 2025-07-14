@@ -10,6 +10,7 @@ import Loader from "./Components/Loader.jsx";
 import Postuler from "./pages/Carrieres/Postuler.jsx";
 import OffresEmp from "./pages/Carrieres/OffresEmp.jsx";
 import CarrieresNous from "./pages/Carrieres/CarrieresNous.jsx";
+import Dashboard from "./pages/Carrieres/Interface Recruteur/Dashboard.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -65,6 +66,8 @@ function App() {
           element={<OffresEmp />}
         />
         <Route path="/offre/:id" element={<OffreDetail />} />
+        {/* Route Dashboard admin */}
+        <Route path="/admin-condidature" element={<Dashboard />} />
       </Routes>
     </Router>
   );
