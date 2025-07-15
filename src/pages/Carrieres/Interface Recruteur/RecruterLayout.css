@@ -4,6 +4,7 @@
     transition: all 0.4s ease;
     position: relative; /* ✅ pour que z-index s’applique */
     z-index: 1;
+    background-color: transparent;
   }
   
   /* Sidebar 25% */
@@ -146,13 +147,15 @@
   .main-content {
     width: 75%;
     padding: 30px;
-    background-color: #fff;
+    background-color: transparent !important;
+    
     transition: width 0.4s ease;
   }
   
   /* Main content passe à 95% quand sidebar réduite */
   .dashboard-wrapper.collapsed .main-content {
     width: 95%;
+    background-color: transparent;
   }
   
   /* Effet visuel quand on clique (appliqué dynamiquement via classe `animate`) */
@@ -510,6 +513,14 @@
     padding: 8px 12px;
      
   }
+  .sidebar-link.active {
+    background-color: #2869d9; /* ou autre couleur */
+    color: white;
+    font-weight: bold;
+    
+  }
+  
+  
   
   .sidebar-link svg {
     width: 20px;   /* taille fixe */
@@ -561,5 +572,12 @@
     width: 30px;
     height: 30px;
   }
+  
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+    
   
   

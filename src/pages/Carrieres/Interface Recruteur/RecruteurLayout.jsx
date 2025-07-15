@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import "./RecruterLayout.css";
 import AdminButton from "./AdminButton"; 
 import md5 from "md5";
+import { NavLink } from "react-router-dom";
 
 
 
-import ParticlesBackground from "../../../Components/ParticlesBackground";
 
 function RecruterLayout({ children }) {
 
@@ -55,7 +55,7 @@ function RecruterLayout({ children }) {
   const toggleSidebar = () => {
     setSidebarCollapsed((prev) => !prev);
     setAnimateClass(false);
-    setTimeout(() => setAnimateClass(true), 10);
+    setTimeout(() => setAnimateClass(true), 5);
   };
   useEffect(() => {
     if (window.innerWidth < 768) {
@@ -105,12 +105,18 @@ function RecruterLayout({ children }) {
         <hr className="sidebar-divider" />
         <div className="sidebar-menu">
   <ul>
-  <li>
-  <Link to="/dashboard" className="sidebar-link">
+<li>
+  <NavLink 
+    to="/admin-condidature" 
+    className={({ isActive }) => 
+      isActive ? "sidebar-link active" : "sidebar-link"
+    }
+  >
     <IconDashboard />
     <span>Tableau de bord</span>
-  </Link>
+  </NavLink>
 </li>
+
     <li>
       <Link to="/offres" className="sidebar-link">
         <IconSuitcase /> <span>Offres d'emploi</span>
@@ -237,7 +243,7 @@ function RecruterLayout({ children }) {
       <input
         className="form-control me-3"
         type="search"
-        placeholder="Rechercher candidats, offres..."
+        placeholder="Rechercher Infos..."
         aria-label="Search"
         style={{
           paddingLeft: "35px",
