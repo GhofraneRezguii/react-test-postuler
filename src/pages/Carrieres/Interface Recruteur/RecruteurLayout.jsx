@@ -76,6 +76,7 @@ function RecruterLayout({ children }) {
       
     <div className={`dashboard-wrapper ${sidebarCollapsed ? "collapsed" : ""}`}>
       {/* Sidebar */}
+     
       <div className="sidebar">
         <div className="sidebar-header">
           <Link className="navbar-brand" to="/">
@@ -117,27 +118,54 @@ function RecruterLayout({ children }) {
   </NavLink>
 </li>
 
-    <li>
-      <Link to="/offres" className="sidebar-link">
-        <IconSuitcase /> <span>Offres d'emploi</span>
-      </Link>
-    </li>
-    <li>
-      <Link to="/candidatures" className="sidebar-link">
-        <IconPeople /> <span>Candidatures</span>
-      </Link>
-    </li>
-    <li>
-      <Link to="/emails" className="sidebar-link">
-        <IconEnvelope /> <span>Emails</span>
-      </Link>
-    </li>
-    <li>
-      <Link to="/mon-compte" className="sidebar-link">
-        <IconPersonVCard /> <span>Mon compte</span>
-      </Link>
-    </li>
-  </ul>
+<li>
+    <NavLink
+      to="/offres"
+      className={({ isActive }) =>
+        isActive ? "sidebar-link active" : "sidebar-link"
+      }
+    >
+      <IconSuitcase />
+      <span>Offres d'emploi</span>
+    </NavLink>
+  </li>
+  <li>
+    <NavLink
+      to="/candidatures"
+      className={({ isActive }) =>
+        isActive ? "sidebar-link active" : "sidebar-link"
+      }
+    >
+      <IconPeople />
+      <span>Candidatures</span>
+    </NavLink>
+  </li>
+
+  <li>
+    <NavLink
+      to="/emails"
+      className={({ isActive }) =>
+        isActive ? "sidebar-link active" : "sidebar-link"
+      }
+    >
+      <IconEnvelope />
+      <span>Emails</span>
+    </NavLink>
+  </li>
+
+  <li>
+    <NavLink
+      to="/mon-compte"
+      className={({ isActive }) =>
+        isActive ? "sidebar-link active" : "sidebar-link"
+      }
+    >
+      <IconPersonVCard />
+      <span>Mon compte</span>
+    </NavLink>
+  </li>
+</ul>
+
 </div>
 < hr className="sidebar-divider second-divider"  />
 <div
@@ -171,7 +199,7 @@ function RecruterLayout({ children }) {
   {!sidebarCollapsed && (
     <p
       className="admin-email"
-      style={{ fontSize: "14px", color: "#eef0f8", marginTop: "26px" }}
+      style={{ fontSize: "14px", color: "#eef0f8", marginTop: "26px",textDecoration:"none" }}
     >
       {adminEmail}
     </p>
@@ -179,14 +207,14 @@ function RecruterLayout({ children }) {
 </div>
 
 
-
-        <div className="sidebar-content" >{children}</div>
+        {/* <div className="sidebar-content" >{children}</div> */}
       </div>
-
+      
       {/* Main Content */}
       <div className="main-content">
         {/* ✅ Barre de navigation Bootstrap intégrée */}
-        <nav className="navbar recruter-navbar bg-body-tertiary mb-3" style={{ marginTop: "-20px" }} >
+        <div className="navwrapper">
+        <nav className="navbar recruter-navbar bg-body-tertiary mb-3" >
   <div className="container-fluid" style={{ display: "flex", alignItems: "center", flexWrap: "nowrap"  }}>
   <Link to="/" style={{ display: "flex", alignItems: "center", marginRight: "15px",flexDirection: "column",textDecoration: "none",  }} aria-label="Accueil">
     {/* Icone maison */}
@@ -243,7 +271,7 @@ function RecruterLayout({ children }) {
       <input
         className="form-control me-3"
         type="search"
-        placeholder="Rechercher Infos..."
+        placeholder="Rechercher Offres,Condidats..."
         aria-label="Search"
         style={{
           paddingLeft: "35px",
@@ -269,12 +297,13 @@ function RecruterLayout({ children }) {
     </div>
   </div>
 </nav>
-
+</div>
 
         {/* Contenu dynamique (pages enfants) */}
         {children}
       </div>
     </div>
+    
     
   );
 }

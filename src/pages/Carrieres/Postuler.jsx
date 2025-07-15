@@ -29,7 +29,7 @@ function Postuler() {
   const [adminError, setAdminError] = useState("");
 
   // Valeurs admin initialisées
-  const ADMIN_EMAIL = "ghofranerezgui1911@gmail.com";
+  const ADMIN_EMAIL = "AdminFinInfo@gmail.com";
   const ADMIN_PASSWORD = "admin123";
 
   // ... ton useEffect existant pour l'offre, inchangé ...

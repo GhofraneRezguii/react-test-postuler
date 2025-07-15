@@ -5,23 +5,67 @@
     position: relative; /* ✅ pour que z-index s’applique */
     z-index: 1;
     background-color: transparent;
+    padding-top: 0px; 
+    
   }
+  
   
   /* Sidebar 25% */
   .sidebar {
     width: 25%;
     min-width: 240px;
-    background-color: #023388;
+    height:100vh;
+    background-color: #011639;
     padding: 20px 45px;
     display: flex;
     flex-direction: column;
     transition: width 0.4s ease;
-    position: relative;
+    position: sticky;
+    overflow: hidden;
     box-shadow:5px 8px 9px #6297f2;
     border-radius: 10px;
     box-sizing: border-box; 
   
   }
+  /* Scroll uniquement sur la zone menu */
+/* .sidebar-menu {
+    flex-grow: 1;
+    overflow-y: auto; */
+    /* max-height: calc(100vh - 160px); /* Ajuste selon la hauteur totale des parties fixes */
+    /* padding-right: 5px;
+  } */ */
+  
+  /* Custom scrollbar */
+  /* .sidebar-menu::-webkit-scrollbar {
+    width: 6px;
+  }
+  .sidebar-menu::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+  .sidebar-menu:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+   */
+   
+   
+  /* Reste de la sidebar : header + admin info */
+  .sidebar-header {
+    padding: 10px;
+  }
+  .admin-info {
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Contenu principal */
+  .main-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 15px;
+  }
+  
   
   /* Sidebar réduite à 5% */
   .dashboard-wrapper.collapsed .sidebar {
@@ -143,12 +187,14 @@
     color: rgb(246, 242, 242);
   }
   
+
   /* Main content 75% */
   .main-content {
     width: 75%;
-    padding: 30px;
-    background-color: transparent !important;
     
+    padding-top: 20px;
+    background-color: transparent !important;
+    margin-top: -20px;
     transition: width 0.4s ease;
   }
   
@@ -170,8 +216,17 @@
       border-radius: 8px;
       box-shadow: 2px 3px 5px#4c87ee;
       height: 65px;
+      position: fixed;  
       
-      
+  }
+  .navwrapper{
+     position: sticky;
+      height:75px;
+     padding-top: 10px;
+     top: 0;
+      width:100%;
+      background-color: #fdfeff;
+      z-index: 1000;
   }
   
   .sidebar-divider {
@@ -233,6 +288,7 @@
     .main-content {
       width: 100%;
       padding: 15px;
+    /* ou la hauteur exacte de ta navbar + un peu */
     }
   
     .button {
@@ -473,7 +529,7 @@
   }
   /* sidebar menu */
   .sidebar-menu {
-    margin-top: 20px;
+    margin-top: 40px;
     padding-left: 0;
   }
   
@@ -514,7 +570,7 @@
      
   }
   .sidebar-link.active {
-    background-color: #2869d9; /* ou autre couleur */
+    background-color: #669eff; /* ou autre couleur */
     color: white;
     font-weight: bold;
     
@@ -547,7 +603,9 @@
   }
   
   .second-divider {
-    margin-top: 50px !important;
+    margin-top: 40px !important;
+     border: none;  
+
   }
   .admin-info p {
     transition: all 0.3s ease;
