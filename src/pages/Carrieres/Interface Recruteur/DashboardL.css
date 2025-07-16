@@ -248,7 +248,7 @@
   z-index: -1;
   top: -16px;
   right: -16px;
-  background: linear-gradient(135deg, #022786, #c6a2e8);
+  background: linear-gradient(135deg, #032886, #c6a2e8);
   height: 32px;
   width: 32px;
   border-radius: 32px;
@@ -297,7 +297,7 @@
   width:100%;
 }
 .stack-card {
-  background: linear-gradient(135deg, #00448c, #9754c3,rgb(27, 109, 224));
+  background: linear-gradient(135deg, #0563c6, #9754c3,rgb(27, 109, 224));
   font-family:Georgia, 'Times New Roman', Times, serif;
   border-radius: 12px;
   border:1px solid rgb(8, 76, 204);

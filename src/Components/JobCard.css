@@ -224,7 +224,7 @@
   z-index: 2;
 }
 
-.cta {
+.ctay {
   border: none;
   background: none;
   cursor: pointer;
@@ -232,31 +232,41 @@
   align-items: center;
   font-weight: bold;
   text-decoration: none;
-  color: #aad4ff;
+  color: #aad4ff !important;
   font-size: 12px;
   margin-top: 10px;
 }
+/* modif */
 
-.cta span {
+.ctay:hover:before {
+  width: 100%;
+  
+}
+
+
+.ctay span {
   padding-bottom: 4px;
   letter-spacing: 2px;
   font-size: 12px;
   padding-right: 8px;
   text-transform: uppercase;
+  color:white !important;
 }
 
-.cta svg {
+.ctay svg {
   transform: translateX(-8px);
   transition: all 0.3s ease;
-  fill: #aad4ff;
+  fill: #3890e9 !important;
 }
 
-.cta:hover svg {
+.ctay:hover svg {
   transform: translateX(0);
+ 
 }
 
-.cta:active svg {
+.ctay:active svg {
   transform: scale(0.9);
+  
 }
 
 .hover-underline-animation {
@@ -278,7 +288,7 @@
   transition: transform 0.25s ease-out;
 }
 
-.cta:hover .hover-underline-animation:after {
+.ctay:hover .hover-underline-animation:after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }

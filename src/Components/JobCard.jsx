@@ -65,7 +65,7 @@ function JobCard({
 
       {/* Bouton animé en dehors de la carte retournée */}
       <div className="arrow-link">
-      <Link to={link} className="cta">
+      <Link to={link} className="ctay">
           <span className="hover-underline-animation">Voir plus</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"

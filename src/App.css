@@ -39,22 +39,22 @@ body, html, #root {
 /* ========== GRADIENT TEXT ANIMÉ ========== */
 @keyframes gradientShift {
   0% {
-    background-position: 0% 50%;
+    background-position: 0% 50% ;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 50% ;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0% 50% ;
   }
 }
 
 .gradient-text {
-  background: linear-gradient(270deg, #1e90ff, #110f79,rgb(117, 168, 235));
+  background: linear-gradient(270deg, #1261b1, #110f79,rgb(117, 167, 247)) ;
   background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientShift 6s ease infinite;
+  animation: gradientShift 6s ease infinite !important;
   font-weight: 500;
   font-size: 1.2rem;
   /* text-shadow:7px 4px 9px #7ba6ea; */
@@ -220,7 +220,7 @@ body, html, #root {
   cursor: pointer;
 
   --primary-color: #072b62;
-  --hovered-color: #c84747;
+  --hovered-color: #438be3 !important;
 
   position: relative;
   display: flex;

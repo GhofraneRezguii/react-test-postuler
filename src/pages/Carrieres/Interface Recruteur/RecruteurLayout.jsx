@@ -219,17 +219,10 @@ function RecruterLayout({ children }) {
   <Link to="/" style={{ display: "flex", alignItems: "center", marginRight: "15px",flexDirection: "column",textDecoration: "none",  }} aria-label="Accueil">
     {/* Icone maison */}
     
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      fill=" #002566"
-      className="home-icon"  
-      viewBox="0 0 16 16"
-      style={{ marginRight: "15px", flexShrink: 0 }}
-    >
-      <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house-fill home-icon" viewBox="0 0 16 16">
+  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+  <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+</svg>
     <span className="Acceuil" style={{color:"#1654c1"}}>Acceuil</span>
     </Link>
      {/* Bouton Notifications intégré directement ici */}
@@ -246,7 +239,7 @@ function RecruterLayout({ children }) {
      
 
     {/* Formulaire de recherche */}
-    <form className="d-flex" role="search" style={{ position: "relative", width: "100%", maxWidth: "400px",marginRight:"30px" }}>
+    <form className="d-flex formy" role="search" style={{ position: "relative", width: "100%", maxWidth: "400px",marginRight:"30px" }}>
       
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -269,17 +262,11 @@ function RecruterLayout({ children }) {
         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
       </svg>
       <input
-        className="form-control me-3"
+        className="form-control format me-1"
         type="search"
         placeholder="Rechercher Offres,Condidats..."
         aria-label="Search"
-        style={{
-          paddingLeft: "35px",
-          width: "100%",
-          border: "1px solid #4c87ee",
-          height: "38px",
-          boxSizing: "border-box",
-        }}
+        
       />
       <button className="btn btn-outline search" type="submit" style={{ marginLeft: "15px", marginTop: "0px",paddingRight:"25px"}}>
         Search
