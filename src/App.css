@@ -323,29 +323,53 @@ body {
 } */
 
 /* ligne horriz scroll */
-.scroll-line {
+/* .scroll-line {
   position: fixed; 
   top: 0; 
   left: 0;
   height: 4px;
-  width: 200px; 
+  width: 1400px; 
   background: rgb(14, 57, 184);
-  z-index: 20000;
-  transition: transform 0.1s linear;
-}
+  z-index: 20000000 ;
+  transition: transform 0.1s linear ! important;
+} */
 /* .scroll-line {
   position: fixed;
   top: 0;
   left: 0;
-  width: 200px;
-  height: 4px;
+  width: 1300px;
+  height: 2px;
   background-image: repeating-linear-gradient(
     to right,
-    #1e3a8a,
-    #1e3a8a 10px,
+    #845bd1,
+    #4d6fcd 10px,
     transparent 10px,
     transparent 20px
   );
   z-index: 9999;
-  transition: transform 0.1s linear;
-} */
+  transition: transform 0.1s linear !important; */
+  .scroll-line {
+    position: fixed;
+    top: 0;
+    bottom:0px;
+    left: 0;
+    height: 4px;
+    width: 100vw;
+    z-index: 20000;
+    background: linear-gradient(270deg, #0e39b8, #12c2e9, #7ba1f3, #4fa3f6);
+    background-size: 600% 600%;
+    animation: gradientShift 6s ease infinite;
+  }
+  
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  

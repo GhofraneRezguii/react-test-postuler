@@ -2,31 +2,33 @@ import { useEffect } from "react";
 
 function ScrollLineEffect() {
   useEffect(() => {
+    const mainContent = document.querySelector(".main-content");
+    const line = document.querySelector(".scroll-line");
+
+    if (!mainContent || !line) return;
+
     const handleScroll = () => {
-      const line = document.querySelector(".scroll-line");
-      const scrollTop = window.scrollY;
-      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const scrollTop = mainContent.scrollTop;
+      const scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
+      const scrollPercent = scrollTop / scrollHeight;
 
-      // Calcule la largeur de l'écran
       const windowWidth = window.innerWidth;
+      const translateX = scrollPercent * (windowWidth - 100) * 0.5; // 100 = largeur de la ligne
 
-      // Calcule le pourcentage de scroll vertical (0 à 1)
-      const scrollPercent = scrollTop / docHeight;
-
-      // Appliquer le déplacement horizontal proportionnel
-      const translateX = scrollPercent * (windowWidth - 100)*0.9; // 100 = largeur de la ligne
-
-      if (line) {
-        line.style.transform = `translateX(${translateX}px)`;
-      }
+      line.style.transform = `translateX(${translateX}px)`;
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    mainContent.addEventListener("scroll", handleScroll);
+
+    return () => {
+      mainContent.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return null;
 }
 
 export default ScrollLineEffect;
+
+
 

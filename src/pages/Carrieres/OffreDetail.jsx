@@ -89,8 +89,8 @@ function OffreDetail() {
         Postuler
       <span></span>
      </button>
-
         </div>
+        
       </div>
       <SocialMediaIcons />
     </Layout>

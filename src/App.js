@@ -4,6 +4,7 @@ import OffreDetail from "./pages/Carrieres/OffreDetail.jsx"; // à créer ensuit
 import ScrollToTop from "./Components/ScrollToTop";
 import Layout from "./Components/Layout.jsx";
 import Accueil from "./pages/Accueil.jsx";
+import ScrollLineEffect from "./Components/ScrollLineEffect.jsx";
 // import Carrieres from "./pages/Carrieres";
 import { useState, useEffect } from "react";
 import Loader from "./Components/Loader.jsx";
@@ -11,6 +12,7 @@ import Postuler from "./pages/Carrieres/Postuler.jsx";
 import OffresEmp from "./pages/Carrieres/OffresEmp.jsx";
 import CarrieresNous from "./pages/Carrieres/CarrieresNous.jsx";
 import Dashboard from "./pages/Carrieres/Interface Recruteur/Dashboard.jsx";
+import GestionOffres from "./pages/Carrieres/Interface Recruteur/GestionOffres.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -36,8 +38,13 @@ function App() {
   
 
   return (
+    
+   
+
     <Router>
       <ScrollToTop />
+      
+      <ScrollLineEffect />
       <Routes>
         {/* Route pour la page d'accueil */}
         <Route
@@ -68,8 +75,11 @@ function App() {
         <Route path="/offre/:id" element={<OffreDetail />} />
         {/* Route Dashboard admin */}
         <Route path="/admin-condidature" element={<Dashboard />} />
+        {/* Route Gestuion des offres */}
+        <Route path="/admin-offres" element={<GestionOffres/>}/>
       </Routes>
     </Router>
+    
   );
 }
 

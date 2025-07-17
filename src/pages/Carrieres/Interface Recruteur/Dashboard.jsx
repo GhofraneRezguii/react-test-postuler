@@ -14,7 +14,7 @@ function Dashboard() {
       quickActionsRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [showQuickActions]);
-  
+
   const quickActionsRef = React.useRef(null);
 
 
@@ -37,20 +37,20 @@ function Dashboard() {
         </div>
 
         <button className="fancy" onClick={() => setShowQuickActions(!showQuickActions)}>
-  <span className="top-key"></span>
-  <span className="text">
-    <span className="icon-wrapper" >
-      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
-        className="bi bi-plus-square-dotted" viewBox="0 0 24 24">
-        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22c-5.518 0-10-4.482-10-10s4.482-10 10-10
+          <span className="top-key"></span>
+          <span className="text">
+            <span className="icon-wrapper" >
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                className="bi bi-plus-square-dotted" viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22c-5.518 0-10-4.482-10-10s4.482-10 10-10
         10 4.482 10 10-4.482 10-10 10zm-1-16h2v6h-2zm0 8h2v2h-2z"/>
-      </svg>
-    </span>
-    Actions Rapides
-  </span>
-  <span className="bottom-key-1"></span>
-  <span className="bottom-key-2"></span>
-</button>
+              </svg>
+            </span>
+            Actions Rapides
+          </span>
+          <span className="bottom-key-1"></span>
+          <span className="bottom-key-2"></span>
+        </button>
 
       </div>
 
@@ -129,77 +129,77 @@ function Dashboard() {
 
       {/* Section supplémentaire avec deux cards empilées */}
       <div className="stacked-cards" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "30px", marginTop: "40px" }}>
-      <div className="stack-card">
-  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-    <h4 style={{ fontWeight: "600", marginBottom: "10px" }}>Offres récentes</h4>
-    <button className="cta">
-      <span>Voir tout</span>
-      <svg width="15px" height="10px" viewBox="0 0 13 10">
-        <path d="M1,5 L11,5"></path>
-        <polyline points="8 1 12 5 8 9"></polyline>
-      </svg>
-    </button>
-  </div>
-  <div className="cardy">
-  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-    <p className="cardy-title" style={{ marginBottom: "0" }}>Bussiness Developer junior</p>
-    <button className="button-smooth">Valable</button>
-  </div>
-  <hr />
-  <div className="info-line">Réf: <span style={{ fontSize: "12px", fontWeight: "bolder" }}>BDJUNIOR106</span></div>
-  <div className="info-line"><strong>12</strong> : Candidatures </div>
-</div>
+        <div className="stack-card">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <h4 style={{ fontWeight: "600", marginBottom: "10px" }}>Offres récentes</h4>
+            <button className="cta">
+              <span>Voir tout</span>
+              <svg width="15px" height="10px" viewBox="0 0 13 10">
+                <path d="M1,5 L11,5"></path>
+                <polyline points="8 1 12 5 8 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          <div className="cardy">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <p className="cardy-title" style={{ marginBottom: "0" }}>Bussiness Developer junior</p>
+              <button className="button-smooth">Valable</button>
+            </div>
+            <hr />
+            <div className="info-line">Réf: <span style={{ fontSize: "12px", fontWeight: "bolder" }}>BDJUNIOR106</span></div>
+            <div className="info-line"><strong>12</strong> : Candidatures </div>
+          </div>
 
-</div>
+        </div>
 
 
-<div className="stack-card">
-  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-    <h4 style={{ fontWeight: "600", marginBottom: "10px" }}>Candidatures récentes</h4>
-    <button className="cta">
-      <span>Voir tout</span>
-      <svg width="15px" height="10px" viewBox="0 0 13 10">
-        <path d="M1,5 L11,5"></path>
-        <polyline points="8 1 12 5 8 9"></polyline>
-      </svg>
-    </button>
-  </div>
-  <div className="cardy">
-  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-    <p className="cardy-title" style={{ marginBottom: "0" }}>REZGUI Ghofrane</p>
-    <button className="button-smooth status">en cours</button>
-  </div>
-  <hr />
-  <div className="info-line">Type Offre: <span style={{ fontSize: "12px", fontWeight: "bolder" }}>Stage</span></div>
-  <div className="info-line">Candidature le : <strong>26/06/2025</strong></div>
-</div>
+        <div className="stack-card">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <h4 style={{ fontWeight: "600", marginBottom: "10px" }}>Candidatures récentes</h4>
+            <button className="cta">
+              <span>Voir tout</span>
+              <svg width="15px" height="10px" viewBox="0 0 13 10">
+                <path d="M1,5 L11,5"></path>
+                <polyline points="8 1 12 5 8 9"></polyline>
+              </svg>
+            </button>
+          </div>
+          <div className="cardy">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <p className="cardy-title" style={{ marginBottom: "0" }}>REZGUI Ghofrane</p>
+              <button className="button-smooth status">en cours</button>
+            </div>
+            <hr />
+            <div className="info-line">Type Offre: <span style={{ fontSize: "12px", fontWeight: "bolder" }}>Stage</span></div>
+            <div className="info-line">Candidature le : <strong>26/06/2025</strong></div>
+          </div>
 
-</div>
+        </div>
       </div>
       {/* Section avec titre + 3 mini-cards sur une ligne */}
       {showQuickActions && (
-  <div
-    ref={quickActionsRef}
-    className="quick-actions-section"
-    style={{ marginTop: "50px" }}
-  >
-    <h4 style={{ fontWeight: "600", marginBottom: "20px" }}>Actions rapides</h4>
-    <div className="quick-cards-container">
-      <div className="quick-card">
-        <div className="quick-icon"><i className="bi bi-clipboard2-plus"></i></div>
-        <p className="quick-label">Créer une offre</p>
-      </div>
-      <div className="quick-card">
-        <div className="quick-icon"><i className="bi bi-person-plus-fill"></i></div>
-        <p className="quick-label">Ajouter un candidat</p>
-      </div>
-      <div className="quick-card">
-        <div className="quick-icon"><i className="bi bi-person-lines-fill"></i></div>
-        <p className="quick-label">Traiter les candidatures</p>
-      </div>
-    </div>
-  </div>
-)}
+        <div
+          ref={quickActionsRef}
+          className="quick-actions-section"
+          style={{ marginTop: "50px" }}
+        >
+          <h4 style={{ fontWeight: "600", marginBottom: "20px" }}>Actions rapides</h4>
+          <div className="quick-cards-container">
+            <div className="quick-card">
+              <div className="quick-icon"><i className="bi bi-clipboard2-plus"></i></div>
+              <p className="quick-label">Créer une offre</p>
+            </div>
+            <div className="quick-card">
+              <div className="quick-icon"><i className="bi bi-person-plus-fill"></i></div>
+              <p className="quick-label">Ajouter un candidat</p>
+            </div>
+            <div className="quick-card">
+              <div className="quick-icon"><i className="bi bi-person-lines-fill"></i></div>
+              <p className="quick-label">Traiter les candidatures</p>
+            </div>
+          </div>
+        </div>
+      )}
 
 
 

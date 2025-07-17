@@ -85,7 +85,7 @@ export default function SocialMediaIcons() {
         <div className="tooltip">Instagram</div>
       </li>
 
-      <li className="icon-content">
+      {/* <li className="icon-content">
         <a
           href="https://youtube.com/"
           aria-label="Youtube"
@@ -110,7 +110,7 @@ export default function SocialMediaIcons() {
           </svg>
         </a>
         <div className="tooltip">Youtube</div>
-      </li>
+      </li> */}
 
       <li className="icon-content">
         <a

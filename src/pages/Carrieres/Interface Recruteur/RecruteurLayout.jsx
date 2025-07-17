@@ -120,7 +120,7 @@ function RecruterLayout({ children }) {
 
 <li>
     <NavLink
-      to="/offres"
+      to="/admin-offres"
       className={({ isActive }) =>
         isActive ? "sidebar-link active" : "sidebar-link"
       }
