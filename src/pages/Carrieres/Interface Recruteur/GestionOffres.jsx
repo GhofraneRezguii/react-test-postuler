@@ -66,14 +66,24 @@ function GestionOffres() {
   };
 
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-
-  //     console.log("Fichier sélectionné :", file.name);
-  //     setUploadSuccess(true);
-  //   }
-  // };
+  const [filters, setFilters] = useState({
+    ref: "",
+    titre: "",
+    département: "",
+    type: "",
+    soumission: "",
+    expiration: "",
+    statut: "",
+    condidatures: "",
+  });
+  const [filterValues, setFilterValues] = useState({
+    ref: '',
+    departement: '',
+    type: '',
+    soumission: '',
+    expiration: '',
+    statut: '',
+  });
 
 
   const [offres, setOffres] = useState([
@@ -341,7 +351,25 @@ function GestionOffres() {
     setShowEditCard(true);
   };
 
+  // Fonction de mise à jour générique pour chaque champ texte ou date
+  // const handleInputChange = (field, value) => {
+  //   setFilterValues(prev => ({
+  //     ...prev,
+  //     [field]: value
+  //   }));
+  // };
 
+  // Fonction de filtrage du tableau
+  // const filteredData = data.filter(item => {
+  //   return Object.entries(visibleFields).every(([field, isVisible]) => {
+  //     if (!isVisible || !filterValues[field]) return true;
+
+  //     const value = filterValues[field].toString().toLowerCase();
+  //     const itemValue = item[field]?.toString().toLowerCase() || '';
+
+  //     return itemValue.includes(value);
+  //   });
+  // });
 
 
   return (
@@ -443,6 +471,25 @@ function GestionOffres() {
             <span className="bottomy-key-1"></span>
             <span className="bottomy-key-2"></span>
           </a>
+
+          <button
+            className="resety-button"
+            onClick={() =>
+              setFilters({
+                ref: "",
+                titre: "",
+                departement: "",
+                type: "",
+                soumission: "",
+                expiration: "",
+                statut: "",
+                condidatures: "",
+              })
+            }
+          >
+            Réinitialiser
+          </button>
+
         </div>
         {/* champs de filtrage */}
         {isFilterVisible && (
@@ -473,7 +520,13 @@ function GestionOffres() {
                     Référence
                     <button type="button" className="close-btn" onClick={() => removeField("ref")}>✕</button>
                   </label>
-                  <input type="text" id="ref" placeholder="Ex: REF-2025-01" />
+                  <input
+                    type="text"
+                    id="ref"
+                    placeholder="REF001"
+                    value={filters.ref}
+                    onChange={(e) => setFilters({ ...filters, ref: e.target.value })}
+                  />
                 </div>
               )}
 
@@ -483,7 +536,13 @@ function GestionOffres() {
                     Département
                     <button type="button" className="close-btn" onClick={() => removeField("departement")}>✕</button>
                   </label>
-                  <input type="text" id="departement" placeholder="Ex: Informatique" />
+                  <input
+                    type="text"
+                    id="departement"
+                    placeholder="EX:Informatique"
+                    value={filters.departement}
+                    onChange={(e) => setFilters({ ...filters, departement: e.target.value })}
+                  />
                 </div>
               )}
 
@@ -498,6 +557,8 @@ function GestionOffres() {
                     options={options}
                     styles={customStyles}
                     placeholder="-- Sélectionner --"
+                    value={options.find((opt) => opt.value === filters.type)}
+                    onChange={(selectedOption) => setFilters({ ...filters, type: selectedOption ? selectedOption.value : "" })}
                   />
                 </div>
               )}
@@ -512,7 +573,12 @@ function GestionOffres() {
                     Date de soumission
                     <button type="button" className="close-btn" onClick={() => removeField("soumission")}>✕</button>
                   </label>
-                  <input type="date" id="soumission" />
+                  <input
+                    type="date"
+                    id="soumission"
+                    value={filters.soumission}
+                    onChange={(e) => setFilters({ ...filters, soumission: e.target.value })}
+                  />
                 </div>
               )}
 
@@ -522,7 +588,12 @@ function GestionOffres() {
                     Date d'expiration
                     <button type="button" className="close-btn" onClick={() => removeField("expiration")}>✕</button>
                   </label>
-                  <input type="date" id="expiration" />
+                  <input
+                    type="date"
+                    id="expiration"
+                    value={filters.expiration}
+                    onChange={(e) => setFilters({ ...filters, expiration: e.target.value })}
+                  />
                 </div>
               )}
 
@@ -533,10 +604,12 @@ function GestionOffres() {
                     <button type="button" className="close-btn" onClick={() => removeField("statut")}>✕</button>
                   </label>
                   <Select
-                    id="type"
+                    id="statut"
                     options={statusOptions}
                     styles={customStyles}
                     placeholder="-- Sélectionner --"
+                    value={statusOptions.find((opt) => opt.value === filters.statut)}
+                    onChange={(selectedOption) => setFilters({ ...filters, statut: selectedOption ? selectedOption.value : "" })}
                   />
                 </div>
               )}
@@ -569,60 +642,74 @@ function GestionOffres() {
             </thead>
 
             <tbody>
-              {offres.map((offre, index) => {
-                const isExpired = new Date(offre.expiration) < new Date();
-                return (
-                  <tr key={index}>
-                    {visibleFields.ref && <td>{offre.ref}</td>}
-                    <td>{offre.titre}</td>
-                    {visibleFields.departement && <td>{offre.departement}</td>}
-                    {visibleFields.type && (
+              {offres
+                .filter((offre) => {
+                  return (
+                    (!filters.ref || offre.ref.toLowerCase().includes(filters.ref.toLowerCase())) &&
+                    (!filters.departement || offre.departement.toLowerCase().includes(filters.departement.toLowerCase())) &&
+                    (!filters.type || offre.type.toLowerCase() === filters.type.toLowerCase()) &&
+                    (!filters.soumission || offre.soumission === filters.soumission) &&
+                    (!filters.expiration || offre.expiration === filters.expiration) &&
+                    (!filters.statut || (
+                      (new Date(offre.expiration) < new Date() ? "expiree" : "valable") === filters.statut
+                    ))
+
+                  );
+                })
+                .map((offre, index) => {
+                  const isExpired = new Date(offre.expiration) < new Date();
+                  return (
+                    <tr key={index}>
+                      {visibleFields.ref && <td>{offre.ref}</td>}
+                      <td>{offre.titre}</td>
+                      {visibleFields.departement && <td>{offre.departement}</td>}
+                      {visibleFields.type && (
+                        <td>
+                          <span
+                            className={`type-badge ${offre.type === "CDI" ? "type-cdi" : "type-stage"}`}
+                          >
+                            {offre.type}
+                          </span>
+                        </td>
+                      )}
+                      {visibleFields.soumission && <td>{offre.soumission}</td>}
+                      {visibleFields.expiration && <td>{offre.expiration}</td>}
+                      {visibleFields.statut && (
+                        <td>
+                          <span
+                            className={`status-badge ${isExpired ? "status-expired" : "status-valid"}`}
+                          >
+                            {isExpired ? "Expirée" : "Valable"}
+                          </span>
+                        </td>
+                      )}
+                      <td style={{ textAlign: "center" }}>{offre.candidatures}</td>
                       <td>
-                        <span
-                          className={`type-badge ${offre.type === "CDI" ? "type-cdi" : "type-stage"
-                            }`}
-                        >
-                          {offre.type}
-                        </span>
+                        <div className="action-icons">
+                          <i
+                            className="bi bi-pencil-square action-edit"
+                            onClick={() => {
+                              setOfferToEdit(offre);
+                              setEditedOffer({ ...offre });
+                            }}
+                          ></i>
+
+                          <i
+                            className="bi bi-trash3-fill action-delete"
+                            onClick={() => setOfferToDelete(offre)}
+                          ></i>
+
+                          <i
+                            className="bi bi-eye action-see"
+                            onClick={() => handleViewDetails(offre)}
+                          ></i>
+                        </div>
                       </td>
-                    )}
-                    {visibleFields.soumission && <td>{offre.soumission}</td>}
-                    {visibleFields.expiration && <td>{offre.expiration}</td>}
-                    {visibleFields.statut && (
-                      <td>
-                        <span
-                          className={`status-badge ${isExpired ? "status-expired" : "status-valid"
-                            }`}
-                        >
-                          {isExpired ? "Expirée" : "Valable"}
-                        </span>
-                      </td>
-                    )}
-                    <td style={{ textAlign: "center" }}>{offre.candidatures}</td>
-                    <td>
-                      <div className="action-icons">
-                        <i
-                          className="bi bi-pencil-square action-edit"
-                          onClick={() => {
-                            setOfferToEdit(offre);
-                            setEditedOffer({ ...offre }); // clone l'objet pour édition
-                          }}
-                        ></i>
-
-                        <i
-                          className="bi bi-trash3-fill action-delete"
-                          onClick={() => setOfferToDelete(offre)}
-                        ></i>
-
-                        <i className="bi bi-eye action-see" onClick={() => handleViewDetails(offre)}></i>
-
-                      </div>
-                    </td>
-
-                  </tr>
-                );
-              })}
+                    </tr>
+                  );
+                })}
             </tbody>
+
 
           </table>
         </div>
@@ -640,8 +727,8 @@ function GestionOffres() {
                 textShadow:
                   `0 0 5px rgba(122, 159, 238, 0.788),
   0 0 10px rgba(69, 119, 235, 0.424),
-  0 0 15px rgba(255, 255, 255, 0.2)`}}>Détails de l'offre</h3>
-              <p><strong style={{ color: "#0a55a0" }}>Réf :</strong> {selectedOffer.ref}</p>
+  0 0 15px rgba(255, 255, 255, 0.2)`}}>Détails du condidat</h3>
+              <p><strong style={{ color: "#0a55a0" }}>id:</strong> {selectedOffer.ref}</p>
               <p><strong style={{ color: "#0a55a0" }}>Titre :</strong> {selectedOffer.titre}</p>
               <p><strong style={{ color: "#0a55a0" }}>Département :</strong> {selectedOffer.departement}</p>
               <p><strong style={{ color: "#0a55a0" }}>Type :</strong> {selectedOffer.type}</p>

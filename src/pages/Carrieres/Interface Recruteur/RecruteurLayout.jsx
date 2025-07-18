@@ -84,7 +84,7 @@ function RecruterLayout({ children }) {
               id="brand"
               src="https://media.licdn.com/dms/image/v2/D563DAQElHMdqtm7WuA/image-scale_191_1128/image-scale_191_1128/0/1683892525165/fininfo_solutions_cover?e=2147483647&v=beta&t=6qKoZ3Gs3KCwxHlr0gYkguibZcganBOCmUbiJwZ5QvY"
               alt="FININFO SOLUTIONS"
-              width="200"
+              width="165"
               height="40"
             />
           </Link>
@@ -131,7 +131,7 @@ function RecruterLayout({ children }) {
   </li>
   <li>
     <NavLink
-      to="/candidatures"
+      to="/admin-condidatures"
       className={({ isActive }) =>
         isActive ? "sidebar-link active" : "sidebar-link"
       }

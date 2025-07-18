@@ -13,6 +13,7 @@ import OffresEmp from "./pages/Carrieres/OffresEmp.jsx";
 import CarrieresNous from "./pages/Carrieres/CarrieresNous.jsx";
 import Dashboard from "./pages/Carrieres/Interface Recruteur/Dashboard.jsx";
 import GestionOffres from "./pages/Carrieres/Interface Recruteur/GestionOffres.jsx";
+import GestionCondidatures from "./pages/Carrieres/Interface Recruteur/GestionCondidatures.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -75,8 +76,10 @@ function App() {
         <Route path="/offre/:id" element={<OffreDetail />} />
         {/* Route Dashboard admin */}
         <Route path="/admin-condidature" element={<Dashboard />} />
-        {/* Route Gestuion des offres */}
+        {/* Route Gestion des offres */}
         <Route path="/admin-offres" element={<GestionOffres/>}/>
+        {/* Route Gestion des condidatures */}
+        <Route path="/admin-condidatures" element={<GestionCondidatures/>}/>
       </Routes>
     </Router>
     

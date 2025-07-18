@@ -1,0 +1,292 @@
+.sidebar{
+    width: 300;
+
+}
+
+
+
+   
+
+.Downloady-button {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 12px 20px;
+    color: rgb(211, 133, 24);
+    background: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+    border: none;
+    box-shadow: 0 0.7em 1.5em -0.5em rgba(59, 48, 78, 0.527);
+    letter-spacing: 0.05em;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    margin-left: 70px;
+}
+
+.Downloady-button span {
+    color: ghostwhite;
+}
+
+.Downloady-button svg {
+    margin-right: 8px;
+    width: 25px;
+}
+
+.Downloady-button:hover {
+    box-shadow: 0 0.5em 1.5em -0.5em #3b82f6;
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.Downloady-button:active {
+    box-shadow: 0 0.3em 1em -0.5em #3b82f6;
+}
+
+.Downloady-button::before {
+    content: "";
+    width: 4px;
+    height: 40%;
+    background-color: rgb(71, 58, 192);
+    position: absolute;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    left: 0;
+    transition: all 0.2s;
+}
+
+.Downloady-button::after {
+    content: "";
+    width: 4px;
+    height: 40%;
+    background-color: rgb(71, 58, 192);
+    position: absolute;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    right: 0;
+    transition: all 0.2s;
+}
+
+.Downloady-button:hover::before,
+.Downloady-button:hover::after {
+    height: 60%;
+}
+
+.Downloady-button:hover::before {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    transform: translate(5px, -15px) rotate(45deg);
+}
+
+.Downloady-button:hover::after {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    transform: translate(-5px, 15px) rotate(45deg);
+}
+
+/* bouton Exporter déjà défini */
+.Downloady-button {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 12px 20px;
+    color: white;
+    background: linear-gradient(144deg, #c370ff, #5b42f3 50%, #b2cdff);
+    border: none;
+    box-shadow: 0 0.7em 1.5em -0.5em rgba(59, 48, 78, 0.527);
+    letter-spacing: 0.05em;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    margin-right: 10px;
+}
+
+.Downloady-button svg {
+    margin-right: 8px;
+    width: 25px;
+}
+
+.Downloady-button:hover {
+    box-shadow: 0 0.5em 1.5em -0.5em #3b82f6;
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.Downloady-button:active {
+    box-shadow: 0 0.3em 1em -0.5em #3b82f6;
+}
+/* bouton Create */
+.Btnyyy {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 35px;
+    height: 35px;
+    border-radius: calc(45px / 2);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: 0.3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background: linear-gradient(144deg, #ce9df1, #3945e6 50%, #236ae3);
+    margin-left: 300px;
+    margin-top: 7px;
+    margin-right: 0;
+    padding-left: 0px;
+}
+
+.signyy {
+    width: 100%;
+    font-size: 1.5em;
+    color: white;
+    transition-duration: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 15px;
+}
+
+.textyy {
+    position: absolute;
+    right: 0px;
+    width: 0%;
+    opacity: 0;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    transition-duration: 0.3s;
+}
+
+.Btnyyy:hover {
+    width: 280px;
+    transition-duration: 0.1s;
+    padding:10px 15px;
+    height:40px;
+}
+
+.Btnyyy:hover .signyy {
+    width: 30%;
+    transition-duration: 0.1s;
+    padding:10px;
+}
+
+.Btnyyy:hover .textyy {
+    opacity: 1;
+    width: 70%;
+    transition-duration: 0.1s;
+    padding-top:20px ;
+    padding-right: 30px;
+    padding-bottom: 20px;
+}
+
+.Btnyyy:active {
+    transform: translate(2px, 2px);
+}
+.status-badge {
+    white-space: nowrap;
+  }
+  
+
+.status-accepted {
+    background-color: #a8e6a1;
+    color: #1a6d1a;
+}
+
+.status-rejected {
+    background-color: #f8b5b5;
+    color: #8c1c1c;
+}
+.status-prog{
+    background-color: #f4c4f3;
+    color: #9134cf;
+}
+.status-new{
+    background-color: #fca772;
+    color: #b7520a;
+}
+.document-icons{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* espace entre les icônes */
+    justify-content: center;
+    /* optionnel pour centrer dans la cellule */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+/* Zoom au hover */
+.action-icons i:hover {
+    transform: scale(1.4);
+    opacity: 0.8;
+}
+.lettre{
+    color: #0a5a7a;
+    font-size: 18px;
+    cursor: pointer;
+}
+.cv{
+    color: #0aacc5;
+    font-size: 18px;
+    cursor: pointer;
+}
+.action-delete{
+    color: #e51414;
+    font-size: 18px;
+    cursor: pointer;
+   
+}
+.document-icons{
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+.document-icons i:hover{
+    transform: scale(1.4);
+    opacity: 0.8;
+}
+.document-icons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .document-icons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+ .resety-button{
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 12px 20px;
+    color: white;
+    background: linear-gradient(144deg, #d3b7e7, #5b42f3 50%, #0c76c3);
+    border: none;
+    box-shadow: 0 0.7em 1.5em -0.5em rgba(59, 48, 78, 0.527);
+    letter-spacing: 0.05em;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    width:140px;
+  
+ }
+ .resety-button:hover{
+     box-shadow: 0px 4px 9px rgb(7, 89, 229);
+
+ }
+  
+  

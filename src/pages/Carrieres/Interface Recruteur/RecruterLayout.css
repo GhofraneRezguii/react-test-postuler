@@ -75,7 +75,7 @@
     flex-grow: 1;
     overflow-y: auto;
     background-color: #f8f9fa;
-    padding: 15px;
+    padding-left: 5px;
   }
   
   
@@ -99,6 +99,7 @@
     border-radius: 7px;
     filter: drop-shadow(8px 4px rgba(133, 185, 236, 0.959));
     transition: opacity 0.3s ease;
+    margin-left: 30px;
     /* margin-right: 40px; */
   }
   
@@ -203,7 +204,7 @@
   /* Main content 75% */
   .main-content {
     width: 75%;
-    
+    margin-left: 10px;
     padding-top: 20px;
     background-color: transparent !important;
     margin-top: -20px;
