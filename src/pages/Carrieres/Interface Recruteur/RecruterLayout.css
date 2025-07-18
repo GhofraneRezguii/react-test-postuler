@@ -35,9 +35,9 @@
     box-sizing: border-box;
   }
   
-  html, body {
+  /* html, body {
     overflow-x: hidden;
-  }
+  } */
   
   /* Scroll uniquement sur la zone menu */
 /* .sidebar-menu {
