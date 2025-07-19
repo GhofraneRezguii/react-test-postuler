@@ -14,6 +14,8 @@ import CarrieresNous from "./pages/Carrieres/CarrieresNous.jsx";
 import Dashboard from "./pages/Carrieres/Interface Recruteur/Dashboard.jsx";
 import GestionOffres from "./pages/Carrieres/Interface Recruteur/GestionOffres.jsx";
 import GestionCondidatures from "./pages/Carrieres/Interface Recruteur/GestionCondidatures.jsx";
+ import Emails from "./pages/Carrieres/Interface Recruteur/Emails.jsx"; 
+
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -80,6 +82,11 @@ function App() {
         <Route path="/admin-offres" element={<GestionOffres/>}/>
         {/* Route Gestion des condidatures */}
         <Route path="/admin-condidatures" element={<GestionCondidatures/>}/>
+        {/* Route Emails */}
+        <Route path="/emails" element={<Emails/>}/>
+         {/* Redirection par défaut vers la page d'accueil si aucune route ne correspond */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+
       </Routes>
     </Router>
     

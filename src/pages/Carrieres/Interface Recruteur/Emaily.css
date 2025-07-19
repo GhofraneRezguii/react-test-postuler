@@ -1,0 +1,280 @@
+.cardy-itemy {
+    flex: 1 0 auto;
+    /* 4 cards par ligne avec marges */
+    min-width:100;
+    max-width: 200px;
+    background: linear-gradient(144deg,rgb(8, 60, 143), #e1c3ff,#539aef,rgb(227, 178, 250),rgb(8, 60, 143));
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(39, 75, 233, 0.615);
+    min-height: 80px;
+    max-height: 90px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    margin-right: 20px;
+}
+
+.cardy-itemy h6 {
+    font-size: 20px;
+    color: #032a65;
+    padding-top: 12px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 0px;
+    margin-top: 30px;
+    font-weight: 600;
+    text-shadow:
+        0 0 4px rgba(158, 191, 249, 0.886),
+        0 0 8px rgba(155, 186, 239, 0.975),
+        0 0 12px rgb(190, 210, 247);
+    transition: text-shadow 0.3s ease;
+}
+
+.cardy-itemy strong {
+    font-size: 22px;
+    margin-bottom: 40px;
+    color: #011d6a !important;
+}
+
+hr {
+    margin-bottom: 10px !important;
+}
+
+.cardy-itemy:hover {
+    transform: rotateY(8deg) rotateX(4deg) scale(1.03);
+    box-shadow: 0 12px 24px rgba(29, 64, 220, 0.625);
+}
+
+
+/* cards content */
+.email-cards-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width:100%;
+    margin: 30px ;
+    /* flex-wrap: wrap; */
+    flex-wrap: nowrap;
+  }
+  
+  .email-card {
+    /* background-color: transparent; */
+     background: linear-gradient(144deg,rgb(84, 143, 239), #e1c3ff,#539aef,rgb(227, 178, 250),rgb(8, 60, 143));
+    border: 1px solid #3a7ae2;
+    border-radius: 10px;
+    padding: 20px;
+    /* width: 48%; */
+    box-shadow: 3px 9px 8px rgb(108, 164, 254),1px 8px 10px rgb(2, 38, 91);
+    flex-grow: 1;
+    min-width: 0;
+  }
+  .card-large {
+    flex: 0 0 60% !important;
+  }
+  
+  .card-small {
+    flex: 0 0 30% !important;
+    margin-right: 50px;
+    height:fit-content;
+    margin-top: 100px;
+  }
+  
+  .email-card h4 {
+    margin-bottom: 15px;
+    font-weight: 800;
+    font-size: 24px !important;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 20px;
+    color: #002b55 !important;
+    /* Effet lumineux doux */
+  text-shadow:
+  0 0 5px rgba(122, 159, 238, 0.788),
+  0 0 10px rgba(69, 119, 235, 0.424),
+  0 0 15px rgba(255, 255, 255, 0.2);
+  }
+  
+  .email-card label {
+    display: block;
+    
+    margin-top: 10px;
+    font-weight: 500;
+    color: #003366;
+  }
+  
+  .email-card input,
+  .email-card select,
+  .email-card textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border: 1px solid rgb(11, 46, 110);
+    box-shadow:0px 9px 8px  #0048c6;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .email-card input:focus,
+  .email-card select:focus,
+  .email-card textarea:focus {
+   box-shadow:0px 3px 8px  #880d9e;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+
+  /* clear btn */
+  /* --- Bouton animé --- */
+.Clearbutton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom right, rgb(4, 51, 139),rgb(123, 156, 248), rgb(76, 13, 135),rgb(4, 51, 139));
+    border: 1px solid white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+    overflow: hidden;
+    position: relative;
+    margin-right: 50px;
+    margin-top: 15px;
+
+  }
+  
+  .svgIcon {
+    width: 12px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .svgIcon path {
+    fill: white;
+  }
+  
+  .Clearbutton:hover {
+    width: 140px;
+    border-radius: 50px;
+    transform: scale(1.1);
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .Clearbutton:hover .svgIcon {
+    width: 50px;
+    transform: translateY(60%);
+  }
+  
+  .Clearbutton::before {
+    position: absolute;
+    top: -20px;
+    content: "Effacer";
+    color: white;
+    transition: font-size 0.3s ease-in-out, opacity 0.3s ease-in-out,
+      transform 0.3s ease-in-out, color 0.3s ease-in-out;
+    font-size: 2px;
+  }
+  
+  .Clearbutton:hover::before {
+    font-size: 13px;
+    opacity: 1;
+    transform: translateY(30px);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* --- Overlay et carte --- */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond sombre */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .confirm-card {
+    background: linear-gradient(140deg , rgb(139, 191, 251),rgb(223, 184, 245));
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    animation: pop 0.3s ease-in-out;
+    border:1px solid#0048c6
+  }
+  
+  .confirm-card h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .confirm-card .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .yes-btn,
+  .no-btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  
+  .yes-btn {
+    background: linear-gradient(140deg , rgb(14, 85, 166),rgb(98, 148, 240),rgb(5, 105, 23),rgb(20, 120, 227));
+    color: white;
+  }
+  
+  .no-btn {
+    background: linear-gradient(140deg , rgb(14, 85, 166),rgb(98, 148, 240),rgb(161, 12, 12),rgb(20, 120, 227));
+    color: white;
+  }
+  
+  .yes-btn:hover {
+    background-color: #d32f2f;
+  }
+  
+  .no-btn:hover {
+    background-color: #757575;
+  }
+  
+  @keyframes pop {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  
+  .varinfo{
+    background: linear-gradient(140deg , rgb(165, 203, 247),rgb(223, 184, 245));
+      border-radius: 12px;
+  }
+  .varinfo p{
+    margin-left: 5px;
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #011d6a;
+  }

@@ -7,7 +7,7 @@ import GestionCondidaturesL from './GestionCondidaturesL.css';
 
 function GestionCondidatures() {
 
-    const [selectedCondidat, setSelectedCondidat] = useState(null);
+    const [selectedCondidat, setSelectedCondidat] = useState(null);  
     const [condidatToDelete, setCondidatToDelete] = useState(null);
     const [condidatToEdit, setCondidatToEdit] = useState(null);
     const [editedCondidat, setEditedCondidat] = useState(null);
