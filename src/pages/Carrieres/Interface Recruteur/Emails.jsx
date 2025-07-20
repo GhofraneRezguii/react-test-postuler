@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import RecruterLayout from "./RecruteurLayout";
 import ParticlesBackground from "../../../Components/ParticlesBackground";
@@ -6,6 +6,7 @@ import 'particles.js';
 import Emaily from './Emaily.css';
 import { IoIosSend } from "react-icons/io";
 import { LuMessageSquareCode } from "react-icons/lu";
+import { ImEyePlus } from "react-icons/im";
 import Select from "react-select";
 import SendButton from "./SendButton";
 
@@ -17,6 +18,7 @@ function Emails() {
 
     const [showConfirm, setShowConfirm] = useState(false);
     const [sentCount, setSentCount] = useState(0);
+    const formRef = useRef(null);
 
 
 
@@ -44,34 +46,68 @@ function Emails() {
 
     // };
 
-    const [sent, setSent] = useState(true);
+    const [sent, setSent] = useState(false);
 
     const handleSend = async (e) => {
-        e.preventDefault(); // <- empêche le rechargement du formulaire
-      
-        if (!recipient || !subject || !message) {
-          alert("Veuillez remplir tous les champs obligatoires.");
-          return;
+        e.preventDefault(); // bloque le rechargement
+
+        if (!formRef.current.checkValidity()) {
+            formRef.current.reportValidity(); // Affiche les erreurs natives
+            return; // bloque l'envoi
         }
-      
+
         const success = await fakeSend();
-      
+
         if (success) {
-          setSent(true);
-          setSentCount((prev) => prev + 1);
-          setTimeout(() => setSent(false), 3000);
+            setSent(true);
+            setSentCount((prev) => prev + 1);
+
+            const newEmail = {
+                recipient,
+                subject,
+                message,
+                date: new Date().toLocaleString(),
+            };
+
+            setSentEmails((prev) => [...prev, newEmail]);
+            setTimeout(() => setSent(false), 3000);
         }
-      };
-      
- 
-    
-      
+    };
+
+
+
+
 
 
     const fakeSend = () =>
         new Promise((resolve) => {
             setTimeout(() => resolve(true), 1500);
         });
+
+
+
+
+    const [showSentEmails, setShowSentEmails] = useState(false);
+    const [sentEmails, setSentEmails] = useState([]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -159,6 +195,11 @@ function Emails() {
                         Envoyez des emails aux candidats et gérez vos templates
                     </h6>
                 </div>
+                {/* btn afficher emails envoyés */}
+                <button className="aff-btn" onClick={() => setShowSentEmails(true)}>
+                    <ImEyePlus size={25} /> Emails
+                </button>
+
                 {/* card */}
                 <div className="cardy-itemy">
                     <h6>Emails envoyés</h6>
@@ -209,7 +250,7 @@ function Emails() {
                     />
 
 
-                    <form >
+                    <form ref={formRef} onSubmit={handleSend}>
                         <label>
                             Destinataire <span style={{ color: "#002b55" }}>*</span>
                         </label>
@@ -288,6 +329,36 @@ function Emails() {
                     </div>
                 </div>
             )}
+
+            {showSentEmails && (
+                <div className="emails-modal-overlay">
+                    <div className="emails-modal-card">
+                        <h3>📬 Emails envoyés</h3>
+                        <div className="emails-list">
+                            {sentEmails.length === 0 ? (
+                                <p>Aucun email envoyé.</p>
+                            ) : (
+                                sentEmails.map((email, index) => (
+                                    <div key={index} className="email-item">
+                                        <p><strong>Destinataire:</strong> {email.recipient}</p>
+                                        <p><strong>Sujet:</strong> {email.subject}</p>
+                                        <p><strong>Message:</strong><br />{email.message}</p>
+                                        <p><small><em>Envoyé le : {email.date}</em></small></p>
+                                        <hr style={{
+                                            all: "unset",                // <-- Réinitialise tous les styles
+                                            display: "block",
+                                            width: "100%", height: "4px", backgroundColor: "#002b55", border: "none", margin: "1rem 0", boxShadow: "0px 5px 10px rgb(52, 99, 241)"
+                                        }} />
+
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                        <button className="closey-btn" onClick={() => setShowSentEmails(false)}>Fermer</button>
+                    </div>
+                </div>
+            )}
+
 
 
         </RecruterLayout>
