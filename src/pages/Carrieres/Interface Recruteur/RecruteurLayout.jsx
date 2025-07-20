@@ -155,13 +155,13 @@ function RecruterLayout({ children }) {
 
   <li>
     <NavLink
-      to="/mon-compte"
+      to="/entretiens"
       className={({ isActive }) =>
         isActive ? "sidebar-link active" : "sidebar-link"
       }
     >
       <IconPersonVCard />
-      <span>Mon compte</span>
+      <span> Entretiens</span>
     </NavLink>
   </li>
 </ul>

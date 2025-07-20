@@ -743,7 +743,7 @@ function GestionCondidatures() {
                                 textShadow:
                                     `0 0 5px rgba(122, 159, 238, 0.788),
   0 0 10px rgba(69, 119, 235, 0.424),
-  0 0 15px rgba(255, 255, 255, 0.2)`}}>Détails de l'offre</h3>
+  0 0 15px rgba(255, 255, 255, 0.2)`}}>Détails du condidat</h3>
                             <p><strong style={{ color: "#0a55a0" }}>Id :</strong> {selectedCondidat.id}</p>
                             <p><strong style={{ color: "#0a55a0" }}>Nom :</strong> {selectedCondidat.nom}</p>
                             <p><strong style={{ color: "#0a55a0" }}>Prénom :</strong> {selectedCondidat.prenom}</p>

@@ -15,6 +15,7 @@ import Dashboard from "./pages/Carrieres/Interface Recruteur/Dashboard.jsx";
 import GestionOffres from "./pages/Carrieres/Interface Recruteur/GestionOffres.jsx";
 import GestionCondidatures from "./pages/Carrieres/Interface Recruteur/GestionCondidatures.jsx";
  import Emails from "./pages/Carrieres/Interface Recruteur/Emails.jsx"; 
+ import Entretiens from "./pages/Carrieres/Interface Recruteur/Entretiens.jsx";
 
 
 function App() {
@@ -84,6 +85,8 @@ function App() {
         <Route path="/admin-condidatures" element={<GestionCondidatures/>}/>
         {/* Route Emails */}
         <Route path="/emails" element={<Emails/>}/>
+        {/* Route Entretiens */}
+        <Route path="/entretiens" element={<Entretiens/>}/>
          {/* Redirection par défaut vers la page d'accueil si aucune route ne correspond */}
         <Route path="*" element={<Navigate to="/" replace />} />
 
