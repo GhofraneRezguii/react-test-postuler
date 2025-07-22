@@ -18,7 +18,7 @@ const EditIcon = () => (
         strokeLinejoin="round"
         className="feather feather-edit"
         viewBox="0 0 24 24"
-        style={{ cursor: "pointer", color: "rgb(16, 140, 136)" }}
+        style={{ cursor: "pointer", color: "#4e057b" }}
     >
         <path d="M12 20h9" />
         <path d="M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z" />

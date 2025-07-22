@@ -662,4 +662,48 @@
   }
     
   
-  
+  /* style mdp btn */
+  .mdp-btn{
+    background: linear-gradient(144deg, #ce81ed, #8095f5 50%, #0a275e, #cd9af1);
+  }
+  .monCompte{
+    background-color: #d0defb;
+  }
+  .monCompte h2{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: #09376b;
+    /* Effet lumineux doux */
+  text-shadow:
+  0 0 5px rgba(122, 159, 238, 0.788),
+  0 0 10px rgba(69, 119, 235, 0.424),
+  0 0 15px rgba(255, 255, 255, 0.2);
+
+  }
+  .monCompte label{
+    color:#022786;
+    font-weight: 600;
+  }
+  .monCompte input{
+    border-radius: 8px;
+    border: 1px solid #0048c6;
+    box-shadow: 2px 4px 6px #0048c6;
+}
+.monCompte input:focus{
+    border-radius: 8px;
+    border: 1px solid #7f01cd;
+    box-shadow: 2px 4px 6px #850693;
+}
+.comticon{
+  size:40px !important;
+  color:#850693;
+}
+.comticon :hover{
+  transform: scale(1.2);
+  transition: transform 0.2s ease;
+  font-size: 50px;
+  color:rgb(9, 133, 158);
+}
+
+
