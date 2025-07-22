@@ -37,53 +37,50 @@ function CarrieresNous() {
 
   return (
     <Layout>
-      <ParticlesBackground />
+       <ParticlesBackground />
       <ScrollToTop />
       <div className="carrieres-nous-wrapper">
-      <div className="title-container">
-        <h1 className="carrieres-title">Votre carrière chez FININFO SOLUTIONS</h1>
-       </div>
+        <div className="title-container">
+          <h1 className="carrieres-title">Votre carrière chez FININFO SOLUTIONS</h1>
+        </div>
         <div className="carrieres-sections">
           {sections.map((section, index) => (
-           <div
-           key={index}
-           className={`carrieres-section ${
-             index % 2 === 0 ? "left-text" : "right-text"
-           }`}
-         >
-           <div
-             className={`text-content ${
-               index % 2 === 0 ? "slide-in-left" : "slide-in-right"
-             }`}
-           >
-             <div className="section-title-with-line">
-  <h2 className="section-subtitle">{section.title}</h2>
-  <div className="underline-wrapper">
-    <div className="elementskit-border-divider"></div>
-    <div className="title-line"></div>
-  </div>
-</div>
+            <div
+              key={index}
+              className={`carrieres-section ${index % 2 === 0 ? "left-text" : "right-text"
+                }`}
+            >
+              <div
+                className={`text-content ${index % 2 === 0 ? "slide-in-left" : "slide-in-right"
+                  }`}
+              >
+                <div className="section-title-with-line">
+                  <h2 className="section-subtitle">{section.title}</h2>
+                  <div className="underline-wrapper">
+                    <div className="elementskit-border-divider"></div>
+                    <div className="title-line"></div>
+                  </div>
+                </div>
 
 
-            
-             <p>{section.text}</p>
-           </div>
-           <div
-             className={`image-content ${
-               index % 2 === 0 ? "slide-in-right" : "slide-in-left"
-             }`}
-           >
-             <img src={section.img} alt={`illustration ${index + 1}`} />
-           </div>
-         </div>
-         
-         
+
+                <p>{section.text}</p>
+              </div>
+              <div
+                className={`image-content ${index % 2 === 0 ? "slide-in-right" : "slide-in-left"
+                  }`}
+              >
+                <img src={section.img} alt={`illustration ${index + 1}`} />
+              </div>
+            </div>
+
+
           ))}
         </div>
         <br></br>
-        
-         {/* Footer social ajouté ici */}
-         <footer className="footer-social">
+
+        {/* Footer social ajouté ici */}
+        <footer className="footer-social">
           <ul className="example-2">
             <li className="icon-content">
               <a href="https://linkedin.com/" aria-label="LinkedIn" data-social="linkedin">

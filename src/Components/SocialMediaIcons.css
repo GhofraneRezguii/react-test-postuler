@@ -125,7 +125,8 @@ ul {
   /* Positionnement à droite du contenu */
   .media-icons {
     position: absolute;
-    right: 20px;
+    right: 0px;
+    margin-left:20px;
     top: 260px; /* Ajuste selon la hauteur souhaitée */
     z-index: 999;
     display: flex;
