@@ -449,6 +449,7 @@ function Accueil() {
       <div class="three-cards">
   <div class="cardp">
     <img src="https://fininfosolutions.com/wp-content/uploads/2024/05/gitex-2.png" alt="Image 1" />
+    <hr  style={{ height: '4px', backgroundColor: '#1877f2', border: 'none', margin: '20px 0' }}></hr>
     <h3>GITEX AFRICA | Maroc-Marrakech</h3>
     <p>29 -31 Mai 2024</p>
     <Link to="/page1" className="cardu-link">
@@ -462,6 +463,7 @@ function Accueil() {
 
   <div class="cardp">
     <img src="https://fininfosolutions.com/wp-content/uploads/2024/05/VT24-LOGO-SMALL-BLACK-EN@2x.png" alt="Image 2" />
+    <hr  style={{ height: '4px', backgroundColor: '#1877f2', border: 'none', margin: '20px 0' }}></hr>
     <h3>Viva Technology | Paris</h3>
     <p>22-25 Mai 2024</p>
     <Link to="/page1" className="cardu-link">
@@ -475,6 +477,7 @@ function Accueil() {
 
   <div class="cardp">
     <img src="https://fininfosolutions.com/wp-content/uploads/2024/05/images-1.png" alt="Image 3" />
+    <hr  style={{ height: '4px', backgroundColor: '#1877f2', border: 'none', margin: '20px 0' }}></hr>
     <h3>Africa Capital Markets Forum | Cameroun</h3>
     <p>23-25 Avril 2024</p>
     <Link to="/page1" className="cardu-link">

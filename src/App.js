@@ -16,6 +16,8 @@ import GestionOffres from "./pages/Carrieres/Interface Recruteur/GestionOffres.j
 import GestionCondidatures from "./pages/Carrieres/Interface Recruteur/GestionCondidatures.jsx";
  import Emails from "./pages/Carrieres/Interface Recruteur/Emails.jsx"; 
  import Entretiens from "./pages/Carrieres/Interface Recruteur/Entretiens.jsx";
+ import MiddleWare from "./pages/Solutions/MiddleWare.jsx";
+ import SocialMediaIcons from "./Components/SocialMediaIcons";
 
 
 function App() {
@@ -59,6 +61,16 @@ function App() {
             </Layout>
           }
         />
+        {/* Route midddleware */}
+        <Route
+          path="/solutions/middleware"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <MiddleWare />
+            </Layout>
+          }
+          />
         {/* Route carriéres chez nous */}
         <Route path="/carrieres/nous" element={<CarrieresNous />} />
 

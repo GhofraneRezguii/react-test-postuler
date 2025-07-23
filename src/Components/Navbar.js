@@ -63,7 +63,7 @@ function Navbar() {
               </a>
               <ul className="dropdown-menu" aria-labelledby="carriereDropdown">
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="/solutions/middleware">
                     Fininfo Middleware
                   </Link>
                 </li>
