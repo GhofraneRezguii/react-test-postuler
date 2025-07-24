@@ -90,7 +90,7 @@ function Navbar() {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/solutions/suitesfininfo/adminfonds">
                         Administration de fonds
                       </Link>
                     </li>

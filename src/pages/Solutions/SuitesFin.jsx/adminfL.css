@@ -1,0 +1,159 @@
+.containerz {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 40px;
+    background: transparent;
+  }
+  
+  .sectionu {
+    flex: 1;
+    min-width: 300px;
+
+  }
+  
+  .titleo {
+    color: #ffffff;
+    background-color: #0a3a64 !important;
+    font-size: 24px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    height: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow:
+        0 0 4px rgba(149, 178, 236, 0.886),
+        0 0 6px rgba(155, 186, 239, 0.975),
+        0 0 12px rgb(184, 214, 254); 
+    transition: text-shadow 0.3s ease;
+  }
+  
+  .buttonGroupz {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .buttono {
+    /* background-color: #316999; */
+    color:#316999 ;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+  }
+  
+  .buttono:hover {
+   border:1px solid#09387a;
+    border-radius: 8px;
+    transform: translateX(10px) scale(1.1);
+    
+  }
+  
+  .activeo {
+    background-color:#316999;
+    border-radius: 8px;
+    color: #fff;
+    animation: fadeInUp 2s ease-in-out infinite;
+    
+  }
+  @keyframes marginLeftLoop {
+    0% {
+      margin-left: 0;
+    }
+    50% {
+      margin-left: 10px;
+    }
+    100% {
+      margin-left: 0;
+    }
+  }
+  @keyframes slideLeftRight {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(20px); /* déplacement vers la droite */
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+
+  @keyframes translateXLoop {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-20px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  .cardsz {
+    display: flex;
+    gap: 45px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .cardz {
+    background:rgb(231, 240, 253);
+    box-shadow: 0 4px 20px rgb(23, 93, 191);
+    border-radius: 12px;
+    padding: 45px;
+    width: 220px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    
+    transition: transform 0.4s ease !important;
+  
+  animation: slideLeftRight 3s ease-in-out infinite;
+   
+  }
+  
+  .cardz img {
+    width: 200px;
+    height:150px;
+    object-fit: contain;
+    z-index: 12;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .fade-in {
+    animation: fadeIn 8s ease forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  

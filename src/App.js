@@ -20,6 +20,7 @@ import GestionCondidatures from "./pages/Carrieres/Interface Recruteur/GestionCo
  import SocialMediaIcons from "./Components/SocialMediaIcons";
 import Custody from "./pages/Solutions/SuitesFin.jsx/Custody.jsx";
 import Services from "./pages/Solutions/SuitesFin.jsx/Services.jsx";
+import AdminFonds from "./pages/Solutions/SuitesFin.jsx/AdminFonds.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -89,6 +90,16 @@ function App() {
             <Layout>
                <SocialMediaIcons />
               <Services />
+            </Layout>
+          }
+          />
+          {/* Route adminFonds */}
+          <Route
+          path="/solutions/suitesfininfo/adminfonds"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <AdminFonds />
             </Layout>
           }
           />
