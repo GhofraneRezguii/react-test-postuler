@@ -18,7 +18,8 @@ import GestionCondidatures from "./pages/Carrieres/Interface Recruteur/GestionCo
  import Entretiens from "./pages/Carrieres/Interface Recruteur/Entretiens.jsx";
  import MiddleWare from "./pages/Solutions/MiddleWare.jsx";
  import SocialMediaIcons from "./Components/SocialMediaIcons";
-
+import Custody from "./pages/Solutions/SuitesFin.jsx/Custody.jsx";
+import Services from "./pages/Solutions/SuitesFin.jsx/Services.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -68,6 +69,26 @@ function App() {
             <Layout>
                <SocialMediaIcons />
               <MiddleWare />
+            </Layout>
+          }
+          />
+          {/* Route pour custody */}
+          <Route
+          path="/solutions/suitesfininfo/custody"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <Custody />
+            </Layout>
+          }
+          />
+          {/* Route services */}
+          <Route
+          path="/solutions/suitesfininfo/services"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <Services />
             </Layout>
           }
           />

@@ -1,0 +1,28 @@
+.Suites-finlp{
+    width:100%;
+    height:100px;
+    text-align: center;
+    justify-content: center;
+    margin-top:100px;
+    padding-bottom: 0px;
+    
+  }
+  .Suites-finlp h4{
+    
+    color:#5c7ea0 !important;
+    
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    line-height: 50px;
+  
+  }
+  .Suites-finlp h2{
+    color:#062f59 !important;
+    font-size: 40px !important;
+    text-shadow:
+    0 0 4px rgba(158, 191, 249, 0.886),
+    0 0 8px rgba(155, 186, 239, 0.975),
+    0 0 8px rgb(190, 210, 247);
+  transition: text-shadow 0.3s ease;
+  }
+  
