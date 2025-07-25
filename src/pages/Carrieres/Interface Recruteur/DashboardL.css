@@ -10,10 +10,11 @@
     float: right;
     font-weight: 700;
     letter-spacing: 0.05em;
-    margin: 0;
+    margin-right:30px;
     outline: none;
     overflow: visible;
-    padding: 1em 0.5em;
+    padding: 1em 0.6em;
+    padding-right: 10px;
     padding-left: 0px;
     position: relative;
     text-align: center;
@@ -21,7 +22,8 @@
     text-transform: none;
     transition: all 0.3s ease-in-out;
     user-select: none;
-    font-size: 13px;
+    font-size: 14px;
+    height: 60px;
    }
    
    .fancy::before {
@@ -38,14 +40,14 @@
    }
    
    .fancy .text {
-    font-size: 1.125em;
+    font-size: 1.2em;
     line-height: 1.33333em;
     padding-left: 0.5em;
     display: block;
     text-align: left;
     transition: all 0.3s ease-in-out;
     text-decoration: none;
-    color: rgb(78, 131, 253);
+    color: rgb(37, 75, 165);
     font-family:Verdana, Geneva, Tahoma, sans-serif;
    }
    

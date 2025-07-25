@@ -154,7 +154,7 @@ function Navbar() {
               </a>
               <ul className="dropdown-menu" aria-labelledby="societeDropdown">
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="/societe/QuiSommesNous">
                     Qui sommes-nous
                   </Link>
                 </li>

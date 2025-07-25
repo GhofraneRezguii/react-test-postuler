@@ -12,7 +12,7 @@ const VideoCard = () => {
   };
 
   return (
-    <div className="video-container">
+    <div className="videop-container">
       {/* PARTIE GAUCHE */}
       <div className="video-left">
         <div className="video-card" onClick={handlePlay}>

@@ -199,7 +199,7 @@
 
 
 /* video section */
-.video-container {
+.videop-container {
   display: flex;
   justify-content: space-between;
   gap: 35px;
@@ -853,7 +853,7 @@ transition: text-shadow 0.3s ease;
   border-radius: 25px;
   background-color: transparent;
   width:500px;
-  
+  position: relative;
   
 }
 
@@ -881,6 +881,13 @@ transition: text-shadow 0.3s ease;
   height: 500px;
   border-radius: 10px;
   object-fit: cover;
+  position: relative;
+}
+.impo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10; /* impo doit être au-dessus */
 }
 
 /* btn rej */

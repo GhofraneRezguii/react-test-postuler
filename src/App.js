@@ -25,6 +25,7 @@ import Marche from "./pages/Solutions/SuitesFin.jsx/Marche.jsx";
 import Fonds from "./pages/Solutions/SuitesFin.jsx/Fonds.jsx";
 import Suits from "./pages/Solutions/Suits.jsx";
 import IA from "./pages/Solutions/IA.jsx"
+import SommesNous from "./pages/Societe/SommesNous.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -145,6 +146,16 @@ function App() {
             <Layout>
                <SocialMediaIcons />
               <IA/>
+            </Layout>
+          }
+          />
+          {/* Route qui sommes nous */}
+          <Route
+          path="/societe/QuiSommesNous"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <SommesNous/>
             </Layout>
           }
           />
