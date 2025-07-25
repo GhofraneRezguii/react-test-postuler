@@ -1,0 +1,41 @@
+.main-img.ls{
+    width:350px;
+    height: 260px;
+}
+.image-sideo .m {
+    
+    opacity: 0.9;
+    /* Changer la couleur avec un filtre */
+    filter: hue-rotate(220deg) saturate(1.5) brightness(0.7);
+    margin-right: -5px !important;
+
+    
+  }
+
+  .image-sideo .m {
+    position: absolute;
+    right: 0px;
+    margin-right: 120px;
+    top: 0px;
+    margin-top: -60px;
+    height: 420px;
+    width: 400px;
+    z-index: 1;
+    animation: none;
+  }
+  .texto-sideo .pst{
+      white-space: pre-line;
+  }
+  .image-sideo .fd{
+      width:390px;
+  }
+  .imagei-sideo .ptr{
+      margin-bottom: -70px;
+      margin-right: 30px;
+     
+  }
+  .imagei-sideo .kt{
+      width: 400px !important;
+      height: 280px;
+  }
+  

@@ -1,10 +1,11 @@
 // src/components/Navbar.js
 import React from "react";
 import "./Navbar.css";
-import ThemeToggle from './ThemeToggle.jsx';
+import ThemeToggle from "./ThemeToggle.jsx";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom"; 
-import ScrollLineEffect from "./ScrollLineEffect.jsx"; 
+import { Link } from "react-router-dom";
+import ScrollLineEffect from "./ScrollLineEffect.jsx";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const { t, i18n } = useTranslation();
@@ -13,11 +14,16 @@ function Navbar() {
     i18n.changeLanguage(lng);
   };
 
+  const navigate = useNavigate();
+
+  const handleParentClick = (e) => {
+    e.preventDefault(); // Empêche le comportement par défaut du lien <a>
+    navigate("/solutions/suitesfininfo/suits");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
-      
       <div className="container">
-      
         {/* Brand logo */}
         <Link className="navbar-brand" to="/">
           <img
@@ -69,45 +75,66 @@ function Navbar() {
                 </li>
                 <li className="dropdown-submenu">
                   <a
-                    className="dropdown-item dropdown-toggle"
                     href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/solutions/suitesfininfo/suits");
+                    }}
+                    className="dropdown-item dropdown-toggle"
                     id="suitesDropdown"
-                    role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     Suites Fininfo
                   </a>
-                  <ul className="dropdown-menu" aria-labelledby="suitesDropdown">
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="suitesDropdown"
+                  >
                     <li>
-                      <Link className="dropdown-item" to="/solutions/suitesfininfo/custody">
+                      <Link
+                        className="dropdown-item"
+                        to="/solutions/suitesfininfo/custody"
+                      >
                         Custody
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/solutions/suitesfininfo/services">
+                      <Link
+                        className="dropdown-item"
+                        to="/solutions/suitesfininfo/services"
+                      >
                         Services aux émetteurs
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/solutions/suitesfininfo/adminfonds">
+                      <Link
+                        className="dropdown-item"
+                        to="/solutions/suitesfininfo/adminfonds"
+                      >
                         Administration de fonds
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link
+                        className="dropdown-item"
+                        to="/solutions/suitesfininfo/marche"
+                      >
                         Marché à terme
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link
+                        className="dropdown-item"
+                        to="/solutions/suitesfininfo/fonds"
+                      >
                         Fonds alternatifs
                       </Link>
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="/solutions/IA">
                     Intelligence Artificielle
                   </Link>
                 </li>

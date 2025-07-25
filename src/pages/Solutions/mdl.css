@@ -144,6 +144,7 @@ text-overflow: ellipsis;
       flex: 1;
       /* margin-top: -80px; */
     max-width: 60%;
+  
     
     background-color: rgb(255, 255, 255);
   }
@@ -175,7 +176,7 @@ text-overflow: ellipsis;
     align-items: center;
     justify-content: space-between;
     padding: 30px;
-    margin-top: -80px;
+    margin-top: -10px;
     position: relative;
     gap: 20px;
     flex-wrap: wrap;

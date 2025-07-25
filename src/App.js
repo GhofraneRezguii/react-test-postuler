@@ -21,6 +21,10 @@ import GestionCondidatures from "./pages/Carrieres/Interface Recruteur/GestionCo
 import Custody from "./pages/Solutions/SuitesFin.jsx/Custody.jsx";
 import Services from "./pages/Solutions/SuitesFin.jsx/Services.jsx";
 import AdminFonds from "./pages/Solutions/SuitesFin.jsx/AdminFonds.jsx";
+import Marche from "./pages/Solutions/SuitesFin.jsx/Marche.jsx";
+import Fonds from "./pages/Solutions/SuitesFin.jsx/Fonds.jsx";
+import Suits from "./pages/Solutions/Suits.jsx";
+import IA from "./pages/Solutions/IA.jsx"
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -63,6 +67,7 @@ function App() {
             </Layout>
           }
         />
+       
         {/* Route midddleware */}
         <Route
           path="/solutions/middleware"
@@ -70,6 +75,16 @@ function App() {
             <Layout>
                <SocialMediaIcons />
               <MiddleWare />
+            </Layout>
+          }
+          />
+          {/* Route SuitsFIN */}
+        <Route
+          path="/solutions/suitesfininfo/suits"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <Suits />
             </Layout>
           }
           />
@@ -100,6 +115,36 @@ function App() {
             <Layout>
                <SocialMediaIcons />
               <AdminFonds />
+            </Layout>
+          }
+          />
+          {/* Route marché */}
+          <Route
+          path="/solutions/suitesfininfo/marche"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <Marche/>
+            </Layout>
+          }
+          />
+          {/* Route Fonds */}
+          <Route
+          path="/solutions/suitesfininfo/fonds"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <Fonds/>
+            </Layout>
+          }
+          />
+          {/* Route IA */}
+          <Route
+          path="/solutions/IA"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <IA/>
             </Layout>
           }
           />
