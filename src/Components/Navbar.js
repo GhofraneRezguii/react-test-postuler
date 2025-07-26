@@ -159,7 +159,7 @@ function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="/societe/plan-accès">
                     Plan d'accès
                   </Link>
                 </li>

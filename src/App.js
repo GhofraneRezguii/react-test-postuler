@@ -26,7 +26,7 @@ import Fonds from "./pages/Solutions/SuitesFin.jsx/Fonds.jsx";
 import Suits from "./pages/Solutions/Suits.jsx";
 import IA from "./pages/Solutions/IA.jsx"
 import SommesNous from "./pages/Societe/SommesNous.jsx";
-
+import PlanAcc from "./pages/Societe/PlanAcc.jsx";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -156,6 +156,16 @@ function App() {
             <Layout>
                <SocialMediaIcons />
               <SommesNous/>
+            </Layout>
+          }
+          />
+          {/* Route PlanACC */}
+          <Route
+          path="/societe/plan-accès"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <PlanAcc/>
             </Layout>
           }
           />

@@ -6,7 +6,8 @@ import {
   FaUserTie,
   FaTools,
   FaChartBar,
-  FaLock,FaChartLine,
+  FaLock,
+  FaChartLine,
   FaRocket,
 } from "react-icons/fa";
 import { PiHandHeartFill } from "react-icons/pi";
@@ -130,7 +131,14 @@ function SommesNous() {
       <ThreeCardsT />
       <div className="customp-sectiono me">
         <div className="textok-side">
-          <h2>Notre vision Digitaliser. Se multiplier. Se développer.</h2>
+          {/* <h2>{"Notre vision :\n Digitaliser. Se multiplier. Se développer."}</h2> */}
+          <h2>
+            Notre vision :<br />
+            <span style={{ whiteSpace: "nowrap" }}>
+              Digitaliser. Se multiplier. Se développer.
+            </span>
+          </h2>
+
           <div className="lp">
             <div className="underline-wrapper">
               <div className="elementskit-border-divider"></div>
@@ -160,10 +168,10 @@ function SommesNous() {
             src="https://i.pinimg.com/736x/c5/46/f5/c546f5beae19a06c9cf152187f0d25ef.jpg"
             className="mainp-img ktl"
           />
-          <img
+          {/* <img
             src="https://fininfosolutions.com/wp-content/uploads/2024/03/514755c1-service-shape-2-1.png"
             className="bgo-deco ptr"
-          />
+          /> */}
         </div>
       </div>
       {/* collab section */}
@@ -176,14 +184,16 @@ function SommesNous() {
             <div className="title-line"></div>
           </div>
           <p className="card-texto">
-            Ce qui est en vigueur, c’est <strong>une hiérarchie horizontale</strong>, avec un
-            leadership plus proche du team: chaque membre de l’équipe bénéficie
-            de<strong>la pleine confiance </strong>  des membres fondateurs, est autonome dans la
-            gestion du temps de travail, bénéficie<strong>d’une flexibilité horaire </strong>  et
-            n’est pas soumis à des contraintes vacances. En effet,<strong>FININFO
-            SOLUTIONS</strong>  ne prévoit pas de périodes de fermeture, précisément pour
-            permettre à chaque membre de l’équipe de profiter des vacances à
-            tout moment de l’année.
+            Ce qui est en vigueur, c’est{" "}
+            <strong>une hiérarchie horizontale</strong>, avec un leadership plus
+            proche du team: chaque membre de l’équipe bénéficie de
+            <strong>la pleine confiance </strong> des membres fondateurs, est
+            autonome dans la gestion du temps de travail, bénéficie
+            <strong>d’une flexibilité horaire </strong> et n’est pas soumis à
+            des contraintes vacances. En effet,
+            <strong>FININFO SOLUTIONS</strong> ne prévoit pas de périodes de
+            fermeture, précisément pour permettre à chaque membre de l’équipe de
+            profiter des vacances à tout moment de l’année.
           </p>
         </div>
 
@@ -196,38 +206,32 @@ function SommesNous() {
         </div>
       </div>
       <div className="impo">
-      <img
-            src="https://fininfosolutions.com/wp-content/uploads/elementor/thumbs/pexels-fauxels-3184418-qwwfwetxnf732quqcuikm0oezwj781l5lkqrdr31sg.jpg"
-            alt="Image illustrative"
-            className="card-imageisl"
-          />
+        <img
+          src="https://fininfosolutions.com/wp-content/uploads/elementor/thumbs/pexels-fauxels-3184418-qwwfwetxnf732quqcuikm0oezwj781l5lkqrdr31sg.jpg"
+          alt="Image illustrative"
+          className="card-imageisl"
+        />
       </div>
       <div className="deux-cards-container">
-      <div className="mini-card">
-        <FaUserGraduate className="mini-icon" />
-        <h3 className="mini-title"><strong>60</strong> : Team </h3>
-      </div>
+        <div className="mini-card">
+          <FaUserGraduate className="mini-icon" />
+          <h3 className="mini-title">
+            <strong>60</strong> : Team{" "}
+          </h3>
+        </div>
 
-      <div className="mini-card">
-        <MdStarPurple500  className="mini-icon" />
-        <h3 className="mini-title"><strong>+ 4 ans </strong> : Excellence </h3>
+        <div className="mini-card">
+          <MdStarPurple500 className="mini-icon" />
+          <h3 className="mini-title">
+            <strong>+ 4 ans </strong> : Excellence{" "}
+          </h3>
+        </div>
       </div>
-    </div>
-
     </>
   );
 }
 
 export default SommesNous;
-
-
-
-
-
-
-
-
-
 
 const cards = [
   { icon: <FaHandshake size={30} />, title: "10 Clients Satisfaits" },

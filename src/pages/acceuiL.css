@@ -306,7 +306,8 @@
 /* Conteneur vidéo dans l'overlay, plus grand */
 .video-popup {
   position: relative;
-  width: 70vw;       /* presque toute la largeur */
+  width: 70vw; 
+  margin-top: 1200px;      /* presque toute la largeur */
   max-width: 1000px; /* max largeur */
   aspect-ratio: 16 / 9;
   background: black;

@@ -11,7 +11,7 @@
     overflow: hidden;
     height:600px;
     margin-top: -120px;
-    width:1170px;
+    width:1120px;
     margin-left: 60px;
     box-shadow: 0px 9px 18px rgb(21, 72, 134);
   }
@@ -221,9 +221,10 @@
     font-weight: 900;
   }
   .Suites-fin h5{
-     width:900px !important;
-     margin-left: 180px;
-     color:#0e60a7;
+     width:700px !important;
+     margin-left: 280px;
+     line-height:2;
+     color:#065183;
   }
 
   /* carfy */
@@ -235,7 +236,8 @@
     justify-content: center;
     gap: 30px;
     padding: 40px;
-    flex-wrap: wrap; /* pour responsivité */
+    flex-wrap: wrap;
+     margin-top: 100px;
   }
   
   .carfy {
@@ -345,7 +347,7 @@
     color: rgb(3, 45, 108);
   }
   .imagei-sideo .ktl{
-      width:520px;
+      width:590px !important;
       height: 350px;
 
   }
@@ -404,3 +406,7 @@
     color: #0a3a64;
   }
   
+  .textok-side{
+      white-space: pre-line;
+    
+  }
