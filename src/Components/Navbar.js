@@ -164,7 +164,7 @@ function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="/societe/Nous-Contacter">
                     Nous contacter
                   </Link>
                 </li>

@@ -27,6 +27,8 @@ import Suits from "./pages/Solutions/Suits.jsx";
 import IA from "./pages/Solutions/IA.jsx"
 import SommesNous from "./pages/Societe/SommesNous.jsx";
 import PlanAcc from "./pages/Societe/PlanAcc.jsx";
+import NousContacter from "./pages/Societe/NousContacter.jsx";
+
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -166,6 +168,16 @@ function App() {
             <Layout>
                <SocialMediaIcons />
               <PlanAcc/>
+            </Layout>
+          }
+          />
+          {/* Route contact */}
+          <Route
+          path="/societe/Nous-Contacter"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <NousContacter/>
             </Layout>
           }
           />
