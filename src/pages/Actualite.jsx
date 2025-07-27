@@ -27,7 +27,7 @@ function Actualite() {
 
       {/* Deuxième carte */}
       <div className="card-itemj">
-        <Link to="/page2" className="image-linkj">
+        <Link to="/societe/Nos-Actualités-UserClub" className="image-linkj">
           <img
             src="https://fininfosolutions.com/wp-content/uploads/2024/02/DSC_2921-300x200.jpg"
             alt="Description 2"
@@ -35,7 +35,7 @@ function Actualite() {
           />
           <div className="card-textj">«&nbsp;User Club&nbsp;» de Fininfo Solutions réunit les leaders financiers à Casablanca.</div>
         </Link>
-        <Link to="/date2" className="card-buttonj">12 Février 2024</Link>
+        <Link to="/societe/Nos-Actualités-UserClub" className="card-buttonj">12 Février 2024</Link>
       </div>
     </div>
     </>

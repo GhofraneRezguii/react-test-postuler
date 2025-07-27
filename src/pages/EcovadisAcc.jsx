@@ -4,8 +4,10 @@ import { FaBullseye, FaCalendarAlt, FaMedal } from "react-icons/fa";
 import { TbTargetArrow } from "react-icons/tb";
 import { Link } from "react-router-dom";
 function EcovadisAcc() {
+    
   return (
-    <><div className="background-containerfk">
+    <>
+    <div className="background-containerfk">
     <div className="overlayfk"></div>
     <div className="contentfk">
     <p className="subtitlefk">#FININFO SOLUTIONS ECOVADIS 2024</p>

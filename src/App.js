@@ -30,6 +30,7 @@ import PlanAcc from "./pages/Societe/PlanAcc.jsx";
 import NousContacter from "./pages/Societe/NousContacter.jsx";
 import Actualite from "./pages/Actualite.jsx";
 import EcovadisAcc from "./pages/EcovadisAcc.jsx";
+import LeaderAcc from "./pages/LeaderAcc.jsx";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -199,6 +200,16 @@ function App() {
             <Layout>
                <SocialMediaIcons />
               <EcovadisAcc/>
+            </Layout>
+          }
+          />
+          {/* Route leader club actualité */}
+          <Route
+          path="/societe/Nos-Actualités-UserClub"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <LeaderAcc/>
             </Layout>
           }
           />
