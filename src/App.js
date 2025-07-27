@@ -28,7 +28,8 @@ import IA from "./pages/Solutions/IA.jsx"
 import SommesNous from "./pages/Societe/SommesNous.jsx";
 import PlanAcc from "./pages/Societe/PlanAcc.jsx";
 import NousContacter from "./pages/Societe/NousContacter.jsx";
-
+import Actualite from "./pages/Actualite.jsx";
+import EcovadisAcc from "./pages/EcovadisAcc.jsx";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -181,6 +182,27 @@ function App() {
             </Layout>
           }
           />
+          {/* Route Actualité */}
+          <Route
+          path="/societe/Nos-Actualités"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <Actualite/>
+            </Layout>
+          }
+          />
+          {/* Route ecovadis  */}
+          <Route
+          path="/societe/Nos-Actualités-ecovadis"
+          element={
+            <Layout>
+               <SocialMediaIcons />
+              <EcovadisAcc/>
+            </Layout>
+          }
+          />
+
         {/* Route carriéres chez nous */}
         <Route path="/carrieres/nous" element={<CarrieresNous />} />
 

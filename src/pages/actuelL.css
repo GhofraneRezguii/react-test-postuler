@@ -1,0 +1,118 @@
+.hero-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0px 9px 15px rgb(5, 62, 167);
+    border-radius: 13px;
+  }
+  
+  .hero-background {
+    background-image: url('https://i.pinimg.com/1200x/f6/9f/8a/f69f8aded90c13e633ecfab6c598b9d5.jpg'); /* ← Remplace avec ton URL */
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 13px;
+    z-index: 1;
+  }
+  
+  .hero-overlay {
+    background-color: rgba(0, 0, 0, 0.3); /* Overlay sombre */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 14px;
+    z-index: 2;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    color: #fff;
+    text-align: center;
+    padding-top: 150px;
+    font-size: 3.5rem;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 20px;
+    text-shadow: 
+    0 0 4px rgba(149, 178, 236, 0.9),
+    0 0 6px rgba(155, 186, 239, 0.975),
+    0 0 12px rgb(184, 214, 254);
+    font-weight: 800;
+  }
+  
+
+  /* cards  */
+
+  .card-linksy-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 30px;
+    margin-top: 50px;
+  }
+  
+  .card-itemj {
+    position: relative;
+    width: 500px;
+    
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 2px 4px 12px rgba(6, 54, 139, 0.879);
+    background-color:transparent;
+    text-align: center;
+    transition: transform 0.4s ease;
+  }
+  .card-itemj:hover {
+    transform: scale(1.08); /* Zoom léger */
+    z-index: 2; /* Pour passer au-dessus des autres */
+  }
+  
+  .image-linkj {
+    display: block;
+    position: relative;
+  }
+  
+  .card-imagej {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .card-textj {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    color: white;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .card-buttonj {
+    display: inline-block;
+    margin: 15px auto;
+    padding: 8px 16px;
+    background-color: #0e58a1;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .card-buttonj:hover {
+    background-color: #094275;
+  }
+  

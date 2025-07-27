@@ -204,7 +204,7 @@ function Navbar() {
             </li>
 
             <li className="nav-item mx-3">
-              <Link className="nav-link" to="#">
+              <Link className="nav-link" to="/societe/Nos-Actualités">
                 {t("navbar.actualites")}
               </Link>
             </li>
@@ -249,9 +249,11 @@ function Navbar() {
           </ul>
           <ThemeToggle />
           {/* Contact button */}
-          <button className="btn-shine mx-3">
-            <span>{t("navbar.contact")}</span>
-          </button>
+          <Link to="/societe/Nous-Contacter" style={{ textDecoration: "none" }}>
+  <button className="btn-shine mx-3" >
+    <span>{t("navbar.contact")}</span>
+  </button>
+</Link>
         </div>
       </div>
     </nav>

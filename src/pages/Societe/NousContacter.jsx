@@ -182,7 +182,8 @@ function NousContacter() {
         </div>
         <p>
   {"EnvoyerMessage".split("").map((char, i) => (
-    <span key={i} style={{ "--i": `${i}` }}>{char}</span>
+    <span key={i} style={{ ["--i"]: `${i}` }}>{char}</span>
+
   ))}
 </p>
       </div>
@@ -275,7 +276,7 @@ function NousContacter() {
         marginTop:'50px',
         marginLeft:'80px',
         boxShadow: ' 2px 9px 12px rgba(9, 76, 157, 0.855)',
-        border:'2px solid#125bb5',
+        border:'2px solid #125bb5',
       }}
     allowFullScreen
     loading="lazy"
