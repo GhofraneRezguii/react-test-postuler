@@ -1,0 +1,3 @@
+[submodule "react-test-postuler"]
+  path = react-test-postuler
+  url = https://github.com/GhofraneRezguii/react-test-postuler.git
