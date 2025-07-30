@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./fondsL.css";
 import { MdQueryStats } from "react-icons/md";
 import { FaBuildingUser } from "react-icons/fa6";
@@ -110,7 +111,9 @@ function Fonds() {
             processus et la sécurisation de leurs opérations.
           </p>
         </div>
-        <button class="Hbutton type11"></button>
+        <Link to="/societe/Nous-Contacter">
+          <button className="Hbutton type11">Aller à la page</button>
+        </Link>
       </div>
       <div className="Suites-fin">
         <h2>Approche opérationnelle</h2>

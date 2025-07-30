@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./custodyL.css";
 import { SlPeople } from "react-icons/sl";
 import { FaSackDollar } from "react-icons/fa6";
@@ -113,7 +114,9 @@ function Custody() {
             la vie du titre.
           </p>
         </div>
-        <button class="Hbutton type11"></button>
+        <Link to="/societe/Nous-Contacter">
+          <button className="Hbutton type11"></button>
+        </Link>
       </div>
 
       {/* section approche */}

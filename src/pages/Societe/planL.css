@@ -14,7 +14,7 @@
     left: 0;
     right: 0;
     bottom: 0px;
-    background-color: rgba(0, 0, 0, 0.3); /* overlay sombre */
+    background-color: rgba(0, 0, 0, 0.2); /* overlay sombre */
     display: flex;
     align-items: center;
     justify-content: center;

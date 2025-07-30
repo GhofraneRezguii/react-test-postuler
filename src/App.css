@@ -373,3 +373,57 @@ body {
     }
   }
   
+/* btn scroll top */
+.scrollToTopBtn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: rgb(5, 43, 119);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 0px 4px rgba(7, 59, 149, 0.796);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: fixed;
+  bottom: 5px;
+  right: 35px;
+  z-index: 1000;
+  margin-top: 120px;
+}
+
+.scrollToTopIcon {
+  width: 12px;
+  transition-duration: 0.3s;
+}
+
+.scrollToTopIcon path {
+  fill: white;
+}
+
+.scrollToTopBtn:hover {
+  width: 140px;
+  border-radius: 50px;
+  background-color: rgb(145, 192, 241);
+}
+
+.scrollToTopBtn:hover .scrollToTopIcon {
+  transform: translateY(-200%);
+}
+
+.scrollToTopBtn::before {
+  position: absolute;
+  bottom: -20px;
+  content: "Remonter";
+  color: rgb(8, 52, 91);
+  font-size: 0px;
+}
+
+.scrollToTopBtn:hover::before {
+  font-size: 13px;
+  bottom: unset;
+  transition-duration: 0.3s;
+}

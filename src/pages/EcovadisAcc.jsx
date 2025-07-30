@@ -60,7 +60,7 @@ Nous sommes déterminés à poursuivre nos efforts pour construire un avenir plu
       </div>
     </div>
     <Cards/>
-    <Link to="/ma-page" className="learn-more-link">
+    <Link to="/societe/Nos-Actualités" className="learn-more-link">
       <span className="circle" aria-hidden="true">
         <span className="icon arrow"></span>
       </span>

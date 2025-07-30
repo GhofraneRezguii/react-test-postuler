@@ -155,7 +155,7 @@ function Accueil() {
                   Maîtrisez L'Art De La Gestion Des IRLs Avec Custody : La
                   Solution Incontournable De Fininfo Solutions.
                 </p>
-                <Link to="/nom-de-ta-page" className="see-more">
+                <Link to="/solutions/suitesfininfo/custody" className="see-more">
                   Voir plus
                 </Link>
               </div>
@@ -178,7 +178,7 @@ function Accueil() {
                 <p class="card-contentl">
                   Simplifiez Et Optimisez La Gestion Émettrice
                 </p>
-                <Link to="/nom-de-ta-page" className="see-more">
+                <Link to="/solutions/suitesfininfo/services" className="see-more">
                   Voir plus
                 </Link>
               </div>
@@ -201,7 +201,7 @@ function Accueil() {
                 <p class="card-contentl">
                   La Clé D'une Gestion Financière Optimisée
                 </p>
-                <Link to="/nom-de-ta-page" className="see-more">
+                <Link to="/solutions/suitesfininfo/adminfonds" className="see-more">
                   Voir plus
                 </Link>
               </div>
@@ -223,7 +223,7 @@ function Accueil() {
                   <p class="card-contentl">
                     Gestion Intégrée du Marché à Terme
                   </p>
-                  <Link to="/nom-de-ta-page" className="see-more">
+                  <Link to="/solutions/suitesfininfo/marche" className="see-more">
                     Voir plus
                   </Link>
                 </div>
@@ -244,7 +244,7 @@ function Accueil() {
                   <p class="card-contentl">
                     Optimisez la gestion des fonds alternatifs pour un suivi
                   </p>
-                  <Link to="/nom-de-ta-page" className="see-more">
+                  <Link to="/solutions/suitesfininfo/fonds" className="see-more">
                     Voir plus
                   </Link>
                 </div>
@@ -394,7 +394,7 @@ function Accueil() {
             <h3 className="card-title">
               FININFO récompensée par la Médaille de BRONZE EcoVadis 2024 ! 🥉
             </h3>
-            <Link to="/page1" className="cardu-link">
+            <Link to="/societe/Nos-Actualités-ecovadis" className="cardu-link">
               <span>En savoir plus</span>
               <svg width="15px" height="10px" viewBox="0 0 13 10">
                 <path d="M1,5 L11,5"></path>
@@ -417,7 +417,7 @@ function Accueil() {
               « User Club » de Fininfo Solutions réunit les leaders financiers à
               Casablanca.
             </h3>
-            <Link to="/page1" className="cardu-link">
+            <Link to="/societe/Nos-Actualités-UserClub" className="cardu-link">
               <span>En savoir plus</span>
               <svg width="15px" height="10px" viewBox="0 0 13 10">
                 <path d="M1,5 L11,5"></path>
@@ -427,7 +427,7 @@ function Accueil() {
           </div>
         </div>
       </div>
-      <Link to="/carrieres/Postuler" className="link-no-underline">
+      <Link to="/societe/Nos-Actualités" className="link-no-underline">
         <button className="reji">
           Voir tout nos actualités &nbsp;
           <span style={{ fontSize: "40px", color: "white" }}>⟶</span>

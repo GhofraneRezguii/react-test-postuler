@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./marcheL.css";
 import { MdQueryStats } from "react-icons/md";
 import { FaBuildingUser } from "react-icons/fa6";
@@ -75,7 +76,9 @@ function Marche() {
             des risques.
           </p>
         </div>
-        <button class="Hbutton type11"></button>
+        <Link to="/societe/Nous-Contacter">
+          <button className="Hbutton type11"></button>
+        </Link>
       </div>
       <div className="Suites-finlp">
         <h2>Fonctionnalités</h2>
@@ -93,106 +96,125 @@ function Marche() {
 
 export default Marche;
 
-
-
 const data = {
-    referentiel: [
-      { icon: <MdQueryStats />, title: "Données Marchés" },
-      { icon: <FaBuildingUser />, title: "Tiers & Contreparties" },
-      { icon: <FaHandHoldingMedical />, title: "Valeurs" },
-      {
-        icon: (
-          <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <TfiStatsUp />
-            <RiCoinsFill />
-          </div>
-        ),
-        title: "Prix et Courbe de Taux ",
-      },
-      {
-        icon: (
-          <div>
-            <PiIdentificationCard /> <TbSettingsDollar />
-          </div>
-        ),
-        title: "Clients & Comptes",
-      },
-      { icon: <div><LuFolderTree /><IoSettings /></div>, title: "Géstion des Comptes Emetteurs" },
-    ],
-    transactionnel: [
-      { icon: <GiArchiveRegister />, title: "Tenue de Registre" },
-      { icon: <div><TbSettingsDollar /><RiStackshareLine /></div>, title: "Centralisation" },
-      { icon:<div><BiSolidBadgeDollar/> <FaBuildingUser /></div>, title: "Marché Primaire" },
-      { icon: <BsBuildings />, title: "Introduction en Bourse" },
-    ],
-    transverse: [
-     
-      { icon: <LiaFileInvoiceDollarSolid />, title: "Frais et Facturation" },
-      
-      {
-        icon: (
-          <div>
-            <RiCoinsLine />
-            <GiCalculator />
-          </div>
-        ),
-        title: "Comptabilité",
-      },
-      { icon: <TbFilePencil />, title: "Reporting" },
-    ],
+  referentiel: [
+    { icon: <MdQueryStats />, title: "Données Marchés" },
+    { icon: <FaBuildingUser />, title: "Tiers & Contreparties" },
+    { icon: <FaHandHoldingMedical />, title: "Valeurs" },
+    {
+      icon: (
+        <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+          <TfiStatsUp />
+          <RiCoinsFill />
+        </div>
+      ),
+      title: "Prix et Courbe de Taux ",
+    },
+    {
+      icon: (
+        <div>
+          <PiIdentificationCard /> <TbSettingsDollar />
+        </div>
+      ),
+      title: "Clients & Comptes",
+    },
+    {
+      icon: (
+        <div>
+          <LuFolderTree />
+          <IoSettings />
+        </div>
+      ),
+      title: "Géstion des Comptes Emetteurs",
+    },
+  ],
+  transactionnel: [
+    { icon: <GiArchiveRegister />, title: "Tenue de Registre" },
+    {
+      icon: (
+        <div>
+          <TbSettingsDollar />
+          <RiStackshareLine />
+        </div>
+      ),
+      title: "Centralisation",
+    },
+    {
+      icon: (
+        <div>
+          <BiSolidBadgeDollar /> <FaBuildingUser />
+        </div>
+      ),
+      title: "Marché Primaire",
+    },
+    { icon: <BsBuildings />, title: "Introduction en Bourse" },
+  ],
+  transverse: [
+    { icon: <LiaFileInvoiceDollarSolid />, title: "Frais et Facturation" },
+
+    {
+      icon: (
+        <div>
+          <RiCoinsLine />
+          <GiCalculator />
+        </div>
+      ),
+      title: "Comptabilité",
+    },
+    { icon: <TbFilePencil />, title: "Reporting" },
+  ],
+};
+
+const CardsSection = () => {
+  const [active, setActive] = useState("referentiel");
+
+  const renderCards = () => {
+    return data[active].map((card, index) => (
+      <div className="cardm-box" key={index}>
+        <div className="cardm-icon">{card.icon}</div>
+        <div className="cardm-title">{card.title}</div>
+      </div>
+    ));
   };
-  
-  const CardsSection = () => {
-    const [active, setActive] = useState("referentiel");
-  
-    const renderCards = () => {
-      return data[active].map((card, index) => (
-        <div className="cardm-box" key={index}>
-          <div className="cardm-icon">{card.icon}</div>
-          <div className="cardm-title">{card.title}</div>
-        </div>
-      ));
-    };
-  
-    const handleClick = (type) => {
-      setActive(type);
-    };
-  
-    return (
-      <>
-        <div className="btn-group">
-          <button
-            className={`foncbut ${active === "referentiel" ? "active" : ""}`}
-            onClick={() => handleClick("referentiel")}
-          >
-            Référentiel
-          </button>
-          <button
-            className={`foncbut ${active === "transactionnel" ? "active" : ""}`}
-            onClick={() => handleClick("transactionnel")}
-          >
-            Transactionnel
-          </button>
-          <button
-            className={`foncbut ${active === "transverse" ? "active" : ""}`}
-            onClick={() => handleClick("transverse")}
-          >
-            Transverse
-          </button>
-        </div>
-  
-        <div
-          className="cards-func-container"
-          style={{
-            display: "flex",
-            gap: "20px",
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
+
+  const handleClick = (type) => {
+    setActive(type);
+  };
+
+  return (
+    <>
+      <div className="btn-group">
+        <button
+          className={`foncbut ${active === "referentiel" ? "active" : ""}`}
+          onClick={() => handleClick("referentiel")}
         >
-          {renderCards()}
-        </div>
-      </>
-    );
-  };
-  
+          Référentiel
+        </button>
+        <button
+          className={`foncbut ${active === "transactionnel" ? "active" : ""}`}
+          onClick={() => handleClick("transactionnel")}
+        >
+          Transactionnel
+        </button>
+        <button
+          className={`foncbut ${active === "transverse" ? "active" : ""}`}
+          onClick={() => handleClick("transverse")}
+        >
+          Transverse
+        </button>
+      </div>
+
+      <div
+        className="cards-func-container"
+        style={{
+          display: "flex",
+          gap: "20px",
+          justifyContent: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        {renderCards()}
+      </div>
+    </>
+  );
+};

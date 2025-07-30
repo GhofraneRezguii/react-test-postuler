@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./adminfL.css";
 import { MdQueryStats } from "react-icons/md";
 import { FaBuildingUser } from "react-icons/fa6";
@@ -16,12 +16,9 @@ import { TbCoinOff } from "react-icons/tb";
 import { GiAchievement } from "react-icons/gi";
 import { RiUserSettingsFill } from "react-icons/ri";
 import { FaSackDollar } from "react-icons/fa6";
-import { TbTransactionDollar } from "react-icons/tb";  
+import { TbTransactionDollar } from "react-icons/tb";
 
 function AdminFonds() {
-
-    
-
   return (
     <>
       <div class="section-container">
@@ -78,7 +75,9 @@ function AdminFonds() {
             à notre système intégré.
           </p>
         </div>
-        <button class="Hbutton type11"></button>
+        <Link to="/societe/Nous-Contacter">
+          <button className="Hbutton type11"></button>
+        </Link>
       </div>
       {/* fonctionnalités cards  */}
       <div className="Suites-finlp">
@@ -102,10 +101,6 @@ function AdminFonds() {
         </div>
       </div>
       <Categorie />
-
-     
-
-
     </>
   );
 }
@@ -129,7 +124,8 @@ const data = {
     {
       icon: (
         <div>
-          <RiUserSettingsFill /><FaSackDollar />
+          <RiUserSettingsFill />
+          <FaSackDollar />
         </div>
       ),
       title: "Fonds & Comptes d'Actifs",
@@ -137,7 +133,6 @@ const data = {
     {
       icon: (
         <div>
-          
           <TbTransactionDollar />
         </div>
       ),
@@ -145,19 +140,35 @@ const data = {
     },
   ],
   transactionnel: [
-    { icon:<div><TbCoinOff /> <FaRegHandshake /></div>, title: "Fonds Non-Conventionnels" },
     {
       icon: (
         <div>
-          <div><TbCoin /> <FaRegHandshake /></div>
+          <TbCoinOff /> <FaRegHandshake />
+        </div>
+      ),
+      title: "Fonds Non-Conventionnels",
+    },
+    {
+      icon: (
+        <div>
+          <div>
+            <TbCoin /> <FaRegHandshake />
+          </div>
         </div>
       ),
       title: "Fonds Conventionnels",
     },
-   
   ],
   transverse: [
-    { icon:<div><LiaFileInvoiceDollarSolid /><GiAchievement /></div> , title: "Ratio de Conformité" },
+    {
+      icon: (
+        <div>
+          <LiaFileInvoiceDollarSolid />
+          <GiAchievement />
+        </div>
+      ),
+      title: "Ratio de Conformité",
+    },
 
     {
       icon: (
@@ -225,18 +236,6 @@ const CardsSection = () => {
     </>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 const leftButtons = ["OPCVM", "Portefeuille"];
 const rightButtons = ["OPCI", "OPCC", "FPCT"];

@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { envoyerCandidature } from "../../api/PostulerApi";
 import "./Postuler.css";
 import Layout from "../../Components/Layout.jsx";
 import ScrollToTop from "../../Components/ScrollToTop";
@@ -93,7 +94,13 @@ function Postuler() {
 
     return () => {
       document.removeEventListener("click", hideOfferList);
+      offerInput.removeEventListener("click", showOfferList);
+      offerSearch.removeEventListener("input", handleSearch);
+      offerItems.forEach((item) => {
+        item.removeEventListener("click", () => handleOfferClick(item.textContent.trim()));
+      });
     };
+    
   }, []);
 
   const togglePassword = () => {
@@ -118,7 +125,7 @@ function Postuler() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const nom = document.getElementById("cnom").value;
     const prenom = document.getElementById("cprenom").value;
     const telephone = document.getElementById("ctel").value;
@@ -126,24 +133,25 @@ function Postuler() {
     const offres = hiddenOffersRef.current.value
       ? hiddenOffersRef.current.value.split(",").map((o) => o.trim())
       : [];
-    const typeOffre = document.querySelector('input[name="type-offre"]:checked')?.value || "";
-
+    const typeOffre =
+      document.querySelector('input[name="type-offre"]:checked')?.value || "";
+  
     if (!cvFile) {
       alert("Veuillez ajouter votre CV.");
       return;
     }
-
+  
     const maxSize = 5 * 1024 * 1024;
     if (cvFile.size > maxSize) {
       alert("Le CV est trop volumineux (max 5 Mo).");
       return;
     }
-
+  
     if (motivationFile && motivationFile.size > maxSize) {
       alert("La lettre de motivation est trop volumineuse (max 5 Mo).");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("nom", nom);
     formData.append("prenom", prenom);
@@ -153,14 +161,10 @@ function Postuler() {
     formData.append("typeOffre", typeOffre);
     formData.append("cvFile", cvFile);
     if (motivationFile) formData.append("motivationFile", motivationFile);
-
+  
     try {
-      const response = await fetch("http://localhost:5000/api/postuler", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
+      const response = await envoyerCandidature(formData);
+      if (response.status === 200) {
         alert("Candidature envoyée avec succès !");
         setCvFile(null);
         setMotivationFile(null);
@@ -173,8 +177,10 @@ function Postuler() {
       }
     } catch (error) {
       alert("Erreur réseau ou serveur.");
+      console.error(error);
     }
   };
+  
 
   const handleAdminSubmit = (e) => {
     e.preventDefault();
