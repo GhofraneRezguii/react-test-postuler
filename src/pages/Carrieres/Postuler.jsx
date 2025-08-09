@@ -7,8 +7,15 @@ import Layout from "../../Components/Layout.jsx";
 import ScrollToTop from "../../Components/ScrollToTop";
 import ParticlesBackground from "../../Components/ParticlesBackground.js";
 import SocialMediaIcons from "../../Components/SocialMediaIcons.js"; // si utilisé
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Postuler() {
+
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  
+
   const navigate = useNavigate();
   const postulerRef = useRef(null);
   const offerInputRef = useRef(null);
@@ -125,7 +132,7 @@ function Postuler() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const nom = document.getElementById("cnom").value;
     const prenom = document.getElementById("cprenom").value;
     const telephone = document.getElementById("ctel").value;
@@ -135,23 +142,24 @@ function Postuler() {
       : [];
     const typeOffre =
       document.querySelector('input[name="type-offre"]:checked')?.value || "";
-  
+
+    // Validation fichiers
     if (!cvFile) {
-      alert("Veuillez ajouter votre CV.");
+      toast.error("Veuillez ajouter votre CV.");
       return;
     }
-  
+
     const maxSize = 5 * 1024 * 1024;
     if (cvFile.size > maxSize) {
-      alert("Le CV est trop volumineux (max 5 Mo).");
+      toast.error("Le CV est trop volumineux (max 5 Mo).");
       return;
     }
-  
+
     if (motivationFile && motivationFile.size > maxSize) {
-      alert("La lettre de motivation est trop volumineuse (max 5 Mo).");
+      toast.error("La lettre de motivation est trop volumineuse (max 5 Mo).");
       return;
     }
-  
+
     const formData = new FormData();
     formData.append("nom", nom);
     formData.append("prenom", prenom);
@@ -161,11 +169,11 @@ function Postuler() {
     formData.append("typeOffre", typeOffre);
     formData.append("cvFile", cvFile);
     if (motivationFile) formData.append("motivationFile", motivationFile);
-  
+
     try {
       const response = await envoyerCandidature(formData);
       if (response.status === 200) {
-        alert("Candidature envoyée avec succès !");
+        toast.success("Candidature envoyée avec succès !");
         setCvFile(null);
         setMotivationFile(null);
         selectedValuesRef.current = [];
@@ -173,14 +181,13 @@ function Postuler() {
         if (hiddenOffersRef.current) hiddenOffersRef.current.value = "";
         e.target.reset();
       } else {
-        alert("Erreur lors de l'envoi.");
+        toast.error("Erreur lors de l'envoi.");
       }
     } catch (error) {
-      alert("Erreur réseau ou serveur.");
+      toast.error("Erreur réseau ou serveur.");
       console.error(error);
     }
   };
-  
 
   const handleAdminSubmit = (e) => {
     e.preventDefault();
@@ -188,7 +195,10 @@ function Postuler() {
     if (adminEmail === ADMIN_EMAIL && adminPassword === ADMIN_PASSWORD) {
       navigate("/admin-condidature");
       localStorage.setItem("adminEmail", adminEmail);
-      localStorage.setItem("adminImg", "https://i.pinimg.com/736x/3c/e9/f9/3ce9f976d43d32fbb431b1733a14c69f.jpg");
+      localStorage.setItem(
+        "adminImg",
+        "https://i.pinimg.com/736x/3c/e9/f9/3ce9f976d43d32fbb431b1733a14c69f.jpg"
+      );
     } else {
       setAdminError("Email ou mot de passe incorrect.");
     }
@@ -292,7 +302,7 @@ function Postuler() {
             <div className="overlay">
               <div className="overlay-panel overlay-left">
                 <i className="fa-solid fa-user-graduate fa-3x mb-2"></i>
-                <h1 className="titley">Condidat</h1>
+                <h1 className="titley">Candidat</h1>
                 <p className="infoy-overlay">Pour postuler à l’une de nos offres...</p>
                 <button className="ghost" onClick={handleEnvoyerClick}>
                   Envoyer <i className="lni lni-arrow-left envoyer"></i>
@@ -310,6 +320,7 @@ function Postuler() {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={4000} />
 
       {/* Footer personnalisé */}
       <footer className="footer-social">

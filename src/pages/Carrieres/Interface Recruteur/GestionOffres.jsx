@@ -433,7 +433,7 @@ function GestionOffres() {
           <strong style={{ color: "red" }}>10</strong>
         </div>
         <div className="cardy-item">
-          <h6>Condidatures</h6>
+          <h6>Candidatures</h6>
           <hr></hr>
           <strong style={{ color: " #450391" }}>23</strong>
         </div>
@@ -474,7 +474,8 @@ function GestionOffres() {
 
           <button
             className="resety-button"
-            onClick={() =>
+            onClick={() => {
+              // 1. Réinitialiser les filtres
               setFilters({
                 ref: "",
                 titre: "",
@@ -484,8 +485,26 @@ function GestionOffres() {
                 expiration: "",
                 statut: "",
                 condidatures: "",
-              })
-            }
+              });
+            
+              // 2. Réafficher tous les champs visibles
+              setVisibleFields({
+                ref: true,
+                departement: true,
+                type: true,
+                soumission: true,
+                expiration: true,
+                statut: true,
+              });
+            
+              // 3. Réinitialiser les champs sélectionnés dans le select multi
+              const allFields = filterFieldOptions
+                .map((opt) => opt.value)
+                .filter((v) => v !== "all"); // exclure "all"
+              setSelectedFields(allFields);
+            }}
+            
+            
           >
             Réinitialiser
           </button>

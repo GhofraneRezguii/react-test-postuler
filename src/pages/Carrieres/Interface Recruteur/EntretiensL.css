@@ -92,13 +92,14 @@
 /* icône à l’intérieur du champ */
 .searchy-input-containeri svg {
     position:absolute;
+    
     top: 50%;
     left: 12px;
     /* transform: translateY(-50%); */
     pointer-events: none;
     z-index: 2;
-    margin-left:360px;
-    margin-top: -50px;
+    margin-left:0px;
+    margin-top: -80px;
     
 }
 
@@ -121,6 +122,7 @@
       margin-bottom:180px ;
       margin-left: 20px;
       width: 440px;
+      position: relative;
 
   }
 
@@ -395,11 +397,11 @@
     height: 100vh;
     width: 60vw;
     
-    z-index: 9999;
+    z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left:-80vh !important ;
+    margin-left:-65vh !important ;
 }
 
 .calendar-popup-card {
@@ -409,7 +411,7 @@
     position: relative;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     animation: fadeIn 0.3s ease;
-    margin-right: 100px;
+    margin-right: 60px;
     border-radius: 8px;
 }
 .calendar-popup-card :hover{

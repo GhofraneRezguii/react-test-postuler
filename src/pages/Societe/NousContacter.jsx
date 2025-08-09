@@ -3,6 +3,9 @@ import "./contactL.css";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import axios from "axios";
 import { envoyerMessageContact } from "../../api/contactApi";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function NousContacter() {
   const [formData, setFormData] = useState(() => {
@@ -16,8 +19,8 @@ function NousContacter() {
     localStorage.setItem("contactForm", JSON.stringify(formData));
   }, [formData]);
   // message succ/err
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [successMessage, setSuccessMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,44 +28,48 @@ function NousContacter() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setSuccessMessage("");
-    setErrorMessage("");
-
+  
+    // Suppression des anciens messages (inutile avec toast, mais on garde pour forme)
+    // setSuccessMessage("");
+    // setErrorMessage("");
+  
     if (
       !formData.nom ||
       !formData.prenom ||
       !formData.email ||
       !formData.commentaires
     ) {
-      setErrorMessage("Tous les champs sont obligatoires.");
-      setTimeout(() => setErrorMessage(""), 4000);
+      toast.error("Tous les champs sont obligatoires.", {
+        autoClose: 4000,
+      });
       return;
     }
-
+  
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setErrorMessage("Adresse email invalide.");
-      setTimeout(() => setErrorMessage(""), 4000);
+      toast.error("Adresse email invalide.", {
+        autoClose: 4000,
+      });
       return;
     }
-
+  
     try {
-      // Utilise la fonction externe d'API ici
       const response = await envoyerMessageContact(formData);
-
+  
       if (response.status === 200) {
-        setSuccessMessage("Message envoyé avec succès !");
+        toast.success("Message envoyé avec succès !", {
+          autoClose: 4000,
+        });
         setFormData({ nom: "", prenom: "", email: "", commentaires: "" });
         localStorage.removeItem("contactForm");
-        setTimeout(() => setSuccessMessage(""), 4000);
       } else {
         throw new Error("Erreur côté serveur");
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi :", error);
-      setErrorMessage("Une erreur est survenue. Veuillez réessayer plus tard.");
-      setTimeout(() => setErrorMessage(""), 4000);
+      toast.error("Une erreur est survenue. Veuillez réessayer plus tard.", {
+        autoClose: 4000,
+      });
     }
   };
 
@@ -133,12 +140,12 @@ function NousContacter() {
 
         <div className="rightw-card">
           <div className="cardws">
-            {successMessage && (
+            {/* {successMessage && (
               <div className="notification success">{successMessage}</div>
             )}
             {errorMessage && (
               <div className="notification error">{errorMessage}</div>
-            )}
+            )} */}
 
             <form onSubmit={handleSubmit}>
               <div className="form-groupw">
@@ -346,6 +353,8 @@ function NousContacter() {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
+
     </>
   );
 }
