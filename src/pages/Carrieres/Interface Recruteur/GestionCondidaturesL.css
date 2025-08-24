@@ -290,3 +290,26 @@
  }
   
   
+
+ .offer-list {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 10;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .offer-list li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .offer-list li:hover {
+    background-color: #f0f0f0;
+  }
+  

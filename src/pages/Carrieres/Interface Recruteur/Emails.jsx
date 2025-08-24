@@ -94,24 +94,6 @@ function Emails() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const options = [
         { value: "accuse", label: "Accusé de réception" },
         { value: "entretien", label: "Invitation entretien" },

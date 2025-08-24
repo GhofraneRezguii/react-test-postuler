@@ -118,13 +118,16 @@
   }
   
   /* =================== CUSTOM SELECT =================== */
-  .custom-select-input {
+   .custom-select-input {
     padding: 5px;
     border-radius: 5px;
     cursor: text;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    border: 2px solid rgb(33, 99, 204);
+    box-shadow: 2.5px 3px 0 rgb(128, 172, 252);
+   
   }
   
   .custom-select-input input {
@@ -133,6 +136,9 @@
     flex: 1;
     min-width: 100px;
     padding: 5px;
+  }
+  .custom-select-input :focus{
+    box-shadow: 3px 5px 0 rgb(44, 79, 207) !important;
   }
   
   .offer-list {
@@ -158,7 +164,7 @@
   }
   
   .offer-list li:hover {
-    background-color: #adcaf6;
+    background-color: #adcaf6 !important;
     border-radius: 7px;
   }
   
@@ -497,6 +503,7 @@
   color: #4d4d4d;
   background-color: #fff ;
   transition: all 0.3s ease-in-out;
+  
   
 }
 

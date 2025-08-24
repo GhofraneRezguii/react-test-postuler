@@ -4,7 +4,7 @@ import './JobCard.css';
 
 
 
-function Offres() {
+function Offres( { offres = [] } ) {
   const Jobs = [
     {
       title: "Consultant Sécurité Technique",
@@ -61,9 +61,30 @@ function Offres() {
     },
   ];
 
+  const defaultImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPkSIRg6r5Orpo683tp2JyzrCLRcdsXWMJJg&s";
+
+const toutesOffres = [...Jobs, 
+  ...offres.map(o => ({
+    title: o.titre,
+    département: o.departement,
+    dateSoumission: o.soumission,
+    dateExpiration: o.expiration,
+    description: o.description || "Description non fournie",
+    status: new Date(o.expiration) > new Date() ? "Valable" : "Expirée",
+    image: o.image || defaultImage
+  }))
+];
+
+
+
+
+
+
+
+
   return (
     <div className="job-container">
-    {Jobs.map((job, index) => (
+    {toutesOffres.map((job, index) => (
       <JobCard
         key={index}
         title={job.title}
@@ -74,8 +95,7 @@ function Offres() {
         status={job.status}
         link={`/offre/${index}`}
         image={job.image}
-        details={job.details}
-        style={{ animationDelay: `${index * 0.3}s` }}  // délai progressif
+        style={{ animationDelay: `${index * 0.3}s` }}
       />
     ))}
   </div>

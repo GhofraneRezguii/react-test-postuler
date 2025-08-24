@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../../Components/Layout';
 import Jobs from '../../data/Jobs';
@@ -14,8 +15,28 @@ function OffreDetail() {
     return (
       <Layout>
         <div className="offre-detail-container">
-          <h2>Offre introuvable</h2>
-        </div>
+      <h3>
+        Aucune description n’a été renseignée pour cette offre.<br></br> Pour obtenir davantage
+        d’informations, nous vous invitons à nous contacter.
+      </h3>
+      <Link to="/societe/Nous-Contacter" style={{ textDecoration: "none" }}>
+        <button
+          style={{
+            marginTop: "20px",
+            marginLeft:"350px",
+            padding: "10px 20px",
+            backgroundColor: "rgba(21, 71, 150, 0.95)",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "16px",
+          }}
+        >
+          Contactez-nous
+        </button>
+      </Link>
+    </div>
       </Layout>
     );
   }

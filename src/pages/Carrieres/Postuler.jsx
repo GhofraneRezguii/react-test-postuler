@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { envoyerCandidature } from "../../api/PostulerApi";
@@ -9,12 +8,15 @@ import ParticlesBackground from "../../Components/ParticlesBackground.js";
 import SocialMediaIcons from "../../Components/SocialMediaIcons.js"; // si utilisé
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { io } from "socket.io-client";
 
 function Postuler() {
-
+  const socket = io("http://localhost:5000");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  
+
+  const [offerListVisible, setOfferListVisible] = useState(false);
 
   const navigate = useNavigate();
   const postulerRef = useRef(null);
@@ -25,91 +27,89 @@ function Postuler() {
   const hiddenOffersRef = useRef(null);
   const selectedValuesRef = useRef([]);
 
+  const [selectedOffers, setSelectedOffers] = useState([]);
+
   const [cvFile, setCvFile] = useState(null);
   const [motivationFile, setMotivationFile] = useState(null);
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [adminError, setAdminError] = useState("");
 
-  const ADMIN_EMAIL = "AdminFinInfo@gmail.com";
-  const ADMIN_PASSWORD = "admin123";
+  const offres = selectedOffers; // liste des offres sélectionnées
+
+
+  // const ADMIN_EMAIL = "AdminFinInfo@gmail.com";
+  // const ADMIN_PASSWORD = "admin123";
+  // const handleOfferClick = (value) => {
+  //   const selectedOffers = selectedOffersRef.current;
+  //   const hiddenOffers = hiddenOffersRef.current;
+  //   const selectedValues = selectedValuesRef.current;
+
+  //   if (!selectedValues.includes(value)) {
+  //     selectedValues.push(value);
+  //     const tag = document.createElement("div");
+  //     tag.className = "tag";
+  //     tag.innerHTML = `${value}<span class="remove-tag">&times;</span>`;
+  //     selectedOffers.appendChild(tag);
+
+  //     hiddenOffers.value = selectedValues.join(",");
+
+  //     tag.querySelector(".remove-tag").addEventListener("click", () => {
+  //       selectedValuesRef.current = selectedValuesRef.current.filter(
+  //         (v) => v !== value
+  //       );
+  //       selectedOffers.removeChild(tag);
+  //       hiddenOffers.value = selectedValuesRef.current.join(",");
+  //     });
+  //   }
+  //   if (offerSearchRef.current) offerSearchRef.current.value = "";
+  //   if (offerListRef.current) offerListRef.current.classList.add("hidden");
+  // };
 
   useEffect(() => {
-    const offerInput = offerInputRef.current;
-    const offerSearch = offerSearchRef.current;
-    const offerList = offerListRef.current;
-    const selectedOffers = selectedOffersRef.current;
-    const hiddenOffers = hiddenOffersRef.current;
-
-    if (!offerInput || !offerSearch || !offerList) return;
-
-    const showOfferList = () => {
-      offerList.classList.remove("hidden");
-      offerSearch.focus();
-    };
-
-    const hideOfferList = (e) => {
+    const handleClickOutside = (event) => {
       if (
-        !offerInput.contains(e.target) &&
-        !offerList.contains(e.target) &&
-        !offerSearch.contains(e.target)
+        offerInputRef.current &&
+        !offerInputRef.current.contains(event.target) &&
+        offerListRef.current &&
+        !offerListRef.current.contains(event.target)
       ) {
-        offerList.classList.add("hidden");
+        setOfferListVisible(false);
       }
     };
 
-    const handleOfferClick = (value) => {
-      if (!selectedValuesRef.current.includes(value)) {
-        selectedValuesRef.current.push(value);
-        const tag = document.createElement("div");
-        tag.className = "tag";
-        tag.innerHTML = `${value}<span class="remove-tag">&times;</span>`;
-        selectedOffers.appendChild(tag);
-
-        tag.querySelector(".remove-tag").addEventListener("click", () => {
-          selectedValuesRef.current = selectedValuesRef.current.filter(
-            (v) => v !== value
-          );
-          selectedOffers.removeChild(tag);
-          hiddenOffers.value = selectedValuesRef.current.join(", ");
-        });
-
-        hiddenOffers.value = selectedValuesRef.current.join(", ");
-      }
-
-      offerSearch.value = "";
-      offerList.classList.add("hidden");
-    };
-
-    offerInput.addEventListener("click", showOfferList);
-    document.addEventListener("click", hideOfferList);
-
-    const offerItems = offerList.querySelectorAll("li");
-    offerItems.forEach((item) => {
-      item.addEventListener("click", () => handleOfferClick(item.textContent.trim()));
-    });
-
-    const handleSearch = () => {
-      const searchTerm = offerSearch.value.toLowerCase();
-      offerItems.forEach((item) => {
-        const match = item.textContent.toLowerCase().includes(searchTerm);
-        item.style.display = match ? "block" : "none";
-      });
-    };
-
-    offerSearch.addEventListener("input", handleSearch);
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("click", hideOfferList);
-      offerInput.removeEventListener("click", showOfferList);
-      offerSearch.removeEventListener("input", handleSearch);
-      offerItems.forEach((item) => {
-        item.removeEventListener("click", () => handleOfferClick(item.textContent.trim()));
-      });
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-    
   }, []);
 
+  const showOfferList = () => {
+    setOfferListVisible(true);
+    if (offerSearchRef.current) offerSearchRef.current.focus();
+  };
+
+  const handleOfferClick = (offer) => {
+    if (!selectedOffers.includes(offer)) {
+      setSelectedOffers([...selectedOffers, offer]);
+    }
+    setOfferListVisible(false);
+    if (offerSearchRef.current) offerSearchRef.current.value = "";
+  };
+
+  const removeSelectedOffer = (offer) => {
+    setSelectedOffers(selectedOffers.filter((o) => o !== offer));
+  };
+
+  const handleSearch = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    if (offerListRef.current) {
+      Array.from(offerListRef.current.children).forEach((li) => {
+        const text = li.textContent.toLowerCase();
+        li.style.display = text.includes(searchTerm) ? "block" : "none";
+      });
+    }
+  };
   const togglePassword = () => {
     const passwordField = document.getElementById("recruteurInputPassword1");
     if (passwordField)
@@ -137,11 +137,15 @@ function Postuler() {
     const prenom = document.getElementById("cprenom").value;
     const telephone = document.getElementById("ctel").value;
     const email = document.getElementById("condidatInputEmail1").value;
-    const offres = hiddenOffersRef.current.value
-      ? hiddenOffersRef.current.value.split(",").map((o) => o.trim())
-      : [];
+
+    const offres = selectedOffers; // <-- directement le state React
+  
+
     const typeOffre =
       document.querySelector('input[name="type-offre"]:checked')?.value || "";
+
+    // Récupérer explicitement la première référence d'offre sélectionnée
+    const ref_offre = offres.length > 0 ? offres[0] : "";
 
     // Validation fichiers
     if (!cvFile) {
@@ -159,13 +163,17 @@ function Postuler() {
       toast.error("La lettre de motivation est trop volumineuse (max 5 Mo).");
       return;
     }
+    console.log("Offres sélectionnées:", offres);
+    console.log("Référence d'offre prise:", ref_offre);
 
     const formData = new FormData();
     formData.append("nom", nom);
     formData.append("prenom", prenom);
     formData.append("telephone", telephone);
     formData.append("email", email);
-    formData.append("offres", offres.join(","));
+    formData.append("offres", selectedOffers.join(","));
+formData.append("ref_offre", selectedOffers.length > 0 ? selectedOffers[0] : "");
+
     formData.append("typeOffre", typeOffre);
     formData.append("cvFile", cvFile);
     if (motivationFile) formData.append("motivationFile", motivationFile);
@@ -174,6 +182,7 @@ function Postuler() {
       const response = await envoyerCandidature(formData);
       if (response.status === 200) {
         toast.success("Candidature envoyée avec succès !");
+
         setCvFile(null);
         setMotivationFile(null);
         selectedValuesRef.current = [];
@@ -189,31 +198,80 @@ function Postuler() {
     }
   };
 
-  const handleAdminSubmit = (e) => {
+  //
+
+  const handleAdminSubmit = async (e) => {
     e.preventDefault();
     setAdminError("");
-    if (adminEmail === ADMIN_EMAIL && adminPassword === ADMIN_PASSWORD) {
-      navigate("/admin-condidature");
-      localStorage.setItem("adminEmail", adminEmail);
-      localStorage.setItem(
-        "adminImg",
-        "https://i.pinimg.com/736x/3c/e9/f9/3ce9f976d43d32fbb431b1733a14c69f.jpg"
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/admin/login",
+        {
+          email: adminEmail,
+          password: adminPassword,
+        },
+        { withCredentials: true } // <--- IMPORTANT
       );
-    } else {
-      setAdminError("Email ou mot de passe incorrect.");
+
+      if (res.data.success) {
+        navigate("/admin-condidature");
+        localStorage.setItem("adminEmail", res.data.admin.email);
+        localStorage.setItem(
+          "adminImg",
+          "https://i.pinimg.com/736x/3c/e9/f9/3ce9f976d43d32fbb431b1733a14c69f.jpg"
+        );
+      }
+    } catch (err) {
+      console.error("Erreur Axios:", err);
+      setAdminError(err.response?.data?.message || "Erreur serveur");
     }
   };
+
+  const [offers, setOffers] = useState([]);
+
+  useEffect(() => {
+    // Exemple d'appel API simulé ou récupérer de la source réelle
+    const fetchOffers = async () => {
+      // Ici un appel fetch ou axios vers backend pour récupérer la liste des offres
+      // Ex:
+      // const res = await axios.get('/api/offres');
+      // setOffers(res.data);
+
+      // Pour test, liste statique
+      setOffers([
+        "Ingénieur développeur en finance de marché - CDIDEV121",
+        "Ingénieur R&D Full-Stack - FULLSTACK-CDI",
+        "Ingénieur R&D Back-End - BACK_END_CDI",
+        "Tech Lead React - TECHLEAD-CDI-2020",
+        "Project Management Officer - PMO_2021",
+        "Business Developer Junior - BDJUNIOR106",
+        "Business Developer Senior - BDCONFIRME105",
+        "Consultant Technico-fonctionnel en Finance de Marché",
+      ]);
+    };
+
+    fetchOffers();
+  }, []);
 
   return (
     <Layout>
       <ParticlesBackground />
       <ScrollToTop />
       <div className="page-wrapper">
-        <div className="container-card" id="postuler-container" ref={postulerRef}>
+        <div
+          className="container-card"
+          id="postuler-container"
+          ref={postulerRef}
+        >
           {/* Recruteur */}
           <div className="form-container recruteur-container">
             <p className="header-post">Accéder</p>
-            <form className="fpostuler" autoComplete="on" onSubmit={handleAdminSubmit}>
+            <form
+              className="fpostuler"
+              autoComplete="on"
+              onSubmit={handleAdminSubmit}
+            >
               <label htmlFor="recruteurInputEmail1" className="form-label">
                 Email<span style={{ color: "red" }}>*</span>
               </label>
@@ -239,61 +297,177 @@ function Postuler() {
                 onChange={(e) => setAdminPassword(e.target.value)}
               />
               <div className="form-check mt-2">
-                <input type="checkbox" className="form-check-input py" onClick={togglePassword} /> 
+                <input
+                  type="checkbox"
+                  className="form-check-input py"
+                  onClick={togglePassword}
+                />
 
-                <label className="form-check-label" style={{marginLeft:"20px",marginTop:"5px"}}> Afficher le mot de passe</label>
+                <label
+                  className="form-check-label"
+                  style={{ marginLeft: "20px", marginTop: "5px" }}
+                >
+                  {" "}
+                  Afficher le mot de passe
+                </label>
               </div>
               {adminError && <p style={{ color: "red" }}>{adminError}</p>}
-              <button className="btn-postuler" type="submit">Accéder</button>
+              <button className="btn-postuler" type="submit">
+                Accéder
+              </button>
             </form>
           </div>
 
           {/* Candidat */}
           <div className="form-container condidat-container">
             <p className="header-post">Postuler chez nous</p>
-            <form className="fpostuler" autoComplete="on" onSubmit={handleSubmit} encType="multipart/form-data">
-              <label className="form-label">Nom<span style={{ color: "red" }}>*</span></label>
-              <input type="text" className="form-control py" id="cnom" placeholder="nom" required />
-              <label className="form-label">Prénom<span style={{ color: "red" }}>*</span></label>
-              <input type="text" className="form-control py" id="cprenom" placeholder="prénom" required />
-              <label className="form-label">Téléphone<span style={{ color: "red" }}>*</span></label>
-              <input type="tel" className="form-control py" id="ctel" placeholder="+216 [***][***]" required />
-              <label className="form-label">Email<span style={{ color: "red" }}>*</span></label>
-              <input type="email" className="form-control py" id="condidatInputEmail1" placeholder="Exemple:user@gmail.com" required />
+            <form
+              className="fpostuler"
+              autoComplete="on"
+              onSubmit={handleSubmit}
+              encType="multipart/form-data"
+            >
+              <label className="form-label">
+                Nom<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type="text"
+                className="form-control py"
+                id="cnom"
+                placeholder="nom"
+                required
+              />
+              <label className="form-label">
+                Prénom<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type="text"
+                className="form-control py"
+                id="cprenom"
+                placeholder="prénom"
+                required
+              />
+              <label className="form-label">
+                Téléphone<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type="tel"
+                className="form-control py"
+                id="ctel"
+                placeholder="+216 [***][***]"
+                required
+                
+              />
+              <label className="form-label">
+                Email<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                type="email"
+                className="form-control py"
+                id="condidatInputEmail1"
+                placeholder="Exemple:user@gmail.com"
+                required
+                
+              />
 
-              <label className="form-label">Référence de l'offre <span style={{ color: "red" }}>*</span></label>
-              <div ref={offerInputRef} className="custom-select-input" tabIndex="0">
-                <div ref={selectedOffersRef} className="selected-tags"></div>
-                <input ref={offerSearchRef} type="text" id="offerSearch" placeholder="Référence de l'offre" />
-                <input ref={hiddenOffersRef} type="hidden" name="offres" id="hiddenOffers" />
+              <label className="form-label">
+                Référence de l'offre <span style={{ color: "red" }}>*</span>
+              </label>
+              <div
+                ref={offerInputRef}
+                className="custom-select-input"
+                tabIndex="0"
+                onClick={showOfferList}
+                style={{
+
+                  maxWidth: "400px",
+                }}
+              >
+                <div className="selected-tags" style={{ marginBottom: "5px" }}>
+                  {selectedOffers.map((offer) => (
+                    <div
+                      key={offer}
+                      className="tag"
+                      
+                    >
+                      {offer}{" "}
+                      <span
+                        style={{ cursor: "pointer", color: "red" }}
+                        onClick={() => removeSelectedOffer(offer)}
+                      >
+                        &times;
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <input
+                  ref={offerSearchRef}
+                  type="text"
+                  placeholder="Référence de l'offre"
+                  onChange={handleSearch}
+                  style={{ width: "100%", boxSizing: "border-box" }}
+                />
               </div>
-              <ul ref={offerListRef} className="offer-list hidden">
-                <li>Ingénieur développeur en finance de marché - CDIDEV121</li>
-                <li>Ingénieur R&D Full-Stack - FULLSTACK-CDI</li>
-                <li>Ingénieur R&D Back-End - BACK_END_CDI</li>
-                <li>Tech Lead React - TECHLEAD-CDI-2020</li>
-                <li>Project Management Officer - PMO_2021</li>
-                <li>Business Developer Junior - BDJUNIOR106</li>
-                <li>Business Developer Senior - BDCONFIRME105</li>
-                <li>Consultant Technico-fonctionnel en Finance de Marché</li>
-              </ul>   
-              
+              <ul
+                ref={offerListRef}
+                className="offer-list"
+                style={{ display: offerListVisible ? "block" : "none" }}
+              >
+                {offers.map((offer, index) => (
+                  <li key={index} onClick={() => handleOfferClick(offer)}>
+                    {offer}
+                  </li>
+                ))}
+              </ul>
 
-              <label className="form-label">Type d'offre<span style={{ color: "red" }}>*</span></label>
-              <div style={{ display: "flex", gap: "40px",marginLeft:"20px" }}>
+              <label className="form-label">
+                Type d'offre<span style={{ color: "red" }}>*</span>
+              </label>
+              <div style={{ display: "flex", gap: "40px", marginLeft: "20px" }}>
                 {["stage", "cdi", "cdd"].map((type) => (
                   <div className="form-check" key={type}>
-                    <input className="form-check-input py" style={{marginRight:"15px", marginBottom:"10px",width:"10px",height:"20px"}} type="radio" name="type-offre" id={type} value={type} required />
-                    <label className="form-check-label" htmlFor={type}>{type.toUpperCase()}</label>
+                    <input
+                      className="form-check-input py"
+                      style={{
+                        marginRight: "15px",
+                        marginBottom: "10px",
+                        width: "10px",
+                        height: "20px",
+                      }}
+                      type="radio"
+                      name="type-offre"
+                      id={type}
+                      value={type}
+                      required
+                    />
+                    <label className="form-check-label" htmlFor={type}>
+                      {type.toUpperCase()}
+                    </label>
                   </div>
                 ))}
               </div>
 
               <label className="form-label">Lettre de motivation</label>
-              <input className="form-control py" type="file" accept=".doc,.docx" onChange={(e) => setMotivationFile(e.target.files[0])} />
-              <label className="form-label" style={{marginTop:"10px"}}>CV<span style={{ color: "red" }}>*</span></label>
-              <input className="form-control py" type="file" accept=".doc,.docx" required onChange={(e) => setCvFile(e.target.files[0])} />
-              <button type="submit" className="btn-postuler">Envoyer</button>
+              <input
+                className="form-control py"
+                type="file"
+                accept=".doc,.docx"
+                onChange={(e) => setMotivationFile(e.target.files[0])}
+              />
+              <label className="form-label" style={{ marginTop: "10px" }}>
+                CV<span style={{ color: "red" }}>*</span>
+              </label>
+              <input
+                className="form-control py"
+                type="file"
+                accept=".doc,.docx"
+                required
+                onChange={(e) => setCvFile(e.target.files[0])}
+              />
+               <input type="hidden" name="offres" value={selectedOffers.join(",")} />
+              <button type="submit" className="btn-postuler">
+                Envoyer
+              </button>
             </form>
           </div>
 
@@ -303,7 +477,9 @@ function Postuler() {
               <div className="overlay-panel overlay-left">
                 <i className="fa-solid fa-user-graduate fa-3x mb-2"></i>
                 <h1 className="titley">Candidat</h1>
-                <p className="infoy-overlay">Pour postuler à l’une de nos offres...</p>
+                <p className="infoy-overlay">
+                  Pour postuler à l’une de nos offres...
+                </p>
                 <button className="ghost" onClick={handleEnvoyerClick}>
                   Envoyer <i className="lni lni-arrow-left envoyer"></i>
                 </button>
@@ -311,7 +487,9 @@ function Postuler() {
               <div className="overlay-panel overlay-right">
                 <i className="fa-solid fa-user-tie  fa-3x  mb-3 "></i>
                 <h1 className="titley">Admin</h1>
-                <p className="infoy-overlay">Pour accéder à votre espace de gestion des offres...</p>
+                <p className="infoy-overlay">
+                  Pour accéder à votre espace de gestion des offres...
+                </p>
                 <button className="ghost" onClick={handleAccederClick}>
                   Accéder <i className="lni lni-arrow-right acceder"></i>
                 </button>
@@ -325,22 +503,33 @@ function Postuler() {
       {/* Footer personnalisé */}
       <footer className="footer-social">
         <ul className="example-2">
-          {["linkedin", "github", "instagram", "youtube", "facebook", "whatsapp"].map((network) => (
+          {[
+            "linkedin",
+            "github",
+            "instagram",
+            "youtube",
+            "facebook",
+            "whatsapp",
+          ].map((network) => (
             <li className="icon-content" key={network}>
               <a href="#" aria-label={network} data-social={network}>
                 <div className="filled"></div>
                 <i className={`bi bi-${network}`}></i>
               </a>
-              <div className="tooltip">{network.charAt(0).toUpperCase() + network.slice(1)}</div>
+              <div className="tooltip">
+                {network.charAt(0).toUpperCase() + network.slice(1)}
+              </div>
             </li>
           ))}
         </ul>
-        <button className=" typey1" id="showy-more" onClick={handleShowMoreClick}></button>
+        <button
+          className=" typey1"
+          id="showy-more"
+          onClick={handleShowMoreClick}
+        ></button>
       </footer>
     </Layout>
   );
 }
 
 export default Postuler;
-
-

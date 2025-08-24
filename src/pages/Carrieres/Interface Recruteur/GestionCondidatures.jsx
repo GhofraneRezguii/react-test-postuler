@@ -1,9 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import RecruterLayout from "./RecruteurLayout";
 import ParticlesBackground from "../../../Components/ParticlesBackground";
-import { getAllCandidatures } from "../../../api/PostulerApi";
+import { getCandidatures } from "../../../api/PostulerApi";
+import { getCandidaturesFiltrees } from "../../../api/PostulerApi";
+import { createCandidature } from "../../../api/PostulerApi";
 import Select from "react-select";
 import GestionCondidaturesL from "./GestionCondidaturesL.css";
+import axios from "axios";
+import { io } from "socket.io-client";
 
 function GestionCondidatures() {
   const [selectedCondidat, setSelectedCondidat] = useState(null);
@@ -11,6 +15,105 @@ function GestionCondidatures() {
   const [condidatToEdit, setCondidatToEdit] = useState(null);
   const [editedCondidat, setEditedCondidat] = useState(null);
   const [showEditCard, setShowEditCard] = useState(false);
+
+  const offerListRef = useRef(null);
+  const [showOfferList, setShowOfferList] = useState(false);
+  const offers = [
+    "Ingénieur développeur en finance de marché - CDIDEV121",
+    "Ingénieur R&D Full-Stack - FULLSTACK-CDI",
+    "Ingénieur R&D Back-End - BACK_END_CDI",
+    "Tech Lead React - TECHLEAD-CDI-2020",
+    "Project Management Officer - PMO_2021",
+    "Business Developer Junior - BDJUNIOR106",
+    "Business Developer Senior - BDCONFIRME105",
+    "Consultant Technico-fonctionnel en Finance de Marché",
+  ];
+
+
+  const [stats, setStats] = useState({
+    total: 0,
+    nouveaux: 0,
+    enCours: 0,
+    acceptes: 0,
+    refuses: 0,
+  });
+
+ 
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resStats = await axios.get("http://localhost:5000/candidature/stats");
+        const backendStats = resStats.data;
+  
+        const data = await getCandidatures();
+  
+        const storedStatus = JSON.parse(localStorage.getItem("candidaturesStatut") || "{}");
+  
+        const candidaturesWithStatus = data.map(c => {
+          const id = c._id || "";
+          return {
+            id,
+            nom: c.nom,
+            prenom: c.prenom,
+            email: c.email,
+            telephone: c.telephone,
+            ref_offre: c.ref_offre || "",
+            type: c.typeOffre,
+            statut: storedStatus[id] ?? c.statut ?? "nouveau",
+            date_condidature: c.createdAt ? new Date(c.createdAt).toISOString().split("T")[0] : "",
+            cvFile: c.cvFile,
+            motivationFile: c.motivationFile,
+            description: c.description,
+          };
+        });
+  
+        const statsFront = {
+          total: backendStats.total,
+          nouveaux: candidaturesWithStatus.filter(c => c.statut === "nouveau").length,
+          enCours: candidaturesWithStatus.filter(c => c.statut === "en-cours").length,
+          acceptes: candidaturesWithStatus.filter(c => c.statut === "accepté").length,
+          refuses: candidaturesWithStatus.filter(c => c.statut === "refusé").length,
+        };
+  
+        setCondidatures(candidaturesWithStatus);
+        setStats(statsFront);
+      } catch (err) {
+        console.error("Erreur chargement des candidatures et stats", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  
+
+
+
+  const baseURL = "http://localhost:5000"; // votre backend
+
+  const handleOpenCv = (cvFilePath) => {
+    const url = `${baseURL}${cvFilePath}`; // cvFilePath commence par /uploads/cv/nomfile.pdf
+    window.open(url, "_blank");
+  };
+
+  const filterFieldOptions = [
+    { value: "all", label: "Tout" },
+    { value: "id", label: "Id" },
+    { value: "nom", label: "Nom" },
+    { value: "prenom", label: "Prénom" },
+    { value: "email", label: "Email" },
+    { value: "ref_offre", label: "Référence de l'offre" },
+    { value: "statut", label: "Statut" },
+    { value: "type", label: "Type" },
+    { value: "date_condidature", label: "Date de condidature" },
+  ];
+  const [selectedFields, setSelectedFields] = useState(
+    filterFieldOptions.map((f) => f.value).filter((v) => v !== "all") // ✅ retire "all"
+  );
 
   const [filters, setFilters] = useState({
     id: "",
@@ -43,6 +146,69 @@ function GestionCondidatures() {
     }
   };
 
+  const handleCreateCandidat = async () => {
+    // Vérification des champs obligatoires et du CV
+    if (
+      newCondidat.nom &&
+      newCondidat.prenom &&
+      newCondidat.email &&
+      newCondidat.ref_offre &&
+      newCondidat.type &&
+      newCondidat.statut &&
+      newCondidat.date_condidature &&
+      newCondidat.telephone &&
+      cvFile
+    ) {
+      try {
+        const formData = new FormData();
+        formData.append("nom", newCondidat.nom);
+        formData.append("prenom", newCondidat.prenom);
+        formData.append("email", newCondidat.email);
+        formData.append("telephone", newCondidat.telephone);
+        formData.append("ref_offre", newCondidat.ref_offre);
+        formData.append("typeOffre", newCondidat.type); // stage ou cdi
+        formData.append("statut", newCondidat.statut);
+        formData.append("date_condidature", newCondidat.date_condidature);
+        formData.append("description", newCondidat.description || "");
+        formData.append("cvFile", cvFile); // fichier CV obligatoire
+        if (motivationFile) formData.append("motivationFile", motivationFile);
+
+        const created = await createCandidature(formData);
+
+        // Ajouter la candidature au tableau
+        setCondidatures([created, ...condidats]);
+
+        // Réinitialiser le formulaire
+        setNewCondidat({
+          nom: "",
+          prenom: "",
+          email: "",
+          telephone: "",
+          ref_offre: "",
+          type: "",
+          statut: "nouveau",
+          date_condidature: "",
+          description: "",
+        });
+        setCvFile(null);
+        setMotivationFile(null);
+        setUploadSuccess(false);
+        setIsModalOpen(false);
+      } catch (err) {
+        console.error("Erreur création candidature :", err);
+        alert("Erreur lors de la création de la candidature");
+      }
+    } else {
+      alert(
+        "Veuillez remplir tous les champs obligatoires et sélectionner un CV !"
+      );
+    }
+  };
+
+
+
+  
+
   //   Search item
   const [searchTerm, setSearchTerm] = useState("");
   const [isFilterVisible, setIsFilterVisible] = useState(false);
@@ -57,6 +223,16 @@ function GestionCondidatures() {
 
   const handleFilePickMain = () => {
     fileInputRefMain.current.click();
+  };
+
+  const [cvFile, setCvFile] = useState(null);
+  const [motivationFile, setMotivationFile] = useState(null);
+  const handleCvFileChange = (e) => {
+    if (e.target.files.length > 0) setCvFile(e.target.files[0]);
+  };
+
+  const handleMotivationFileChange = (e) => {
+    if (e.target.files.length > 0) setMotivationFile(e.target.files[0]);
   };
 
   // quand on choisit un fichier via Exporter (page principale)
@@ -87,63 +263,63 @@ function GestionCondidatures() {
   };
   // nouvelle codidat
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [condidats, setCondidatures] = useState([
-    {
-      id: "C001",
-      nom: "REZGUI",
-      prenom: "Ghofrane",
-      email: "ghofranerezgui1911@gmail.com",
-      ref_offre: "REF0001",
-      type: "stage",
-      statut: "en-cours",
-      date_condidature: "2025-08-01",
-      titre_offre: "dev Full-Suck",
-    },
-    {
-      id: "C002",
-      nom: "TRABELSI",
-      prenom: "Nadia",
-      email: "nadiatrabelsi@gmail.com",
-      ref_offre: "REF0002",
-      type: "CDI",
-      statut: "accepté",
-      date_condidature: "2025-08-01",
-    },
-    {
-      id: "C003",
-      nom: "REZGUI",
-      prenom: "Hamadi",
-      email: "hamadirezgui@gmail.com",
-      ref_offre: "REF0003",
-      type: "CDI",
-      statut: "accepté",
-      date_condidature: "2025-08-01",
-    },
+  // const [condidats, setCondidatures] = useState([
+  //   {
+  //     id: "C001",
+  //     nom: "REZGUI",
+  //     prenom: "Ghofrane",
+  //     email: "ghofranerezgui1911@gmail.com",
+  //     ref_offre: "REF0001",
+  //     type: "stage",
+  //     statut: "en-cours",
+  //     date_condidature: "2025-08-01",
+  //     titre_offre: "dev Full-Suck",
+  //   },
+  //   {
+  //     id: "C002",
+  //     nom: "TRABELSI",
+  //     prenom: "Nadia",
+  //     email: "nadiatrabelsi@gmail.com",
+  //     ref_offre: "REF0002",
+  //     type: "CDI",
+  //     statut: "accepté",
+  //     date_condidature: "2025-08-01",
+  //   },
+  //   {
+  //     id: "C003",
+  //     nom: "REZGUI",
+  //     prenom: "Hamadi",
+  //     email: "hamadirezgui@gmail.com",
+  //     ref_offre: "REF0003",
+  //     type: "CDI",
+  //     statut: "accepté",
+  //     date_condidature: "2025-08-01",
+  //   },
 
-    {
-      id: "C004",
-      nom: "TRABELSI",
-      prenom: "Nadia",
-      email: "nadiatrabelsi@gmail.com",
-      ref_offre: "REF0002",
-      type: "CDI",
-      statut: "accepté",
-      date_condidature: "2025-08-01",
-    },
-    {
-      id: "C005",
-      nom: "GORMAZI",
-      prenom: "Majd",
-      email: "majdgormazi@gmail.com",
-      ref_offre: "REF0001",
-      type: "stage",
-      statut: "refusé",
-      date_condidature: "2025-08-01",
-    },
-  ]);
+  //   {
+  //     id: "C004",
+  //     nom: "TRABELSI",
+  //     prenom: "Nadia",
+  //     email: "nadiatrabelsi@gmail.com",
+  //     ref_offre: "REF0002",
+  //     type: "CDI",
+  //     statut: "accepté",
+  //     date_condidature: "2025-08-01",
+  //   },
+  //   {
+  //     id: "C005",
+  //     nom: "GORMAZI",
+  //     prenom: "Majd",
+  //     email: "majdgormazi@gmail.com",
+  //     ref_offre: "REF0001",
+  //     type: "stage",
+  //     statut: "refusé",
+  //     date_condidature: "2025-08-01",
+  //   },
+  // ]);
 
-  // const [condidats, setCondidatures] = useState([]);
-  // const [loading, setLoading] = useState(true);
+  const [condidats, setCondidatures] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
   //   const fetchCandidatures = async () => {
@@ -160,17 +336,171 @@ function GestionCondidatures() {
   //   fetchCandidatures();
   // }, []);
 
+  // useEffect(() => {
+  //   const fetchCandidatures = async () => {
+  //     try {
+  //       const data = await getCandidatures();
+  //       const formattedData = data.map((c, index) => ({
+  //         id: c._id || `C${index + 1}`,
+  //         nom: c.nom,
+  //         prenom: c.prenom,
+  //         email: c.email,
+  //         ref_offre: c.offres?.[0] || "",
+  //         type: c.typeOffre,
+  //         statut: "nouveau",
+  //         date_condidature: new Date(c.createdAt).toISOString().split("T")[0],
+  //         cvFile: c.cvFile,
+  //         motivationFile: c.motivationFile,
+  //       }));
+  //       setCondidatures(formattedData);
+  //     } catch (error) {
+  //       console.error("Erreur lors du chargement des candidatures :", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchCandidatures();
+  // }, []);
+
+  const socketRef = useRef(null);
+
+  useEffect(() => {
+    const fetchCandidatures = async () => {
+      try {
+        const data = await getCandidatures();
+
+        const stored = JSON.parse(
+          localStorage.getItem("candidaturesStatut") || "{}"
+        );
+
+        const formattedData = data.map((c, index) => {
+          const id = c._id || `C${index + 1}`; // 🔑 clé stable et utilisée partout
+
+          return {
+            id,
+            nom: c.nom,
+            prenom: c.prenom,
+            email: c.email,
+            telephone: c.telephone,
+            ref_offre: c.ref_offre || "",
+            type: c.typeOffre,
+            statut: stored[id] ?? "nouveau", // ✅ fallback "nouveau" si rien trouvé
+            description: c.description,
+
+            date_condidature: c.createdAt
+              ? new Date(c.createdAt).toISOString().split("T")[0]
+              : "",
+            cvFile: c.cvFile,
+            motivationFile: c.motivationFile,
+          };
+        });
+        console.log(formattedData.map(c => ({id: c.id, type: c.type, date_condidature: c.date_condidature})));
+
+        setCondidatures(formattedData);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCandidatures();
+  }, []);
+
+  useEffect(() => {
+    socketRef.current = io("http://localhost:5000");
+    // Test de connexion
+    socketRef.current.on("connect", () => {
+      console.log("Socket.IO connecté :", socketRef.current.id);
+    });
+    socketRef.current.on("nouvelleCandidature", (candidature) => {
+      const stored = JSON.parse(
+        localStorage.getItem("candidaturesStatut") || "{}"
+      );
+      const id = candidature._id;
+      console.log("Socket reçu :", candidature);
+      const formattedData = {
+        id: candidature._id,
+        nom: candidature.nom,
+        prenom: candidature.prenom,
+        telephone: candidature.telephone,
+        email: candidature.email,
+        ref_offre: candidature.ref_offre || "", // idem
+
+        type: candidature.typeOffre,
+        statut: stored[id] ?? "nouveau",
+        description: candidature.description,
+
+        date_condidature: new Date(candidature.createdAt)
+          .toISOString()
+          .split("T")[0],
+        cvFile: candidature.cvFile,
+        motivationFile: candidature.motivationFile,
+      };
+      setCondidatures((prev) => [formattedData, ...prev]);
+    });
+    return () => socketRef.current.disconnect();
+  }, []);
+
   const [newCondidat, setNewCondidat] = useState({
     id: "",
     nom: "",
     prenom: "",
     email: "",
+    telephone: "",
     ref_offre: "",
     type: "",
     statut: "nouveau",
     date_condidature: "",
     description: "",
   });
+
+  useEffect(() => {
+    const fetchFilteredCandidatures = async () => {
+      try {
+        setLoading(true);
+        const queryParams = {
+          ...filters,
+          searchTerm: searchTerm || undefined,
+          fields: selectedFields.join(","), // backend attend une string séparée par des virgules
+        };
+
+        const data = await getCandidaturesFiltrees(queryParams);
+        const stored = JSON.parse(
+          localStorage.getItem("candidaturesStatut") || "{}"
+        );
+        const formattedData = data.map((c, index) => {
+          const id = c._id || `C${index + 1}`; // 🔑 clé stable et utilisée partout
+
+          return {
+            id,
+            nom: c.nom,
+            prenom: c.prenom,
+            email: c.email,
+            telephone: c.telephone,
+            ref_offre: c.ref_offre || "",
+            type: c.typeOffre,
+            statut: stored[id] ?? c.statut ?? "nouveau", // <-- Ici lire localStorage
+            description: c.description,
+
+            date_condidature: c.createdAt
+              ? new Date(c.createdAt).toISOString().split("T")[0]
+              : "",
+            cvFile: c.cvFile,
+            motivationFile: c.motivationFile,
+          };
+        });
+
+        setCondidatures(formattedData);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFilteredCandidatures();
+  }, [filters, searchTerm, selectedFields]); // 🔑 déclenche à chaque changement
 
   const statusOptions = [
     { value: "accepté", label: "Accepté" },
@@ -187,6 +517,7 @@ function GestionCondidatures() {
     id: true,
     nom: true,
     prenom: true,
+    telephone: true,
     email: true,
     ref_offre: true,
     type: true,
@@ -246,20 +577,6 @@ function GestionCondidatures() {
     }),
   };
 
-  const filterFieldOptions = [
-    { value: "all", label: "Tout" },
-    { value: "id", label: "Id" },
-    { value: "nom", label: "Nom" },
-    { value: "prenom", label: "Prénom" },
-    { value: "email", label: "Email" },
-    { value: "ref_offre", label: "Référence de l'offre" },
-    { value: "statut", label: "Statut" },
-    { value: "type", label: "Type" },
-    { value: "date_condidature", label: "Date de condidature" },
-  ];
-  const [selectedFields, setSelectedFields] = useState(
-    filterFieldOptions.map((f) => f.value).filter((v) => v !== "all") // ✅ retire "all"
-  );
   const handleFieldSelectionChange = (selectedOptions) => {
     if (!selectedOptions) return;
 
@@ -283,6 +600,7 @@ function GestionCondidatures() {
       id: finalSelectedFields.includes("id"),
       nom: finalSelectedFields.includes("nom"),
       prenom: finalSelectedFields.includes("prenom"),
+      telephone: finalSelectedFields.includes("telephone"),
       email: finalSelectedFields.includes("email"),
       ref_offre: finalSelectedFields.includes("ref_offre"),
       statut: finalSelectedFields.includes("statut"),
@@ -290,6 +608,30 @@ function GestionCondidatures() {
       date_condidature: finalSelectedFields.includes("date_condidature"),
     });
   };
+  // 🔹 Filtrage des candidats selon la barre de recherche
+  const filteredCondidats = condidats.filter(
+    (c) =>
+      c.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.prenom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.ref_offre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  useEffect(() => {
+    // Simuler les options sélectionnées au format attendu
+    const selectedOptions = filterFieldOptions
+      .map((f) => f.value)
+      .filter((v) => v !== "all")
+      .map(value => ({ value }));
+  
+    handleFieldSelectionChange(selectedOptions);
+  }, []);
+  
+  useEffect(() => {
+    console.log("visibleFields a changé :", visibleFields);
+  }, [visibleFields]);
+  
+
 
   return (
     <RecruterLayout>
@@ -346,32 +688,32 @@ function GestionCondidatures() {
 
       {/* cards */}
       <div className="cardsy-row">
-        <div className="cardy-item">
-          <h6>Total</h6>
-          <hr></hr>
-          <strong style={{ color: "#002050" }}>35</strong>
-        </div>
-        <div className="cardy-item">
-          <h6>Nouveaux</h6>
-          <hr></hr>
-          <strong style={{ color: "rgb(211, 133, 24)" }}>8</strong>
-        </div>
-        <div className="cardy-item">
-          <h6>En cours</h6>
-          <hr></hr>
-          <strong style={{ color: "rgb(132, 11, 146)" }}>10</strong>
-        </div>
-        <div className="cardy-item">
-          <h6>Acceptés</h6>
-          <hr></hr>
-          <strong style={{ color: " #039108" }}>18</strong>
-        </div>
-        <div className="cardy-item">
-          <h6>Refusés</h6>
-          <hr></hr>
-          <strong style={{ color: "red" }}>17</strong>
-        </div>
+      <div className="cardy-item">
+        <h6>Total</h6>
+        <hr />
+        <strong style={{ color: "#002050" }}>{stats.total}</strong>
       </div>
+      <div className="cardy-item">
+        <h6>Nouveaux</h6>
+        <hr />
+        <strong style={{ color: "rgb(211, 133, 24)" }}>{stats.nouveaux}</strong>
+      </div>
+      <div className="cardy-item">
+        <h6>En cours</h6>
+        <hr />
+        <strong style={{ color: "rgb(132, 11, 146)" }}>{stats.enCours}</strong>
+      </div>
+      <div className="cardy-item">
+        <h6>Acceptés</h6>
+        <hr />
+        <strong style={{ color: " #039108" }}>{stats.acceptes}</strong>
+      </div>
+      <div className="cardy-item">
+        <h6>Refusés</h6>
+        <hr />
+        <strong style={{ color: "red" }}>{stats.refuses}</strong>
+      </div>
+    </div>
       {/* BARRE DE RECHERCHE */}
       <div className="searchy-wrapper">
         <div className="searchy-section">
@@ -410,24 +752,26 @@ function GestionCondidatures() {
             onClick={() => {
               // 1. Réinitialiser les filtres
               setFilters({
-                ref: "",
-                titre: "",
-                departement: "",
+                id: "",
+                nom: "",
+                prenom: "",
+                email: "",
+                ref_offre: "",
                 type: "",
-                soumission: "",
-                expiration: "",
                 statut: "",
-                condidatures: "",
+                date_condidature: "",
               });
 
               // 2. Réafficher tous les champs visibles
               setVisibleFields({
-                ref: true,
-                departement: true,
+                id: true,
+                nom: true,
+                prenom: true,
+                email: true,
+                ref_offre: true,
                 type: true,
-                soumission: true,
-                expiration: true,
                 statut: true,
+                date_condidature: true,
               });
 
               // 3. Réinitialiser les champs sélectionnés dans le select multi
@@ -704,6 +1048,7 @@ function GestionCondidatures() {
                 {visibleFields.nom && <th>Nom</th>}
                 {visibleFields.prenom && <th>Prénom</th>}
                 {visibleFields.email && <th>Email</th>}
+                {visibleFields.telephone && <th>Téléphone</th>}
                 {visibleFields.ref_offre && <th>Référence de l'offre</th>}
                 {visibleFields.type && <th>Type</th>}
                 {visibleFields.statut && <th>Statut</th>}
@@ -717,7 +1062,23 @@ function GestionCondidatures() {
             <tbody>
               {condidats
                 .filter((condidat) => {
-                  return (
+                  // 🔹 Filtrage par searchTerm
+                  const matchesSearch =
+                    condidat.nom
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase()) ||
+                    condidat.prenom
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase()) ||
+                    condidat.email
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase()) ||
+                    condidat.ref_offre
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase());
+
+                  // 🔹 Filtrage par champs visibles / filtres
+                  const matchesFilters =
                     (!filters.id ||
                       condidat.id
                         .toLowerCase()
@@ -745,8 +1106,9 @@ function GestionCondidatures() {
                       condidat.statut.toLowerCase() ===
                         filters.statut.toLowerCase()) &&
                     (!filters.date_condidature ||
-                      condidat.date_condidature === filters.date_condidature)
-                  );
+                      condidat.date_condidature === filters.date_condidature);
+
+                  return matchesSearch && matchesFilters;
                 })
                 .map((condidat, index) => {
                   return (
@@ -755,12 +1117,14 @@ function GestionCondidatures() {
                       {visibleFields.nom && <td>{condidat.nom}</td>}
                       {visibleFields.prenom && <td>{condidat.prenom}</td>}
                       {visibleFields.email && <td>{condidat.email}</td>}
+                      {visibleFields.telephone && <td>{condidat.telephone}</td>}
+
                       {visibleFields.ref_offre && <td>{condidat.ref_offre}</td>}
                       {visibleFields.type && (
                         <td>
                           <span
                             className={`type-badge ${
-                              condidat.type === "CDI"
+                              condidat.type?.toLowerCase().trim() === "cdi"
                                 ? "type-cdi"
                                 : "type-stage"
                             }`}
@@ -780,10 +1144,37 @@ function GestionCondidatures() {
                           <select
                             value={condidat.statut}
                             onChange={(e) => {
-                              const updatedStatuts = [...condidats];
-                              updatedStatuts[index].statut = e.target.value;
-                              setCondidatures(updatedStatuts);
+                              const newStatut = e.target.value;
+                          
+                              // 1️⃣ Met à jour le state principal des candidatures
+                              setCondidatures((prev) => {
+                                const updated = prev.map((c) =>
+                                  c.id === condidat.id ? { ...c, statut: newStatut } : c
+                                );
+                          
+                                // 2️⃣ Recalcul des stats immédiatement après mise à jour
+                                const nouveaux = updated.filter(c => c.statut === "nouveau").length;
+                                const enCours = updated.filter(c => c.statut === "en-cours").length;
+                                const acceptes = updated.filter(c => c.statut === "accepté").length;
+                                const refuses = updated.filter(c => c.statut === "refusé").length;
+                          
+                                setStats({
+                                  total: updated.length,
+                                  nouveaux,
+                                  enCours,
+                                  acceptes,
+                                  refuses,
+                                });
+                          
+                                return updated;
+                              });
+                          
+                              // 3️⃣ Sauvegarde dans localStorage
+                              const stored = JSON.parse(localStorage.getItem("candidaturesStatut") || "{}");
+                              stored[condidat.id] = newStatut;
+                              localStorage.setItem("candidaturesStatut", JSON.stringify(stored));
                             }}
+                          
                             style={{
                               padding: "4px 8px",
                               borderRadius: "6px",
@@ -822,30 +1213,53 @@ function GestionCondidatures() {
                         {condidat.date_condidature}
                       </td>
 
-                      <td>
-                        <div className="document-icons">
-                          <i
-                            className="bi bi-file-earmark-text lettre"
-                            title="Lettre de motivation"
-                          ></i>
-
+                      <td style={{ textAlign: "center" }}>
+                        {/* CV */}
+                        {condidat.cvFile && (
                           <i
                             className="bi bi-file-earmark-person cv"
-                            title="CV"
+                            style={{ cursor: "pointer", marginRight: "8px" }}
+                            title="Voir CV"
+                            onClick={() =>
+                              window.open(
+                                `http://localhost:5000/uploads/cv/${condidat.cvFile}`,
+                                "_blank"
+                              )
+                            }
                           ></i>
+                        )}
 
+                        {/* Lettre de motivation */}
+                        {condidat.motivationFile && (
                           <i
-                            className="bi bi-eye action-see"
-                            title="Voir détails"
-                            onClick={() => handleViewDetails(condidat)}
+                            className="bi bi-file-earmark-text lettre"
+                            style={{ cursor: "pointer", marginRight: "8px" }}
+                            title="Voir Lettre de motivation"
+                            target="_blank"
+                            onClick={() =>
+                              window.open(
+                                `http://localhost:5000/uploads/motivation/${condidat.motivationFile}`,
+                                "_blank"
+                              )
+                            }
                           ></i>
+                        )}
 
-                          <i
-                            className="bi bi-trash3-fill action-delete"
-                            title="Supprimer"
-                            onClick={() => setCondidatToDelete(condidat)}
-                          ></i>
-                        </div>
+                        {/* Voir détails */}
+                        <i
+                          className="bi bi-eye action-see"
+                          title="Voir détails"
+                          onClick={() => handleViewDetails(condidat)}
+                          style={{ marginLeft: "10px", cursor: "pointer" }}
+                        ></i>
+
+                        {/* Supprimer */}
+                        <i
+                          className="bi bi-trash3-fill action-delete"
+                          title="Supprimer"
+                          onClick={() => setCondidatToDelete(condidat)}
+                          style={{ marginLeft: "10px", cursor: "pointer" }}
+                        ></i>
                       </td>
                     </tr>
                   );
@@ -888,6 +1302,10 @@ function GestionCondidatures() {
                 {selectedCondidat.prenom}
               </p>
               <p>
+                <strong style={{ color: "#0a55a0" }}>telephone:</strong>{" "}
+                {selectedCondidat.telephone}
+              </p>
+              <p>
                 <strong style={{ color: "#0a55a0" }}>Email :</strong>{" "}
                 {selectedCondidat.email}
               </p>
@@ -907,6 +1325,13 @@ function GestionCondidatures() {
                 <strong style={{ color: "#0a55a0" }}>Statut :</strong>{" "}
                 {selectedCondidat.statut}
               </p>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>Description :</strong>{" "}
+                {selectedCondidat.description || (
+                  <span style={{ color: "#888" }}>(Aucune description)</span>
+                )}
+              </p>
+
               <p>
                 <strong style={{ color: "#0a55a0" }}>
                   Date de candidature :
@@ -1015,6 +1440,19 @@ function GestionCondidatures() {
                     setNewCondidat({ ...newCondidat, prenom: e.target.value })
                   }
                 />
+                <label>Téléphone</label>
+                <input
+                  type="text"
+                  placeholder="Ex: 0612345678"
+                  value={newCondidat.telephone}
+                  onChange={(e) =>
+                    setNewCondidat({
+                      ...newCondidat,
+                      telephone: e.target.value,
+                    })
+                  }
+                />
+
                 <label>Email</label>
                 <input
                   type="email"
@@ -1030,6 +1468,7 @@ function GestionCondidatures() {
                   type="text"
                   placeholder="Ex:REF001"
                   value={newCondidat.ref_offre}
+                  onFocus={() => setShowOfferList(true)}
                   onChange={(e) =>
                     setNewCondidat({
                       ...newCondidat,
@@ -1046,8 +1485,8 @@ function GestionCondidatures() {
                   }
                 >
                   <option value="">-- Sélectionner --</option>
-                  <option value="Stage">Stage</option>
-                  <option value="CDI">CDI</option>
+                  <option value="stage">Stage</option>
+                  <option value="cdi">CDI</option>
                 </select>
 
                 <label>Statut</label>
@@ -1111,11 +1550,11 @@ function GestionCondidatures() {
 
                   <input
                     type="file"
-                    name="image"
-                    accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    name="cvFile"
+                    accept=".pdf,.doc,.docx"
                     ref={fileInputRef}
                     style={{ display: "none" }}
-                    onChange={handleFileSelect}
+                    onChange={(e) => setCvFile(e.target.files[0])}
                   />
 
                   {uploadSuccess && (
@@ -1142,36 +1581,7 @@ function GestionCondidatures() {
                   <button
                     type="button"
                     className="create-btn"
-                    onClick={() => {
-                      if (
-                        newCondidat.id &&
-                        newCondidat.nom &&
-                        newCondidat.prenom &&
-                        newCondidat.email &&
-                        newCondidat.ref_offre &&
-                        newCondidat.type &&
-                        newCondidat.statut &&
-                        newCondidat.date_condidature
-                      ) {
-                        setCondidatures([...condidats, newCondidat]); // Ajouter dans le tableau
-                        setNewCondidat({
-                          // Réinitialiser le formulaire
-                          id: "",
-                          nom: "",
-                          prenom: "",
-                          email: "",
-                          ref_offre: "",
-                          type: "",
-                          statut: "",
-                          date_condidature: "",
-                          description: "",
-                        });
-                        setUploadSuccess(false);
-                        setIsModalOpen(false); // Fermer le modal
-                      } else {
-                        alert("Veuillez remplir tous les champs !");
-                      }
-                    }}
+                    onClick={handleCreateCandidat}
                   >
                     Créer
                   </button>

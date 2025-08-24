@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ParticlesBackground from '../../Components/ParticlesBackground.js';
 import ScrollLineEffect from "../../Components/ScrollLineEffect.jsx"; 
 import Navbar from "../../Components/Navbar.js";
@@ -18,6 +18,22 @@ function OffresEmp(){
     const changeLanguage = (lng) => {
       i18n.changeLanguage(lng);
     };
+
+
+// état pour stocker les offres récupérées
+const [offres, setOffres] = useState([]);
+
+// Chargement des offres au montage du composant
+useEffect(() => {
+  fetch("http://localhost:5000/offre") // adapte l'URL selon backend et proxy
+    .then((res) => res.json())
+    .then((data) => setOffres(data))
+    .catch((err) => console.error("Erreur fetch offres:", err));
+}, []);
+
+
+
+
 
     return (
         <div>
@@ -58,8 +74,10 @@ function OffresEmp(){
                 lineHeight: "45px",
                 margin: 0,
                 marginBottom: "20px",
-                fontFamily: "Georgia, serif",
-                textShadow: "0 0 10px rgb(110, 164, 235)",
+                fontFamily: "'Lucida sans'",
+                fontSize:"45px",
+                fontWeight:"550"
+          
               }}
               className="pop-up text-center"
             >
@@ -79,7 +97,7 @@ function OffresEmp(){
             </div>
     
             <SocialMediaIcons />
-            <Offres />
+            <Offres offres={ offres } />
             {/* <footer style={{ padding: "2rem" }}>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                  <button className="cool-btn">Postuler </button>

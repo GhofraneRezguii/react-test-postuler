@@ -422,7 +422,7 @@
   }
   /* Notification button  */
   .notification {
-    width: 200px;
+    width: 400px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -707,3 +707,14 @@
 }
 
 
+.notification-list{
+  position: absolute;
+  background: linear-gradient(144deg, #ce81ed, #8095f5 50%,#0a275e, #cd9af1);
+  color: #fff;
+  font-weight: 600;
+  margin-top: 100px;
+  margin-left: 75px;
+  width:fit-content;
+  padding:10px 20px ;
+  border-radius: 9px;
+}

@@ -1,8 +1,14 @@
-import React, { useRef, useState } from "react";
-import RecruterLayout from './RecruteurLayout';
-import ParticlesBackground from '../../../Components/ParticlesBackground';
-import GestionOffresL from './GestionOffresL.css';
+import React, { useRef, useState, useEffect,useMemo } from "react";
+import RecruterLayout from "./RecruteurLayout";
+import ParticlesBackground from "../../../Components/ParticlesBackground";
+import GestionOffresL from "./GestionOffresL.css";
 import Select from "react-select";
+import {
+  getOffres,
+  createOffre,
+  updateOffre,
+  deleteOffre,
+} from "../../../api/OffreApi";
 
 function GestionOffres() {
   const fileInputRefMain = useRef(null);
@@ -14,16 +20,156 @@ function GestionOffres() {
   const [editedOffer, setEditedOffer] = useState(null);
   const [showEditCard, setShowEditCard] = useState(false);
 
-
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
 
+  // Charger les offres du backend dans un useEffect
+  useEffect(() => {
+    const fetchOffres = async () => {
+      try {
+        const data = await getOffres();
+        setOffres(data);
+      } catch (error) {
+        console.error("Erreur chargement offres :", error);
+        setMessage("Erreur lors du chargement des offres");
+      }
+    };
+    fetchOffres();
+  }, []);
+
+  //Adapter la création d’offre pour appeler le backend
+  const handleCreateOffre = async () => {
+    if (
+      newOffer.ref &&
+      newOffer.titre &&
+      newOffer.departement &&
+      newOffer.type &&
+      newOffer.soumission &&
+      newOffer.expiration
+    ) {
+      try {
+        const created = await createOffre(newOffer);
+        setOffres((prev) => [...prev, created]);
+        setNewOffer({
+          ref: "",
+          titre: "",
+          departement: "",
+          type: "Stage",
+          soumission: "",
+          expiration: "",
+          description: "",
+          candidatures: 0,
+        });
+        setUploadSuccess(false);
+        setIsModalOpen(false);
+        setMessage("Offre créée avec succès !");
+      } catch (error) {
+        console.error("Erreur création offre :", error);
+        setMessage("Impossible de créer l'offre");
+      }
+    } else {
+      alert("Veuillez remplir tous les champs !");
+    }
+  };
+
+  //Adapter la modification d’offre pour envoyer la requête PUT
+  const handleConfirmEdit = async () => {
+    try {
+      const updated = await updateOffre(
+        offerToEdit._id || offerToEdit.id,
+        editedOffer
+      );
+      setOffres((prev) =>
+        prev.map((o) =>
+        o._id === updated._id ? updated : o
+        )
+      );
+      setOfferToEdit(null);
+      setMessage("Offre modifiée avec succès !");
+    } catch (error) {
+      console.error("Erreur modification offre :", error);
+      setMessage("Impossible de modifier l'offre");
+    }
+  };
+
+  //Adapter suppression
+  const handleDeleteOffre = async () => {
+    try {
+      await deleteOffre(offerToDelete._id || offerToDelete.id);
+      setOffres((prev) =>
+        prev.filter(
+          (o) => o._id !== offerToDelete._id && o.id !== offerToDelete.id
+        )
+      );
+      setOfferToDelete(null);
+      setMessage("Offre supprimée avec succès !");
+    } catch (error) {
+      console.error("Erreur suppression offre :", error);
+      setMessage("Impossible de supprimer l'offre");
+    }
+  };
+
+  const [candidatures, setCandidatures] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/candidature')
+      .then(res => {
+        if (!res.ok) throw new Error('Erreur réseau ' + res.status);
+        return res.json();
+      })
+      .then(data => {
+        setCandidatures(data);
+      })
+      .catch(e => {
+        console.error('Erreur fetch candidatures:', e);
+      });
+  }, []);
+  
+  
+
+  const candidaturesCountByOffre = useMemo(() => {
+    return candidatures.reduce((acc, candidature) => {
+      acc[candidature.ref_offre] = (acc[candidature.ref_offre] || 0) + 1;
+      return acc;
+    }, {});
+  }, [candidatures]);
+  
+  console.log("Candidatures :", candidatures);
+  console.log("Count par offre :", candidaturesCountByOffre);
+  
+
+  const [stats, setStats] = useState({
+    total: 0,
+    valables: 0,
+    expirees: 0,
+    candidatures: 0,
+  });
+
+  useEffect(() => {
+    fetch('http://localhost:5000/offre/stats') // adapte cette URL à ton backend
+      .then((res) => {
+        if (!res.ok) throw new Error("Erreur de récupération");
+        return res.json();
+      })
+      .then((data) => {
+        setStats(data);
+      })
+      .catch((err) => {
+        console.error("Erreur fetch stats:", err);
+      });
+  }, []);
+  
 
 
 
+
+
+
+
+  
   const [newOffer, setNewOffer] = useState({
     ref: "",
     titre: "",
@@ -35,14 +181,6 @@ function GestionOffres() {
     candidatures: 0,
   });
 
-
-
-
-
-
-
-
-
   const handleViewDetails = (offre) => {
     setSelectedOffer(offre);
   };
@@ -50,8 +188,6 @@ function GestionOffres() {
   const closeCard = () => {
     setSelectedOffer(null);
   };
-
-
 
   const handleFileButtonClick = () => {
     fileInputRef.current.click();
@@ -65,7 +201,6 @@ function GestionOffres() {
     }
   };
 
-
   const [filters, setFilters] = useState({
     ref: "",
     titre: "",
@@ -77,14 +212,13 @@ function GestionOffres() {
     condidatures: "",
   });
   const [filterValues, setFilterValues] = useState({
-    ref: '',
-    departement: '',
-    type: '',
-    soumission: '',
-    expiration: '',
-    statut: '',
+    ref: "",
+    departement: "",
+    type: "",
+    soumission: "",
+    expiration: "",
+    statut: "",
   });
-
 
   const [offres, setOffres] = useState([
     {
@@ -138,7 +272,7 @@ function GestionOffres() {
     { value: "valable", label: "Valable" },
     { value: "expiree", label: "Expirée" },
   ];
-  //  visibilité champ filtrage  
+  //  visibilité champ filtrage
   const [visibleFields, setVisibleFields] = useState({
     ref: true,
     departement: true,
@@ -151,7 +285,6 @@ function GestionOffres() {
   const removeField = (field) => {
     setVisibleFields((prev) => ({ ...prev, [field]: false }));
   };
-
 
   // bouton Exporter (page principale) : ouvrir explorateur fichier
   const handleFilePickMain = () => {
@@ -184,13 +317,6 @@ function GestionOffres() {
     }
   };
 
-
-
-
-
-
-
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -205,22 +331,17 @@ function GestionOffres() {
     }
   };
 
-
-
   const handleCreateClick = () => {
     alert("Créer une nouvelle offre (fonctionnalité à implémenter)");
   };
   const handleActionClick = () => {
-    setIsFilterVisible(prev => !prev);
+    setIsFilterVisible((prev) => !prev);
   };
-
-
 
   const options = [
     { value: "CDI", label: "CDI" },
     { value: "Stage", label: "Stage" },
   ];
-
 
   const customStyles = {
     control: (provided, state) => ({
@@ -232,7 +353,9 @@ function GestionOffres() {
       borderRadius: "6px",
       fontSize: "14px",
       fontFamily: "inherit",
-      boxShadow: state.isFocused ? "0 8px 4px 2px rgba(1, 72, 195, 0.3)" : "none",
+      boxShadow: state.isFocused
+        ? "0 8px 4px 2px rgba(1, 72, 195, 0.3)"
+        : "none",
       transition: "border 0.2s",
       "&:hover": {
         borderColor: "rgb(1, 72, 195)",
@@ -244,8 +367,8 @@ function GestionOffres() {
       backgroundColor: state.isFocused
         ? "#98bfff"
         : state.isSelected
-          ? "#b0d2fb"
-          : "#fff",
+        ? "#b0d2fb"
+        : "#fff",
       color: "#002b55",
       cursor: "pointer",
       fontSize: "14px",
@@ -269,7 +392,6 @@ function GestionOffres() {
     }),
   };
 
-
   const filterFieldOptions = [
     { value: "all", label: "Tout" },
     { value: "ref", label: "Référence" },
@@ -280,13 +402,9 @@ function GestionOffres() {
     { value: "statut", label: "Statut" },
   ];
 
-
   const [selectedFields, setSelectedFields] = useState(
-    filterFieldOptions
-      .map((f) => f.value)
-      .filter((v) => v !== "all") // ✅ retire "all"
+    filterFieldOptions.map((f) => f.value).filter((v) => v !== "all") // ✅ retire "all"
   );
-
 
   const handleFieldSelectionChange = (selectedOptions) => {
     if (!selectedOptions) return;
@@ -298,9 +416,12 @@ function GestionOffres() {
       .filter((v) => v !== "all");
 
     const isAllSelected =
-      selectedValues.includes("all") || allFields.every((v) => selectedValues.includes(v));
+      selectedValues.includes("all") ||
+      allFields.every((v) => selectedValues.includes(v));
 
-    const finalSelectedFields = isAllSelected ? allFields : selectedValues.filter((v) => v !== "all");
+    const finalSelectedFields = isAllSelected
+      ? allFields
+      : selectedValues.filter((v) => v !== "all");
 
     setSelectedFields(finalSelectedFields);
 
@@ -312,7 +433,6 @@ function GestionOffres() {
       expiration: finalSelectedFields.includes("expiration"),
       statut: finalSelectedFields.includes("statut"),
     });
-
   };
 
   const [formData, setFormData] = useState({
@@ -321,8 +441,6 @@ function GestionOffres() {
   });
 
   const [successMessage, setSuccessMessage] = useState("");
-
-
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -339,8 +457,6 @@ function GestionOffres() {
         [name]: value,
       }));
     }
-
-
   };
   const handleEditClick = (offre) => {
     setOfferToEdit(offre);
@@ -351,25 +467,70 @@ function GestionOffres() {
     setShowEditCard(true);
   };
 
-  // Fonction de mise à jour générique pour chaque champ texte ou date
-  // const handleInputChange = (field, value) => {
-  //   setFilterValues(prev => ({
-  //     ...prev,
-  //     [field]: value
-  //   }));
-  // };
+  
 
-  // Fonction de filtrage du tableau
-  // const filteredData = data.filter(item => {
-  //   return Object.entries(visibleFields).every(([field, isVisible]) => {
-  //     if (!isVisible || !filterValues[field]) return true;
 
-  //     const value = filterValues[field].toString().toLowerCase();
-  //     const itemValue = item[field]?.toString().toLowerCase() || '';
 
-  //     return itemValue.includes(value);
-  //   });
-  // });
+
+  useEffect(() => {
+    const fetchFilteredOffres = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/offre?search=${encodeURIComponent(searchTerm)}`);
+        if (!response.ok) throw new Error("Erreur de chargement");
+        const data = await response.json();
+        setOffres(data);
+      } catch (error) {
+        console.error(error);
+        setMessage("Erreur lors de la recherche");
+      }
+    };
+  
+    // Lance la recherche après un délai pour éviter trop de requêtes rapides
+    const debounceTimeout = setTimeout(() => {
+      if (searchTerm.trim() === "") {
+        // Optionnel : recharger toutes les offres si champ vide
+        getOffres().then(setOffres).catch(console.error);
+      } else {
+        fetchFilteredOffres();
+      }
+    }, 300);
+  
+    return () => clearTimeout(debounceTimeout);
+  }, [searchTerm]);
+  
+
+
+
+
+  const lowerSearchTerm = searchTerm.trim().toLowerCase();
+
+const filteredOffres = offres.filter(offre => {
+  // Filtrage global de recherche texte (reference, titre, département)
+  if (
+    searchTerm !== "" &&
+    !(
+      (offre.ref && offre.ref.toLowerCase().includes(lowerSearchTerm)) ||
+      (offre.titre && offre.titre.toLowerCase().includes(lowerSearchTerm)) ||
+      (offre.departement && offre.departement.toLowerCase().includes(lowerSearchTerm))
+    )
+  ) {
+    return false; // exclure cette offre si elle ne correspond pas à la recherche globale
+  }
+
+  // Votre filtre détaillé actuel, inchangé
+  return (
+    (!filters.ref || offre.ref.toLowerCase().includes(filters.ref.toLowerCase())) &&
+    (!filters.departement || offre.departement.toLowerCase().includes(filters.departement.toLowerCase())) &&
+    (!filters.type || offre.type.toLowerCase() === filters.type.toLowerCase()) &&
+    (!filters.soumission || offre.soumission === filters.soumission) &&
+    (!filters.expiration || offre.expiration === filters.expiration) &&
+    (!filters.statut ||
+      (new Date(offre.expiration) < new Date() ? "expiree" : "valable").toLowerCase() === filters.statut.toLowerCase())
+    
+  );
+});
+
+
 
 
   return (
@@ -377,15 +538,21 @@ function GestionOffres() {
       <ParticlesBackground />
       <div className="headerY-row">
         <div className="titleY-column">
-          <h2 style={{
-            fontFamily: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-            color: "rgb(0 22 72)",
-            fontWeight: "600",
-            textShadow: "0px 2px 2px #4c87ee"
-          }}>
+          <h2
+            style={{
+              fontFamily:
+                "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+              color: "rgb(0 22 72)",
+              fontWeight: "600",
+              textShadow: "0px 2px 2px #4c87ee",
+            }}
+          >
             Offres d'emploi
           </h2>
-          <h6 className="zoom-animation" style={{ color: "#0048c6", marginLeft: "12px" }}>
+          <h6
+            className="zoom-animation"
+            style={{ color: "#0048c6", marginLeft: "12px" }}
+          >
             Gérer vos offres d'emploi et leurs condidatures
           </h6>
         </div>
@@ -396,48 +563,54 @@ function GestionOffres() {
           <div className="texty">Nouvelle Offre</div>
         </button>
 
-        <div className="download-section" style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+        <div
+          className="download-section"
+          style={{ display: "flex", gap: "20px", alignItems: "center" }}
+        >
           {/* input file caché Exporter */}
           <input
             type="file"
             ref={fileInputRefMain}
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
             onChange={handleFileChangeMain}
           />
           <button className="Download-button" onClick={handleFilePickMain}>
             {/* icone + texte Exporter */}
             <svg viewBox="0 0 640 512" width="20" height="16">
-              <path fill="white" d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-167l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39V184c0-13.3-10.7-24-24-24s-24 10.7-24 24V318.1l-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z" />
+              <path
+                fill="white"
+                d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-167l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39V184c0-13.3-10.7-24-24-24s-24 10.7-24 24V318.1l-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z"
+              />
             </svg>
             <span>Importer</span>
           </button>
         </div>
       </div>
 
-
       {/* cards */}
       <div className="cardsy-row">
-        <div className="cardy-item">
-          <h6>Total</h6>
-          <hr></hr>
-          <strong style={{ color: "#002050" }}>18</strong>
-        </div>
-        <div className="cardy-item">
-          <h6>Valables</h6>
-          <hr></hr>
-          <strong style={{ color: " #039108" }}>8</strong>
-        </div>
-        <div className="cardy-item">
-          <h6>Expirése</h6>
-          <hr></hr>
-          <strong style={{ color: "red" }}>10</strong>
-        </div>
-        <div className="cardy-item">
-          <h6>Candidatures</h6>
-          <hr></hr>
-          <strong style={{ color: " #450391" }}>23</strong>
-        </div>
-      </div>
+  <div className="cardy-item">
+    <h6>Total</h6>
+    <hr />
+    <strong style={{ color: "#002050" }}>{stats.total}</strong>
+  </div>
+  <div className="cardy-item">
+    <h6>Valables</h6>
+    <hr />
+    <strong style={{ color: "#039108" }}>{stats.valables}</strong>
+  </div>
+  <div className="cardy-item">
+    <h6>Expirées</h6>
+    <hr />
+    <strong style={{ color: "red" }}>{stats.expirees}</strong>
+  </div>
+  <div className="cardy-item">
+    <h6>Candidatures</h6>
+    <hr />
+    <strong style={{ color: "#450391" }}>{stats.candidatures}</strong>
+  </div>
+</div>
+
 
       {/* BARRE DE RECHERCHE */}
       <div className="searchy-wrapper">
@@ -457,7 +630,7 @@ function GestionOffres() {
               type="text"
               placeholder="Rechercher par référence, titre, département..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
               className="searchy-input"
             />
           </div>
@@ -486,7 +659,7 @@ function GestionOffres() {
                 statut: "",
                 condidatures: "",
               });
-            
+
               // 2. Réafficher tous les champs visibles
               setVisibleFields({
                 ref: true,
@@ -496,33 +669,35 @@ function GestionOffres() {
                 expiration: true,
                 statut: true,
               });
-            
+
               // 3. Réinitialiser les champs sélectionnés dans le select multi
               const allFields = filterFieldOptions
                 .map((opt) => opt.value)
                 .filter((v) => v !== "all"); // exclure "all"
               setSelectedFields(allFields);
             }}
-            
-            
           >
             Réinitialiser
           </button>
-
         </div>
         {/* champs de filtrage */}
         {isFilterVisible && (
           <div className="searchy-form-grid">
             <div className="form-row" style={{ marginBottom: "16px" }}>
               <div className="form-group selecty">
-                <label htmlFor="visibleFieldsSelector" style={{ fontWeight: "600", fontSize: "18" }}>
+                <label
+                  htmlFor="visibleFieldsSelector"
+                  style={{ fontWeight: "600", fontSize: "18" }}
+                >
                   Champs à afficher
                 </label>
                 <Select
                   id="visibleFieldsSelector"
                   isMulti
                   closeMenuOnSelect={false}
-                  value={filterFieldOptions.filter(option => selectedFields.includes(option.value))}
+                  value={filterFieldOptions.filter((option) =>
+                    selectedFields.includes(option.value)
+                  )}
                   onChange={handleFieldSelectionChange}
                   options={filterFieldOptions}
                   styles={customStyles}
@@ -532,19 +707,26 @@ function GestionOffres() {
             </div>
 
             <div className="form-row">
-
               {visibleFields.ref && (
                 <div className="form-group removable">
                   <label htmlFor="ref">
                     Référence
-                    <button type="button" className="close-btn" onClick={() => removeField("ref")}>✕</button>
+                    <button
+                      type="button"
+                      className="close-btn"
+                      onClick={() => removeField("ref")}
+                    >
+                      ✕
+                    </button>
                   </label>
                   <input
                     type="text"
                     id="ref"
                     placeholder="REF001"
                     value={filters.ref}
-                    onChange={(e) => setFilters({ ...filters, ref: e.target.value })}
+                    onChange={(e) =>
+                      setFilters({ ...filters, ref: e.target.value })
+                    }
                   />
                 </div>
               )}
@@ -553,14 +735,22 @@ function GestionOffres() {
                 <div className="form-group removable">
                   <label htmlFor="departement">
                     Département
-                    <button type="button" className="close-btn" onClick={() => removeField("departement")}>✕</button>
+                    <button
+                      type="button"
+                      className="close-btn"
+                      onClick={() => removeField("departement")}
+                    >
+                      ✕
+                    </button>
                   </label>
                   <input
                     type="text"
                     id="departement"
                     placeholder="EX:Informatique"
                     value={filters.departement}
-                    onChange={(e) => setFilters({ ...filters, departement: e.target.value })}
+                    onChange={(e) =>
+                      setFilters({ ...filters, departement: e.target.value })
+                    }
                   />
                 </div>
               )}
@@ -569,7 +759,13 @@ function GestionOffres() {
                 <div className="form-group selecty removable">
                   <label htmlFor="type">
                     Type
-                    <button type="button" className="close-btn" onClick={() => removeField("type")}>✕</button>
+                    <button
+                      type="button"
+                      className="close-btn"
+                      onClick={() => removeField("type")}
+                    >
+                      ✕
+                    </button>
                   </label>
                   <Select
                     id="type"
@@ -577,7 +773,12 @@ function GestionOffres() {
                     styles={customStyles}
                     placeholder="-- Sélectionner --"
                     value={options.find((opt) => opt.value === filters.type)}
-                    onChange={(selectedOption) => setFilters({ ...filters, type: selectedOption ? selectedOption.value : "" })}
+                    onChange={(selectedOption) =>
+                      setFilters({
+                        ...filters,
+                        type: selectedOption ? selectedOption.value : "",
+                      })
+                    }
                   />
                 </div>
               )}
@@ -590,13 +791,21 @@ function GestionOffres() {
                 <div className="form-group removable">
                   <label htmlFor="soumission">
                     Date de soumission
-                    <button type="button" className="close-btn" onClick={() => removeField("soumission")}>✕</button>
+                    <button
+                      type="button"
+                      className="close-btn"
+                      onClick={() => removeField("soumission")}
+                    >
+                      ✕
+                    </button>
                   </label>
                   <input
                     type="date"
                     id="soumission"
                     value={filters.soumission}
-                    onChange={(e) => setFilters({ ...filters, soumission: e.target.value })}
+                    onChange={(e) =>
+                      setFilters({ ...filters, soumission: e.target.value })
+                    }
                   />
                 </div>
               )}
@@ -605,13 +814,21 @@ function GestionOffres() {
                 <div className="form-group removable">
                   <label htmlFor="expiration">
                     Date d'expiration
-                    <button type="button" className="close-btn" onClick={() => removeField("expiration")}>✕</button>
+                    <button
+                      type="button"
+                      className="close-btn"
+                      onClick={() => removeField("expiration")}
+                    >
+                      ✕
+                    </button>
                   </label>
                   <input
                     type="date"
                     id="expiration"
                     value={filters.expiration}
-                    onChange={(e) => setFilters({ ...filters, expiration: e.target.value })}
+                    onChange={(e) =>
+                      setFilters({ ...filters, expiration: e.target.value })
+                    }
                   />
                 </div>
               )}
@@ -620,29 +837,33 @@ function GestionOffres() {
                 <div className="form-group removable">
                   <label htmlFor="statut">
                     Statut
-                    <button type="button" className="close-btn" onClick={() => removeField("statut")}>✕</button>
+                    <button
+                      type="button"
+                      className="close-btn"
+                      onClick={() => removeField("statut")}
+                    >
+                      ✕
+                    </button>
                   </label>
                   <Select
                     id="statut"
                     options={statusOptions}
                     styles={customStyles}
                     placeholder="-- Sélectionner --"
-                    value={statusOptions.find((opt) => opt.value === filters.statut)}
-                    onChange={(selectedOption) => setFilters({ ...filters, statut: selectedOption ? selectedOption.value : "" })}
+                    value={statusOptions.find(
+                      (opt) => opt.value === filters.statut
+                    )}
+                    onChange={(selectedOption) =>
+                      setFilters({
+                        ...filters,
+                        statut: selectedOption ? selectedOption.value : "",
+                      })
+                    }
                   />
                 </div>
               )}
-
-
-
-
             </div>
-
-
-
           </div>
-
-
         )}
         <div className="table-wrapper">
           <table className="styled-table">
@@ -661,74 +882,65 @@ function GestionOffres() {
             </thead>
 
             <tbody>
-              {offres
-                .filter((offre) => {
-                  return (
-                    (!filters.ref || offre.ref.toLowerCase().includes(filters.ref.toLowerCase())) &&
-                    (!filters.departement || offre.departement.toLowerCase().includes(filters.departement.toLowerCase())) &&
-                    (!filters.type || offre.type.toLowerCase() === filters.type.toLowerCase()) &&
-                    (!filters.soumission || offre.soumission === filters.soumission) &&
-                    (!filters.expiration || offre.expiration === filters.expiration) &&
-                    (!filters.statut || (
-                      (new Date(offre.expiration) < new Date() ? "expiree" : "valable") === filters.statut
-                    ))
+  {filteredOffres.map((offre, index) => {
+    const isExpired = new Date(offre.expiration) < new Date();
+    return (
+      <tr key={offre._id ?? index}>
+        {visibleFields.ref && <td>{offre.ref}</td>}
+        <td>{offre.titre}</td>
+        {visibleFields.departement && <td>{offre.departement}</td>}
+        {visibleFields.type && (
+          <td>
+            <span
+              className={`type-badge ${offre.type === "CDI" ? "type-cdi" : "type-stage"}`}
+            >
+              {offre.type}
+            </span>
+          </td>
+        )}
+        {visibleFields.soumission && <td>{offre.soumission}</td>}
+        {visibleFields.expiration && <td>{offre.expiration}</td>}
+        {visibleFields.statut && (
+          <td>
+            <span
+              className={`status-badge ${isExpired ? "status-expired" : "status-valid"}`}
+            >
+              {isExpired ? "Expirée" : "Valable"}
+            </span>
+          </td>
+        )}
+        <td style={{ textAlign: "center" }}>
+          {candidaturesCountByOffre[offre.ref] || 0}
+        </td>
+        <td>
+        <div className="action-icons">
+  {/* Bouton Éditer */}
+  <i
+    className="bi bi-pencil-square action-edit"
+    onClick={() => {
+      setOfferToEdit(offre);
+      setEditedOffer({ ...offre });
+    }}
+  ></i>
 
-                  );
-                })
-                .map((offre, index) => {
-                  const isExpired = new Date(offre.expiration) < new Date();
-                  return (
-                    <tr key={index}>
-                      {visibleFields.ref && <td>{offre.ref}</td>}
-                      <td>{offre.titre}</td>
-                      {visibleFields.departement && <td>{offre.departement}</td>}
-                      {visibleFields.type && (
-                        <td>
-                          <span
-                            className={`type-badge ${offre.type === "CDI" ? "type-cdi" : "type-stage"}`}
-                          >
-                            {offre.type}
-                          </span>
-                        </td>
-                      )}
-                      {visibleFields.soumission && <td>{offre.soumission}</td>}
-                      {visibleFields.expiration && <td>{offre.expiration}</td>}
-                      {visibleFields.statut && (
-                        <td>
-                          <span
-                            className={`status-badge ${isExpired ? "status-expired" : "status-valid"}`}
-                          >
-                            {isExpired ? "Expirée" : "Valable"}
-                          </span>
-                        </td>
-                      )}
-                      <td style={{ textAlign: "center" }}>{offre.candidatures}</td>
-                      <td>
-                        <div className="action-icons">
-                          <i
-                            className="bi bi-pencil-square action-edit"
-                            onClick={() => {
-                              setOfferToEdit(offre);
-                              setEditedOffer({ ...offre });
-                            }}
-                          ></i>
+  {/* Bouton Supprimer */}
+  <i
+    className="bi bi-trash3-fill action-delete"
+    onClick={() => setOfferToDelete(offre)}
+  ></i>
 
-                          <i
-                            className="bi bi-trash3-fill action-delete"
-                            onClick={() => setOfferToDelete(offre)}
-                          ></i>
+  {/* Bouton Voir détails */}
+  <i
+    className="bi bi-eye action-see"
+    onClick={() => handleViewDetails(offre)}
+  ></i>
+</div>
 
-                          <i
-                            className="bi bi-eye action-see"
-                            onClick={() => handleViewDetails(offre)}
-                          ></i>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
 
           </table>
         </div>
@@ -736,24 +948,56 @@ function GestionOffres() {
         {selectedOffer && (
           <div className="overlay-card-backdrop">
             <div className="overlay-card">
-              <button className="close-btn-overlay" onClick={closeCard}>✕</button>
-              <h3 style={{
-                textAlign: "center",
-                fontFamily: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-                marginBottom: "20px",
-                color: "#002b55",
-                /* Effet lumineux doux */
-                textShadow:
-                  `0 0 5px rgba(122, 159, 238, 0.788),
+              <button className="close-btn-overlay" onClick={closeCard}>
+                ✕
+              </button>
+              <h3
+                style={{
+                  textAlign: "center",
+                  fontFamily:
+                    "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+                  marginBottom: "20px",
+                  color: "#002b55",
+                  /* Effet lumineux doux */
+                  textShadow: `0 0 5px rgba(122, 159, 238, 0.788),
   0 0 10px rgba(69, 119, 235, 0.424),
-  0 0 15px rgba(255, 255, 255, 0.2)`}}>Détails de l'offre</h3>
-              <p><strong style={{ color: "#0a55a0" }}>id:</strong> {selectedOffer.ref}</p>
-              <p><strong style={{ color: "#0a55a0" }}>Titre :</strong> {selectedOffer.titre}</p>
-              <p><strong style={{ color: "#0a55a0" }}>Département :</strong> {selectedOffer.departement}</p>
-              <p><strong style={{ color: "#0a55a0" }}>Type :</strong> {selectedOffer.type}</p>
-              <p><strong style={{ color: "#0a55a0" }}>Soumission :</strong> {selectedOffer.soumission}</p>
-              <p><strong style={{ color: "#0a55a0" }}>Expiration :</strong> {selectedOffer.expiration}</p>
-              <p><strong style={{ color: "#0a55a0" }}>Candidatures :</strong> {selectedOffer.candidatures}</p>
+  0 0 15px rgba(255, 255, 255, 0.2)`,
+                }}
+              >
+                Détails de l'offre
+              </h3>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>id:</strong>{" "}
+                {selectedOffer.ref}
+              </p>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>Titre :</strong>{" "}
+                {selectedOffer.titre}
+              </p>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>Département :</strong>{" "}
+                {selectedOffer.departement}
+              </p>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>Type :</strong>{" "}
+                {selectedOffer.type}
+              </p>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>Soumission :</strong>{" "}
+                {selectedOffer.soumission}
+              </p>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>Expiration :</strong>{" "}
+                {selectedOffer.expiration}
+              </p>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>Candidatures :</strong>{" "}
+                {selectedOffer.candidatures}
+              </p>
+              <p>
+                <strong style={{ color: "#0a55a0" }}>Description:</strong>{" "}
+                {selectedOffer.description}
+              </p>
             </div>
           </div>
         )}
@@ -761,26 +1005,31 @@ function GestionOffres() {
         {offerToDelete && (
           <div className="overlay-card-backdrop">
             <div className="overlay-card">
-              <h3 style={{ textAlign: "center", color: "#8a0505", marginBottom: "15px" }}>
+              <h3
+                style={{
+                  textAlign: "center",
+                  color: "#8a0505",
+                  marginBottom: "15px",
+                }}
+              >
                 Confirmer la suppression
               </h3>
               <p style={{ textAlign: "center", color: "#002b55" }}>
-                Êtes-vous sûr de vouloir supprimer l’offre&nbsp;: <strong>{offerToDelete.titre}</strong> ?
+                Êtes-vous sûr de vouloir supprimer l’offre&nbsp;:{" "}
+                <strong>{offerToDelete.titre}</strong> ?
               </p>
-              <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", gap: "20px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "20px",
+                  gap: "20px",
+                }}
+              >
                 <button
                   className="create-btn"
                   style={{ backgroundColor: "#d31010" }}
-                  onClick={() => {
-                    // 👉 Supprimer l'offre sélectionnée du tableau
-                    setOffres(offres.filter(o => o.ref !== offerToDelete.ref));
-
-                    // 👉 Fermer la popup de confirmation
-                    setOfferToDelete(null);
-
-                    // 👉 Optionnel : message ou console
-                    console.log("Suppression confirmée pour :", offerToDelete.ref);
-                  }}
+                  onClick={handleDeleteOffre}
                 >
                   Confirmer
                 </button>
@@ -799,18 +1048,27 @@ function GestionOffres() {
         {offerToEdit && (
           <div className="overlay-card-backdrop">
             <div className="overlay-cardy">
-              <button className="close-btn-overlay" onClick={() => setOfferToEdit(null)}>✕</button>
-              <h3 style={{
-                textAlign: "center",
-                fontWeight: "700",
-                fontFamily: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-                marginBottom: "20px",
-                color: "#002b55",
-                textShadow:
-                  `0 0 5px rgba(122, 159, 238, 0.788),
+              <button
+                className="close-btn-overlay"
+                onClick={() => setOfferToEdit(null)}
+              >
+                ✕
+              </button>
+              <h3
+                style={{
+                  textAlign: "center",
+                  fontWeight: "700",
+                  fontFamily:
+                    "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+                  marginBottom: "20px",
+                  color: "#002b55",
+                  textShadow: `0 0 5px rgba(122, 159, 238, 0.788),
 0 0 10px rgba(69, 119, 235, 0.424),
-0 0 15px rgba(255, 255, 255, 0.2)`
-              }}>Modifier l’offre</h3>
+0 0 15px rgba(255, 255, 255, 0.2)`,
+                }}
+              >
+                Modifier l’offre
+              </h3>
 
               <form className="modal-form">
                 <div className="form-grid">
@@ -818,27 +1076,38 @@ function GestionOffres() {
                   <input
                     type="text"
                     value={editedOffer.ref}
-                    onChange={(e) => setEditedOffer({ ...editedOffer, ref: e.target.value })}
+                    onChange={(e) =>
+                      setEditedOffer({ ...editedOffer, ref: e.target.value })
+                    }
                   />
 
                   <label>Titre</label>
                   <input
                     type="text"
                     value={editedOffer.titre}
-                    onChange={(e) => setEditedOffer({ ...editedOffer, titre: e.target.value })}
+                    onChange={(e) =>
+                      setEditedOffer({ ...editedOffer, titre: e.target.value })
+                    }
                   />
 
                   <label>Département</label>
                   <input
                     type="text"
                     value={editedOffer.departement}
-                    onChange={(e) => setEditedOffer({ ...editedOffer, departement: e.target.value })}
+                    onChange={(e) =>
+                      setEditedOffer({
+                        ...editedOffer,
+                        departement: e.target.value,
+                      })
+                    }
                   />
 
                   <label>Type</label>
                   <select
                     value={editedOffer.type}
-                    onChange={(e) => setEditedOffer({ ...editedOffer, type: e.target.value })}
+                    onChange={(e) =>
+                      setEditedOffer({ ...editedOffer, type: e.target.value })
+                    }
                   >
                     <option value="Stage">Stage</option>
                     <option value="CDI">CDI</option>
@@ -848,14 +1117,24 @@ function GestionOffres() {
                   <input
                     type="date"
                     value={editedOffer.soumission}
-                    onChange={(e) => setEditedOffer({ ...editedOffer, soumission: e.target.value })}
+                    onChange={(e) =>
+                      setEditedOffer({
+                        ...editedOffer,
+                        soumission: e.target.value,
+                      })
+                    }
                   />
 
                   <label>Expiration</label>
                   <input
                     type="date"
                     value={editedOffer.expiration}
-                    onChange={(e) => setEditedOffer({ ...editedOffer, expiration: e.target.value })}
+                    onChange={(e) =>
+                      setEditedOffer({
+                        ...editedOffer,
+                        expiration: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -869,12 +1148,16 @@ function GestionOffres() {
                     borderRadius: "6px",
                     border: "1px solid #ccc",
                     outline: "none",
-                    fontFamily: "inherit"
+                    fontFamily: "inherit",
                   }}
                   value={editedOffer.description}
-                  onChange={(e) => setEditedOffer({ ...editedOffer, description: e.target.value })}
+                  onChange={(e) =>
+                    setEditedOffer({
+                      ...editedOffer,
+                      description: e.target.value,
+                    })
+                  }
                 />
-
 
                 <div className="modal-buttons">
                   <button
@@ -887,27 +1170,16 @@ function GestionOffres() {
                   <button
                     type="button"
                     className="createy-btn"
-                    onClick={() => {
-                      setOffres((prev) =>
-                        prev.map((o) => (o.ref === offerToEdit.ref ? editedOffer : o))
-                      );
-                      setOfferToEdit(null);
-                    }}
+                    onClick={handleConfirmEdit} // Appelle ta fonction qui fait la requête PUT
                   >
                     Confirmer
                   </button>
-
-
-
                 </div>
               </form>
             </div>
           </div>
         )}
-
-
       </div>
-
 
       {isModalOpen && (
         <div className="modal-overlay">
@@ -920,7 +1192,9 @@ function GestionOffres() {
                   type="text"
                   placeholder="REF-2025-XX"
                   value={newOffer.ref}
-                  onChange={(e) => setNewOffer({ ...newOffer, ref: e.target.value })}
+                  onChange={(e) =>
+                    setNewOffer({ ...newOffer, ref: e.target.value })
+                  }
                 />
 
                 <label>Titre</label>
@@ -928,7 +1202,9 @@ function GestionOffres() {
                   type="text"
                   placeholder="Titre de l'offre"
                   value={newOffer.titre}
-                  onChange={(e) => setNewOffer({ ...newOffer, titre: e.target.value })}
+                  onChange={(e) =>
+                    setNewOffer({ ...newOffer, titre: e.target.value })
+                  }
                 />
 
                 <label>Département</label>
@@ -936,13 +1212,17 @@ function GestionOffres() {
                   type="text"
                   placeholder="Département"
                   value={newOffer.departement}
-                  onChange={(e) => setNewOffer({ ...newOffer, departement: e.target.value })}
+                  onChange={(e) =>
+                    setNewOffer({ ...newOffer, departement: e.target.value })
+                  }
                 />
 
                 <label>Type</label>
                 <select
                   value={newOffer.type}
-                  onChange={(e) => setNewOffer({ ...newOffer, type: e.target.value })}
+                  onChange={(e) =>
+                    setNewOffer({ ...newOffer, type: e.target.value })
+                  }
                 >
                   <option>Stage</option>
                   <option>CDI</option>
@@ -952,14 +1232,18 @@ function GestionOffres() {
                 <input
                   type="date"
                   value={newOffer.soumission}
-                  onChange={(e) => setNewOffer({ ...newOffer, soumission: e.target.value })}
+                  onChange={(e) =>
+                    setNewOffer({ ...newOffer, soumission: e.target.value })
+                  }
                 />
 
                 <label>Expiration</label>
                 <input
                   type="date"
                   value={newOffer.expiration}
-                  onChange={(e) => setNewOffer({ ...newOffer, expiration: e.target.value })}
+                  onChange={(e) =>
+                    setNewOffer({ ...newOffer, expiration: e.target.value })
+                  }
                 />
               </div>
 
@@ -971,12 +1255,23 @@ function GestionOffres() {
                     placeholder="Décris le poste..."
                     name="description"
                     value={newOffer.description}
-                    onChange={(e) => setNewOffer({ ...newOffer, description: e.target.value })}
+                    onChange={(e) =>
+                      setNewOffer({ ...newOffer, description: e.target.value })
+                    }
                   />
 
                   {/* Bouton Download */}
-                  <button className="Btnyu" type="button" onClick={handleFileButtonClick}>
-                    <svg className="svgIcon" viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+                  <button
+                    className="Btnyu"
+                    type="button"
+                    onClick={handleFileButtonClick}
+                  >
+                    <svg
+                      className="svgIcon"
+                      viewBox="0 0 384 512"
+                      height="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
                     </svg>
                     <span className="icon2"></span>
@@ -993,65 +1288,41 @@ function GestionOffres() {
                   />
 
                   {uploadSuccess && (
-                    <p style={{ color: "green", fontSize: "0.9em", marginTop: "10px" }}>
+                    <p
+                      style={{
+                        color: "green",
+                        fontSize: "0.9em",
+                        marginTop: "10px",
+                      }}
+                    >
                       ✅ Image sélectionnée avec succès !
                     </p>
                   )}
                 </div>
 
-
-
-
                 <div className="modal-buttons">
-                  <button type="button" className="cancel-btn" onClick={() => setIsModalOpen(false)}>Annuler</button>
+                  <button
+                    type="button"
+                    className="cancel-btn"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Annuler
+                  </button>
                   <button
                     type="button"
                     className="create-btn"
-                    onClick={() => {
-                      if (
-                        newOffer.ref &&
-                        newOffer.titre &&
-                        newOffer.departement &&
-                        newOffer.type &&
-                        newOffer.soumission &&
-                        newOffer.expiration
-                      ) {
-                        setOffres([...offres, newOffer]); // Ajouter dans le tableau
-                        setNewOffer({ // Réinitialiser le formulaire
-                          ref: "",
-                          titre: "",
-                          departement: "",
-                          type: "Stage",
-                          soumission: "",
-                          expiration: "",
-                          description: "",
-                          candidatures: 0,
-                        });
-                        setUploadSuccess(false);
-                        setIsModalOpen(false); // Fermer le modal
-                      } else {
-                        alert("Veuillez remplir tous les champs !");
-                      }
-                    }}
+                    onClick={handleCreateOffre}
                   >
                     Créer
                   </button>
-
                 </div>
               </div>
             </form>
-
-
           </div>
-        </div >
-      )
-      }
-
-
-    </RecruterLayout >
+        </div>
+      )}
+    </RecruterLayout>
   );
 }
 
 export default GestionOffres;
-
-

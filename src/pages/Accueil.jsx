@@ -36,13 +36,13 @@ function Accueil() {
 
   return (
     <>
-     <div class="svg-separatoro">
+     <div className="svg-separatoro">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 700 10"
           preserveAspectRatio="none"
         >
-          <path d="M350,10 L340,0 H360 L350,10 Z" class="svg-fill"></path>
+          <path d="M350,10 L340,0 H360 L350,10 Z" className="svg-fill"></path>
         </svg>
       </div>
       <div className="acceuil-wrapper">
@@ -134,24 +134,24 @@ function Accueil() {
         </div>
       </div>
       {/* separateur V */}
-      <div class="svg-separator">
+      <div className="svg-separator">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 700 10"
           preserveAspectRatio="none"
         >
-          <path d="M350,10 L340,0 H360 L350,10 Z" class="svg-fill"></path>
+          <path d="M350,10 L340,0 H360 L350,10 Z" className="svg-fill"></path>
         </svg>
       </div>
       {/* <!-- Section avec image de fond et cards --> */}
-      <div class="background-section">
-        <div class="cards-grid">
+      <div className="background-section">
+        <div className="cards-grid">
           {/* <!-- Card 1 --> */}
-          <div class="parentt">
-            <div class="cardl">
-              <div class="content-boxl">
-                <span class="card-titlel">CUSTODY</span>
-                <p class="card-contentl">
+          <div className="parentt">
+            <div className="cardl">
+              <div className="content-boxl">
+                <span className="card-titlel">CUSTODY</span>
+                <p className="card-contentl">
                   Maîtrisez L'Art De La Gestion Des IRLs Avec Custody : La
                   Solution Incontournable De Fininfo Solutions.
                 </p>
@@ -159,7 +159,7 @@ function Accueil() {
                   Voir plus
                 </Link>
               </div>
-              <div class="i-box">
+              <div className="i-box">
                 <img
                   style={{ width: "50px", height: "50px" }}
                   src="https://fininfosolutions.com/wp-content/uploads/2024/03/custody.png"
@@ -169,20 +169,20 @@ function Accueil() {
             </div>
           </div>
           {/* <!-- Répète pour 4 autres cards --> */}
-          <div class="parentt">
-            <div class="cardl">
-              <div class="content-boxl">
-                <span class="card-titlel">
+          <div className="parentt">
+            <div className="cardl">
+              <div className="content-boxl">
+                <span className="card-titlel">
                   services aux<br></br> émetteurs
                 </span>
-                <p class="card-contentl">
+                <p className="card-contentl">
                   Simplifiez Et Optimisez La Gestion Émettrice
                 </p>
                 <Link to="/solutions/suitesfininfo/services" className="see-more">
                   Voir plus
                 </Link>
               </div>
-              <div class="i-box">
+              <div className="i-box">
                 <img
                   style={{ width: "50px", height: "50px" }}
                   src="https://fininfosolutions.com/wp-content/uploads/2024/03/Image4.png"
@@ -192,20 +192,20 @@ function Accueil() {
             </div>
           </div>
 
-          <div class="parentt">
-            <div class="cardl">
-              <div class="content-boxl">
-                <span class="card-titlel">
+          <div className="parentt">
+            <div className="cardl">
+              <div className="content-boxl">
+                <span className="card-titlel">
                   administration <br></br>des fonds
                 </span>
-                <p class="card-contentl">
+                <p className="card-contentl">
                   La Clé D'une Gestion Financière Optimisée
                 </p>
                 <Link to="/solutions/suitesfininfo/adminfonds" className="see-more">
                   Voir plus
                 </Link>
               </div>
-              <div class="i-box">
+              <div className="i-box">
                 <img
                   style={{ width: "50px", height: "50px", paddingLeft: "10px" }}
                   src="https://fininfosolutions.com/wp-content/uploads/2024/03/Image44.png"
@@ -215,19 +215,19 @@ function Accueil() {
             </div>
           </div>
           {/* 2 dérniers cards */}
-          <div class="last-row">
-            <div class="parentt">
-              <div class="cardl">
-                <div class="content-boxl">
-                  <span class="card-titlel">Marché à terme</span>
-                  <p class="card-contentl">
+          <div className="last-row">
+            <div className="parentt">
+              <div className="cardl">
+                <div className="content-boxl">
+                  <span className="card-titlel">Marché à terme</span>
+                  <p className="card-contentl">
                     Gestion Intégrée du Marché à Terme
                   </p>
                   <Link to="/solutions/suitesfininfo/marche" className="see-more">
                     Voir plus
                   </Link>
                 </div>
-                <div class="i-box">
+                <div className="i-box">
                   <img
                     style={{ width: "50px", height: "50px" }}
                     src="https://fininfosolutions.com/wp-content/uploads/2025/03/tenue-de-registre.png"
@@ -237,18 +237,18 @@ function Accueil() {
               </div>
             </div>
 
-            <div class="parentt">
-              <div class="cardl">
-                <div class="content-boxl">
-                  <span class="card-titlel">fonds alternatifs</span>
-                  <p class="card-contentl">
+            <div className="parentt">
+              <div className="cardl">
+                <div className="content-boxl">
+                  <span className="card-titlel">fonds alternatifs</span>
+                  <p className="card-contentl">
                     Optimisez la gestion des fonds alternatifs pour un suivi
                   </p>
                   <Link to="/solutions/suitesfininfo/fonds" className="see-more">
                     Voir plus
                   </Link>
                 </div>
-                <div class="i-box">
+                <div className="i-box">
                   <img
                     style={{
                       width: "50px",
@@ -265,13 +265,13 @@ function Accueil() {
         </div>
       </div>
       {/* seperateur top */}
-      <div class="svg-separator-top">
+      <div className="svg-separator-top">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 700 10"
           preserveAspectRatio="none"
         >
-          <path d="M350,10 L340,0 H360 L350,10 Z" class="svg-filly"></path>
+          <path d="M350,10 L340,0 H360 L350,10 Z" className="svg-filly"></path>
         </svg>
       </div>
 
@@ -446,8 +446,8 @@ function Accueil() {
         </div>
       </div>
 
-      <div class="three-cards">
-  <div class="cardp">
+      <div className="three-cards">
+  <div className="cardp">
     <img src="https://fininfosolutions.com/wp-content/uploads/2024/05/gitex-2.png" alt="Image 1" />
     <hr  style={{ height: '4px', backgroundColor: '#1877f2', border: 'none', margin: '20px 0' }}></hr>
     <h3>GITEX AFRICA | Maroc-Marrakech</h3>
@@ -461,7 +461,7 @@ function Accueil() {
             </Link>
   </div>
 
-  <div class="cardp">
+  <div className="cardp">
     <img src="https://fininfosolutions.com/wp-content/uploads/2024/05/VT24-LOGO-SMALL-BLACK-EN@2x.png" alt="Image 2" />
     <hr  style={{ height: '4px', backgroundColor: '#1877f2', border: 'none', margin: '20px 0' }}></hr>
     <h3>Viva Technology | Paris</h3>
@@ -475,7 +475,7 @@ function Accueil() {
             </Link>
   </div>
 
-  <div class="cardp">
+  <div className="cardp">
     <img src="https://fininfosolutions.com/wp-content/uploads/2024/05/images-1.png" alt="Image 3" />
     <hr  style={{ height: '4px', backgroundColor: '#1877f2', border: 'none', margin: '20px 0' }}></hr>
     <h3>Africa Capital Markets Forum | Cameroun</h3>

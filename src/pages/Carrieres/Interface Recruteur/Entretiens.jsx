@@ -119,8 +119,36 @@ function Entretiens() {
     // etc.
   ];
 
-  const [rdvs, setRdvs] = useState(rdvsInit);
+  const [rdvs, setRdvs] = useState([]);
+
+  useEffect(() => {
+    async function fetchRdvs() {
+      const res = await fetch("http://localhost:5000/api/rdvs");
+
+      const data = await res.json();
+      console.log("Données reçues:", data);
+      setRdvs(data);
+    }
+    fetchRdvs();
+  }, []);
+
+  // const todayRDVs = useMemo(() => {
+  //   const today = new Date();
+  //   return rdvs.filter((rdv) => {
+  //     const rdvDate = new Date(rdv.date);
+  //     return (
+  //       rdvDate.getDate() === today.getDate() &&
+  //       rdvDate.getMonth() === today.getMonth() &&
+  //       rdvDate.getFullYear() === today.getFullYear()
+  //     );
+  //   });
+  // }, [rdvs]);
+
   const todayRDVs = useMemo(() => {
+    if (!Array.isArray(rdvs)) {
+      console.warn("rdvs n'est pas un tableau", rdvs);
+      return [];
+    }
     const today = new Date();
     return rdvs.filter((rdv) => {
       const rdvDate = new Date(rdv.date);
@@ -130,9 +158,10 @@ function Entretiens() {
         rdvDate.getFullYear() === today.getFullYear()
       );
     });
-  }, []);
-  const allRDVs = rdvs;
+  }, [rdvs]);
 
+  const allRDVs = rdvs;
+  console.log("votre rdv", allRDVs);
   // Etats pour modales
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -154,11 +183,36 @@ function Entretiens() {
   }
 
   // Confirmer la modif : met à jour rdvs
-  function confirmEdit() {
-    setRdvs((prev) =>
-      prev.map((r) => (r === rdvSelected ? { ...formData } : r))
-    );
-    setEditModalOpen(false);
+  // function confirmEdit() {
+  //   setRdvs((prev) =>
+  //     prev.map((r) => (r === rdvSelected ? { ...formData } : r))
+  //   );
+  //   setEditModalOpen(false);
+  // }
+
+  async function confirmEdit() {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/rdvs/${rdvSelected._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de la mise à jour du RDV");
+      }
+
+      const updatedRdv = await response.json();
+      setRdvs((prev) =>
+        prev.map((r) => (r._id === updatedRdv._id ? updatedRdv : r))
+      );
+      setEditModalOpen(false);
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   // Ouvre modale suppression
@@ -168,10 +222,27 @@ function Entretiens() {
   }
 
   // Confirme suppression
-  function confirmDelete() {
-    setRdvs((prev) => prev.filter((r) => r !== rdvSelected));
-    setDeleteModalOpen(false);
+  // function confirmDelete() {
+  //   setRdvs((prev) => prev.filter((r) => r !== rdvSelected));
+  //   setDeleteModalOpen(false);
+  // }
+  async function confirmDelete() {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/rdvs/${rdvSelected._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) throw new Error("Erreur lors de la suppression du RDV");
+      // Mettre à jour la liste locale en retirant le RDV supprimé
+      setRdvs((prev) => prev.filter((r) => r._id !== rdvSelected._id));
+      setDeleteModalOpen(false);
+    } catch (error) {
+      alert(error.message);
+    }
   }
+
   //create nouveau RDV
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [newRdv, setNewRdv] = useState({
@@ -180,6 +251,42 @@ function Entretiens() {
     prenom: "",
     date: "",
   });
+
+  const pastRDVs = useMemo(() => {
+    if (!Array.isArray(rdvs)) {
+      console.warn("rdvs n'est pas un tableau", rdvs);
+      return [];
+    }
+    const now = new Date();
+    return rdvs.filter((rdv) => new Date(rdv.date) < now);
+  }, [rdvs]);
+
+  const upcomingRDVs = useMemo(() => {
+    if (!Array.isArray(rdvs)) {
+      console.warn("rdvs n'est pas un tableau", rdvs);
+      return [];
+    }
+    const now = new Date();
+    return rdvs.filter((rdv) => new Date(rdv.date) >= now);
+  }, [rdvs]);
+
+  useEffect(() => {
+    async function fetchRdvs() {
+      try {
+        let url = "http://localhost:5000/api/rdvs";
+        if (searchTerm.trim() !== "") {
+          url += `/search?q=${encodeURIComponent(searchTerm)}`;
+        }
+        const res = await fetch(url);
+        const data = await res.json();
+        setRdvs(data);
+      } catch (error) {
+        console.error("Erreur chargement RDVs :", error);
+        setRdvs([]); // fallback sécure
+      }
+    }
+    fetchRdvs();
+  }, [searchTerm]);
 
   return (
     <RecruterLayout>
@@ -232,21 +339,24 @@ function Entretiens() {
             </svg>
             <input
               type="text"
-              placeholder="Rechercher un RDV, condidat ,poste...."
+              placeholder="Rechercher un RDV, candidat, poste..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="searchyy-input"
             />
+
             <div className="cardsyt-row">
               <div className="cardyt-item">
                 <h6>Entretiens passés</h6>
                 <hr></hr>
-                <strong style={{ color: "#028536" }}>15</strong>
+                <strong style={{ color: "#028536" }}>{pastRDVs.length}</strong>
               </div>
               <div className="cardyt-item">
                 <h6>Entretiens restants</h6>
                 <hr></hr>
-                <strong style={{ color: "rgb(125, 4, 4)" }}>8</strong>
+                <strong style={{ color: "rgb(125, 4, 4)" }}>
+                  {upcomingRDVs.length}
+                </strong>
               </div>
             </div>
           </div>
@@ -441,7 +551,8 @@ function Entretiens() {
                 </div>
               ))
             )}
-
+             <br></br>
+             <br></br>
             {/* all RDV */}
             <div className="stacky-card ally">
               <div
@@ -463,8 +574,11 @@ function Entretiens() {
                 >
                   <span>Tous les RDV</span>
                   <span style={{ color: "#8ac3ff" }}>
-                    Total RDV :{" "}
-                    <span style={{ color: "#8ac3ff" }}>({allRDVs.length})</span>
+                    Total RDV : ({" "}
+                    <span style={{ color: "#8ac3ff" }}>
+                      {Array.isArray(allRDVs) ? allRDVs.length : 0}
+                    </span>{" "}
+                    )
                   </span>
                 </h4>
 
@@ -477,22 +591,7 @@ function Entretiens() {
                 </button>
               </div>
 
-              {allRDVs.length === 0 ? (
-                <p
-                  style={{
-                    marginTop: "20px",
-                    textAlign: "center",
-                    fontStyle: "italic",
-                    color: "white",
-                    textShadow: `0 0 4px rgba(158, 191, 249, 0.886),
-                0 0 8px rgba(155, 186, 239, 0.975),
-                0 0 12px rgb(190, 210, 247)`,
-                    transition: "text-shadow 0.3s ease",
-                  }}
-                >
-                  Aucun RDV enregistré
-                </p>
-              ) : (
+              {Array.isArray(allRDVs) && allRDVs.length > 0 ? (
                 allRDVs.map((rdv, index) => (
                   <div key={index} className="cardy">
                     <div
@@ -532,9 +631,7 @@ function Entretiens() {
                         </div>
                       </div>
                     </div>
-
                     <hr />
-
                     <div className="info-line">
                       Candidat :{" "}
                       <strong>
@@ -552,6 +649,21 @@ function Entretiens() {
                     </div>
                   </div>
                 ))
+              ) : (
+                <p
+                  style={{
+                    marginTop: "20px",
+                    textAlign: "center",
+                    fontStyle: "italic",
+                    color: "white",
+                    textShadow: `0 0 4px rgba(158, 191, 249, 0.886),
+          0 0 8px rgba(155, 186, 239, 0.975),
+          0 0 12px rgb(190, 210, 247)`,
+                    transition: "text-shadow 0.3s ease",
+                  }}
+                >
+                  Aucun RDV enregistré
+                </p>
               )}
             </div>
 
@@ -788,10 +900,34 @@ function Entretiens() {
                     </button>
                     <button
                       className="confbtn"
-                      onClick={() => {
-                        setRdvs((prev) => [...prev, newRdv]);
-                        setNewRdv({ offre: "", nom: "", prenom: "", date: "" });
-                        setCreateModalOpen(false);
+                      onClick={async () => {
+                        try {
+                          const response = await fetch(
+                            "http://localhost:5000/api/rdvs",
+                            {
+                              method: "POST",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify(newRdv),
+                            }
+                          );
+                          if (!response.ok)
+                            throw new Error(
+                              "Erreur lors de la création du RDV."
+                            );
+                          const savedRdv = await response.json();
+                          setRdvs((prev) => [...prev, savedRdv]); // ajouter RDV enregistré et retourné
+                          setNewRdv({
+                            offre: "",
+                            nom: "",
+                            prenom: "",
+                            date: "",
+                          });
+                          setCreateModalOpen(false);
+                        } catch (error) {
+                          alert(error.message);
+                        }
                       }}
                     >
                       Créer

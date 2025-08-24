@@ -545,8 +545,8 @@ hr {
 }
 
 .type-cdi {
-    background-color: #b3d4fc;
-    color: #003e7e;
+    background-color: #b3d4fc !important;
+    color: #003e7e !important;
 }
 
 .type-stage {
