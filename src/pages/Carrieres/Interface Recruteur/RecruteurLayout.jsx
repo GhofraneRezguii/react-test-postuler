@@ -129,6 +129,28 @@ function RecruterLayout({ children }) {
     </svg>
   );
 
+
+  const IconCV = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="35"
+      height="26"
+      fill="currentColor"
+      className="bi bi-file-earmark-text"
+      viewBox="0 0 16 16"
+      style={{ marginRight: "8px" }}
+    >
+      <path d="M14 4.5V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6.5L14 4.5zM13 4h-3a1 1 0 0 1-1-1V0H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5h-2z"/>
+      <path d="M5 7h6v1H5V7zm0 2h6v1H5V9zm0 2h4v1H5v-1z"/>
+    </svg>
+  );
+  
+ 
+  
+
+
+
+
   const IconPeople = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -469,6 +491,24 @@ function RecruterLayout({ children }) {
                 <span>Candidatures</span>
               </NavLink>
             </li>
+            
+
+            <li>
+  <NavLink
+    to="/admin-traitement-cv"
+    className={({ isActive }) =>
+      isActive ? "sidebar-link active" : "sidebar-link"
+    }
+  >
+    <IconCV />  {/* icône CV ici */}
+    <span>Traitement CV</span>
+  </NavLink>
+</li>
+
+
+
+
+
 
             <li>
               <NavLink

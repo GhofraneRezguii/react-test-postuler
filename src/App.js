@@ -14,17 +14,18 @@ import CarrieresNous from "./pages/Carrieres/CarrieresNous.jsx";
 import Dashboard from "./pages/Carrieres/Interface Recruteur/Dashboard.jsx";
 import GestionOffres from "./pages/Carrieres/Interface Recruteur/GestionOffres.jsx";
 import GestionCondidatures from "./pages/Carrieres/Interface Recruteur/GestionCondidatures.jsx";
- import Emails from "./pages/Carrieres/Interface Recruteur/Emails.jsx"; 
- import Entretiens from "./pages/Carrieres/Interface Recruteur/Entretiens.jsx";
- import MiddleWare from "./pages/Solutions/MiddleWare.jsx";
- import SocialMediaIcons from "./Components/SocialMediaIcons";
+import Emails from "./pages/Carrieres/Interface Recruteur/Emails.jsx";
+import Entretiens from "./pages/Carrieres/Interface Recruteur/Entretiens.jsx";
+import AdminCVSection from "./pages/Carrieres/Interface Recruteur/AdminCVSection.jsx";
+import MiddleWare from "./pages/Solutions/MiddleWare.jsx";
+import SocialMediaIcons from "./Components/SocialMediaIcons";
 import Custody from "./pages/Solutions/SuitesFin.jsx/Custody.jsx";
 import Services from "./pages/Solutions/SuitesFin.jsx/Services.jsx";
 import AdminFonds from "./pages/Solutions/SuitesFin.jsx/AdminFonds.jsx";
 import Marche from "./pages/Solutions/SuitesFin.jsx/Marche.jsx";
 import Fonds from "./pages/Solutions/SuitesFin.jsx/Fonds.jsx";
 import Suits from "./pages/Solutions/Suits.jsx";
-import IA from "./pages/Solutions/IA.jsx"
+import IA from "./pages/Solutions/IA.jsx";
 import SommesNous from "./pages/Societe/SommesNous.jsx";
 import PlanAcc from "./pages/Societe/PlanAcc.jsx";
 import NousContacter from "./pages/Societe/NousContacter.jsx";
@@ -51,16 +52,11 @@ function App() {
   }, []);
 
   if (loading) return <Loader />;
-  
-  
 
   return (
-    
-   
-
     <Router>
       <ScrollToTop />
-      
+
       <ScrollLineEffect />
       <Routes>
         {/* Route pour la page d'accueil */}
@@ -72,182 +68,178 @@ function App() {
             </Layout>
           }
         />
-       
+
         {/* Route midddleware */}
         <Route
           path="/solutions/middleware"
           element={
             <Layout>
-               <SocialMediaIcons />
+              <SocialMediaIcons />
               <MiddleWare />
             </Layout>
           }
-          />
-          {/* Route SuitsFIN */}
+        />
+        {/* Route SuitsFIN */}
         <Route
           path="/solutions/suitesfininfo/suits"
           element={
             <Layout>
-               <SocialMediaIcons />
+              <SocialMediaIcons />
               <Suits />
             </Layout>
           }
-          />
-          {/* Route pour custody */}
-          <Route
+        />
+        {/* Route pour custody */}
+        <Route
           path="/solutions/suitesfininfo/custody"
           element={
             <Layout>
-               <SocialMediaIcons />
+              <SocialMediaIcons />
               <Custody />
             </Layout>
           }
-          />
-          {/* Route services */}
-          <Route
+        />
+        {/* Route services */}
+        <Route
           path="/solutions/suitesfininfo/services"
           element={
             <Layout>
-               <SocialMediaIcons />
+              <SocialMediaIcons />
               <Services />
             </Layout>
           }
-          />
-          {/* Route adminFonds */}
-          <Route
+        />
+        {/* Route adminFonds */}
+        <Route
           path="/solutions/suitesfininfo/adminfonds"
           element={
             <Layout>
-               <SocialMediaIcons />
+              <SocialMediaIcons />
               <AdminFonds />
             </Layout>
           }
-          />
-          {/* Route marché */}
-          <Route
+        />
+        {/* Route marché */}
+        <Route
           path="/solutions/suitesfininfo/marche"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <Marche/>
+              <SocialMediaIcons />
+              <Marche />
             </Layout>
           }
-          />
-          {/* Route Fonds */}
-          <Route
+        />
+        {/* Route Fonds */}
+        <Route
           path="/solutions/suitesfininfo/fonds"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <Fonds/>
+              <SocialMediaIcons />
+              <Fonds />
             </Layout>
           }
-          />
-          {/* Route IA */}
-          <Route
+        />
+        {/* Route IA */}
+        <Route
           path="/solutions/IA"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <IA/>
+              <SocialMediaIcons />
+              <IA />
             </Layout>
           }
-          />
-          {/* Route qui sommes nous */}
-          <Route
+        />
+        {/* Route qui sommes nous */}
+        <Route
           path="/societe/QuiSommesNous"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <SommesNous/>
+              <SocialMediaIcons />
+              <SommesNous />
             </Layout>
           }
-          />
-          {/* Route PlanACC */}
-          <Route
+        />
+        {/* Route PlanACC */}
+        <Route
           path="/societe/plan-accès"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <PlanAcc/>
+              <SocialMediaIcons />
+              <PlanAcc />
             </Layout>
           }
-          />
-          {/* Route contact */}
-          <Route
+        />
+        {/* Route contact */}
+        <Route
           path="/societe/Nous-Contacter"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <NousContacter/>
+              <SocialMediaIcons />
+              <NousContacter />
             </Layout>
           }
-          />
-          {/* Route Actualité */}
-          <Route
+        />
+        {/* Route Actualité */}
+        <Route
           path="/societe/Nos-Actualités"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <Actualite/>
+              <SocialMediaIcons />
+              <Actualite />
             </Layout>
           }
-          />
-          {/* Route ecovadis  */}
-          <Route
+        />
+        {/* Route ecovadis  */}
+        <Route
           path="/societe/Nos-Actualités-ecovadis"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <EcovadisAcc/>
+              <SocialMediaIcons />
+              <EcovadisAcc />
             </Layout>
           }
-          />
-          {/* Route leader club actualité */}
-          <Route
+        />
+        {/* Route leader club actualité */}
+        <Route
           path="/societe/Nos-Actualités-UserClub"
           element={
             <Layout>
-               <SocialMediaIcons />
-              <LeaderAcc/>
+              <SocialMediaIcons />
+              <LeaderAcc />
             </Layout>
           }
-          />
+        />
 
         {/* Route carriéres chez nous */}
         <Route path="/carrieres/nous" element={<CarrieresNous />} />
 
         {/* <Route path="/carrieres/offres" element={<OffresEmp />} /> */}
-         {/* Route pour la page Postuler */}
-         <Route
-          path="/carrieres/Postuler"
-          element={<Postuler />}
-        />
+        {/* Route pour la page Postuler */}
+        <Route path="/carrieres/Postuler" element={<Postuler />} />
         <Route path="/carrieres/offres" element={<OffresEmp />} />
-        
-       
+
         {/* Route pour la page des offres */}
-        <Route
-          path="/carrieres/offres"
-          element={<OffresEmp />}
-        />
+        <Route path="/carrieres/offres" element={<OffresEmp />} />
         <Route path="/offre/:id" element={<OffreDetail />} />
         {/* Route Dashboard admin */}
         <Route path="/admin-condidature" element={<Dashboard />} />
         {/* Route Gestion des offres */}
-        <Route path="/admin-offres" element={<GestionOffres/>}/>
+        <Route path="/admin-offres" element={<GestionOffres />} />
         {/* Route Gestion des condidatures */}
-        <Route path="/admin-condidatures" element={<GestionCondidatures/>}/>
-        {/* Route Emails */}
-        <Route path="/emails" element={<Emails/>}/>
-        {/* Route Entretiens */}
-        <Route path="/entretiens" element={<Entretiens/>}/>
-         {/* Redirection par défaut vers la page d'accueil si aucune route ne correspond */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/admin-condidatures" element={<GestionCondidatures />} />
+        {/* Traitement CV intelligent */}
+        <Route path="/admin-traitement-cv" element={<AdminCVSection />} />
+        
 
+        {/* Route Emails */}
+        <Route path="/emails" element={<Emails />} />
+        {/* Route Entretiens */}
+        <Route path="/entretiens" element={<Entretiens />} />
+
+        {/* Redirection par défaut vers la page d'accueil si aucune route ne correspond */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
-    
   );
 }
 
