@@ -1,105 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import RecruterLayout from "./RecruteurLayout";
-import ParticlesBackground from "../../../Components/ParticlesBackground";
-import 'particles.js';
-import Emaily from './Emaily.css';
+import React, { useState, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 import { LuMessageSquareCode } from "react-icons/lu";
 import { ImEyePlus } from "react-icons/im";
 import Select from "react-select";
+import RecruterLayout from "./RecruteurLayout";
+import ParticlesBackground from "../../../Components/ParticlesBackground";
 import SendButton from "./SendButton";
+import './Emaily.css';
 
 function Emails() {
     const [template, setTemplate] = useState("");
     const [recipient, setRecipient] = useState("");
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
-
-    const [showConfirm, setShowConfirm] = useState(false);
-    const [sentCount, setSentCount] = useState(0);
-    const formRef = useRef(null);
-
-
-
-
-
-    const handleClear = () => {
-        setTemplate("");
-        setRecipient("");
-        setSubject("");
-        setMessage("");
-    };
-    // const handleSend = () => {
-    //     if (!recipient || !subject || !message) {
-    //         alert("Veuillez remplir tous les champs obligatoires.");
-    //         return;
-    //     }
-
-    //     // Logique d'envoi (ex: appel backend, envoi email)
-    //     console.log("Email envoyé à :", recipient);
-    //     console.log("Sujet :", subject);
-    //     console.log("Message :", message);
-    //     alert("Email envoyé avec succès !");
-    //     setSent(true);
-    //     setTimeout(() => setSent(false), 2000); // reset après 2s
-
-    // };
-
     const [sent, setSent] = useState(false);
-
-    const handleSend = async (e) => {
-        e.preventDefault(); // bloque le rechargement
-
-        if (!formRef.current.checkValidity()) {
-            formRef.current.reportValidity(); // Affiche les erreurs natives
-            return; // bloque l'envoi
-        }
-
-        const success = await fakeSend();
-
-        if (success) {
-            setSent(true);
-            setSentCount((prev) => prev + 1);
-
-            const newEmail = {
-                recipient,
-                subject,
-                message,
-                date: new Date().toLocaleString(),
-            };
-
-            setSentEmails((prev) => [...prev, newEmail]);
-            setTimeout(() => setSent(false), 3000);
-        }
-    };
-
-
-
-
-
-
-    const fakeSend = () =>
-        new Promise((resolve) => {
-            setTimeout(() => resolve(true), 1500);
-        });
-
-
-
-
-    const [showSentEmails, setShowSentEmails] = useState(false);
+    const [sentCount, setSentCount] = useState(0);
     const [sentEmails, setSentEmails] = useState([]);
-
-
-
-
-
-    const options = [
-        { value: "accuse", label: "Accusé de réception" },
-        { value: "entretien", label: "Invitation entretien" },
-        { value: "refus", label: "Refus de candidature" },
-        { value: "acceptation", label: "Acceptation de candidature" }
-    ];
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [showSentEmails, setShowSentEmails] = useState(false);
+    const formRef = useRef(null);
 
     const templateOptions = [
         { value: "accuse", label: "Accusé de réception" },
@@ -111,54 +30,65 @@ function Emails() {
     const templateContent = {
         accuse: {
             subject: "Accusé de réception de votre candidature - {{jobReference}}",
-            message: `Bonjour {{firstName}} {{lastName}},
-      
-      Nous accusons réception de votre candidature pour le poste "{{jobTitle}}" (Réf: {{jobReference}}).
-      
-      Votre dossier va être examiné par notre équipe et nous reviendrons vers vous dans les plus brefs délais.
-      
-      Cordialement,  
-      L'équipe RH`
+            message: `Bonjour {{firstName}} {{lastName}},\n\nNous accusons réception de votre candidature pour le poste "{{jobTitle}}" (Réf: {{jobReference}}).\n\nVotre dossier va être examiné par notre équipe et nous reviendrons vers vous dans les plus brefs délais.\n\nCordialement,\nL'équipe RH`
         },
         entretien: {
             subject: "Convocation à un entretien pour le poste {{jobTitle}} - {{jobReference}}",
-            message: `Bonjour {{firstName}} {{lastName}},
-      
-      Suite à votre candidature, nous souhaitons vous convier à un entretien pour le poste "{{jobTitle}}" (Réf: {{jobReference}}).
-      
-      Merci de nous indiquer vos disponibilités.
-      
-      Cordialement,  
-      L'équipe RH`
+            message: `Bonjour {{firstName}} {{lastName}},\n\nSuite à votre candidature, nous souhaitons vous convier à un entretien pour le poste "{{jobTitle}}" (Réf: {{jobReference}}).\n\nMerci de nous indiquer vos disponibilités.\n\nCordialement,\nL'équipe RH`
         },
         refus: {
             subject: "Suite à votre candidature - {{jobReference}}",
-            message: `Bonjour {{firstName}} {{lastName}},
-      
-      Nous vous remercions pour l'intérêt porté à notre entreprise.
-      
-      Cependant, après étude de votre candidature pour le poste "{{jobTitle}}" (Réf: {{jobReference}}), nous sommes au regret de ne pas pouvoir y donner une suite favorable.
-      
-      Nous vous souhaitons une bonne continuation.
-      
-      Cordialement,  
-      L'équipe RH`
+            message: `Bonjour {{firstName}} {{lastName}},\n\nNous vous remercions pour l'intérêt porté à notre entreprise.\n\nCependant, après étude de votre candidature pour le poste "{{jobTitle}}" (Réf: {{jobReference}}), nous sommes au regret de ne pas pouvoir y donner une suite favorable.\n\nNous vous souhaitons une bonne continuation.\n\nCordialement,\nL'équipe RH`
         },
         acceptation: {
             subject: "Félicitations - Votre candidature est retenue ! - {{jobReference}}",
-            message: `Bonjour {{firstName}} {{lastName}},
-      
-      Félicitations ! Votre candidature pour le poste "{{jobTitle}}" (Réf: {{jobReference}}) a été retenue.
-      
-      Nous vous accueillerons avec plaisir au sein de notre équipe.
-      
-      Cordialement,  
-      L'équipe RH`
+            message: `Bonjour {{firstName}} {{lastName}},\n\nFélicitations ! Votre candidature pour le poste "{{jobTitle}}" (Réf: {{jobReference}}) a été retenue.\n\nNous vous accueillerons avec plaisir au sein de notre équipe.\n\nCordialement,\nL'équipe RH`
         }
     };
 
+    const handleClear = () => {
+        setTemplate("");
+        setRecipient("");
+        setSubject("");
+        setMessage("");
+    };
 
+    const handleSend = async (e) => {
+        e.preventDefault();
 
+        if (!formRef.current.checkValidity()) {
+            formRef.current.reportValidity();
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ recipient, subject, message })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                setSent(true);
+                setSentCount(prev => prev + 1);
+                setSentEmails(prev => [...prev, {
+                    recipient,
+                    subject,
+                    message,
+                    date: new Date().toLocaleString()
+                }]);
+                setTimeout(() => setSent(false), 3000);
+                alert("Email envoyé avec succès !");
+                handleClear();
+            } else {
+                alert("Erreur : " + data.error);
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Erreur serveur lors de l'envoi");
+        }
+    };
 
     return (
         <RecruterLayout>
@@ -177,29 +107,23 @@ function Emails() {
                         Envoyez des emails aux candidats et gérez vos templates
                     </h6>
                 </div>
-                {/* btn afficher emails envoyés */}
                 <button className="aff-btn" onClick={() => setShowSentEmails(true)}>
                     <ImEyePlus size={25} /> Emails
                 </button>
-
-                {/* card */}
                 <div className="cardy-itemy">
                     <h6>Emails envoyés</h6>
                     <hr />
                     <strong style={{ color: "#002050" }}>{sentCount}</strong>
                 </div>
-
             </div>
 
-            {/* cards content  */}
             <div className="email-cards-container" style={{ display: "flex", gap: "20px" }}>
-                {/* Card Formulaire Email */}
-                <div className="email-card card-large" >
+                <div className="email-card card-large">
                     <h4 style={{ display: "flex", alignItems: "center", gap: "14px", color: "#002050" }}>
-                        <IoIosSend size={30} color="#002b55" />
-                        Envoyer un Email
+                        <IoIosSend size={30} color="#002b55" /> Envoyer un Email
                     </h4>
-                    <label>Template d'email (Optionel)</label>
+
+                    <label>Template d'email (Optionnel)</label>
                     <Select
                         options={templateOptions}
                         placeholder="--- Choisir template ---"
@@ -224,88 +148,57 @@ function Emails() {
                                 ...base,
                                 borderColor: '#ccc',
                                 boxShadow: '0px 9px 8px  #0048c6',
-                                '&:hover': {
-                                    borderColor: '#0048c6',
-                                }
+                                '&:hover': { borderColor: '#0048c6' }
                             })
                         }}
                     />
-
 
                     <form ref={formRef} onSubmit={handleSend}>
                         <label>
                             Destinataire <span style={{ color: "#002b55" }}>*</span>
                         </label>
-                        <input
-                            type="email"
-                            value={recipient}
-                            placeholder="Ex: Condidat@gmail.com"
-                            required
-                            onChange={(e) => setRecipient(e.target.value)}
-                        />
+                        <input type="email" value={recipient} placeholder="Ex: Condidat@gmail.com" required onChange={(e) => setRecipient(e.target.value)} />
 
                         <label>
                             Sujet <span style={{ color: "#002b55" }}>*</span>
                         </label>
-                        <input
-                            type="text"
-                            value={subject}
-                            placeholder="Ex: Acceptation de condidature"
-                            required
-                            onChange={(e) => setSubject(e.target.value)}
-                        />
+                        <input type="text" value={subject} placeholder="Ex: Acceptation de condidature" required onChange={(e) => setSubject(e.target.value)} />
 
                         <label>
                             Message <span style={{ color: "#002b55" }}>*</span>
                         </label>
-                        <textarea
-                            value={message}
-                            placeholder="Message à envoyer au candidat..."
-                            required
-                            onChange={(e) => setMessage(e.target.value)}
-                            rows="5"
-                        />
+                        <textarea value={message} placeholder="Message à envoyer au candidat..." required onChange={(e) => setMessage(e.target.value)} rows="5" />
 
                         <div className="button-row">
-                            <SendButton sent={sent} onClick={handleSend} />
+                            <SendButton sent={sent} type="submit" />
                             <button type="button" onClick={() => setShowConfirm(true)} className="Clearbutton">
-                                <svg viewBox="0 0 448 512" className="svgIcon">
-                                    <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
-                                </svg>
+                                Effacer
                             </button>
-
                         </div>
                     </form>
                 </div>
 
-
-                {/* Deuxième Card (vide pour l’instant) */}
-                <div className="email-card card-small" >
+                <div className="email-card card-small">
                     <h4 style={{ display: "flex", alignItems: "center", gap: "8px", color: "#002050" }}>
-                        <LuMessageSquareCode size={50} color="#002b55" />
-                        Variables disponibles
+                        <LuMessageSquareCode size={50} color="#002b55" /> Variables disponibles
                     </h4>
                     <div className="varinfo">
                         <p>
-                            <span style={{ color: 'rgb(129, 10, 10)', fontWeight: '600' }}>{"{{ firstName }}"}</span> - Prénom du candidat<br />
-                            <span style={{ color: 'rgb(129, 10, 10)', fontWeight: '600' }}>{"{{ lastName }}"}</span> - Nom du candidat<br />
-                            <span style={{ color: 'rgb(129, 10, 10)', fontWeight: '600' }}>{"{{ jobTitle }}"}</span> - Titre du poste<br />
-                            <span style={{ color: 'rgb(129, 10, 10)', fontWeight: '600' }}>{"{{ jobReference }}"}</span> - Référence de l'offre
+                            <span style={{ color: 'rgb(129, 10, 10)', fontWeight: '600' }}>{"{{ firstName }}"}</span> - Prénom<br />
+                            <span style={{ color: 'rgb(129, 10, 10)', fontWeight: '600' }}>{"{{ lastName }}"}</span> - Nom<br />
+                            <span style={{ color: 'rgb(129, 10, 10)', fontWeight: '600' }}>{"{{ jobTitle }}"}</span> - Poste<br />
+                            <span style={{ color: 'rgb(129, 10, 10)', fontWeight: '600' }}>{"{{ jobReference }}"}</span> - Réf
                         </p>
-
                     </div>
-
                 </div>
             </div>
+
             {showConfirm && (
                 <div className="modal-overlay">
                     <div className="confirm-card">
                         <h3>Êtes-vous sûr de vouloir effacer ?</h3>
                         <div className="buttons">
-                            <button className="yes-btn" onClick={() => {
-                                handleClear();          // appel de la fonction d'effacement
-                                setShowConfirm(false);  // fermeture de la carte
-                            }}>Oui</button>
+                            <button className="yes-btn" onClick={() => { handleClear(); setShowConfirm(false); }}>Oui</button>
                             <button className="no-btn" onClick={() => setShowConfirm(false)}>Non</button>
                         </div>
                     </div>
@@ -327,11 +220,11 @@ function Emails() {
                                         <p><strong>Message:</strong><br />{email.message}</p>
                                         <p><small><em>Envoyé le : {email.date}</em></small></p>
                                         <hr style={{
-                                            all: "unset",                // <-- Réinitialise tous les styles
+                                            all: "unset",
                                             display: "block",
-                                            width: "100%", height: "4px", backgroundColor: "#002b55", border: "none", margin: "1rem 0", boxShadow: "0px 5px 10px rgb(52, 99, 241)"
+                                            width: "100%", height: "4px", backgroundColor: "#002b55",
+                                            border: "none", margin: "1rem 0", boxShadow: "0px 5px 10px rgb(52, 99, 241)"
                                         }} />
-
                                     </div>
                                 ))
                             )}
@@ -340,11 +233,8 @@ function Emails() {
                     </div>
                 </div>
             )}
-
-
-
         </RecruterLayout>
-    )
+    );
 }
 
-export default Emails
+export default Emails;

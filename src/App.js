@@ -32,6 +32,7 @@ import NousContacter from "./pages/Societe/NousContacter.jsx";
 import Actualite from "./pages/Actualite.jsx";
 import EcovadisAcc from "./pages/EcovadisAcc.jsx";
 import LeaderAcc from "./pages/LeaderAcc.jsx";
+import DashboardCandidat from './pages/DashboardCandidat.jsx';
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -216,7 +217,9 @@ function App() {
         {/* <Route path="/carrieres/offres" element={<OffresEmp />} /> */}
         {/* Route pour la page Postuler */}
         <Route path="/carrieres/Postuler" element={<Postuler />} />
+        <Route path="/dashboard-candidat" element={<DashboardCandidat />} />
         <Route path="/carrieres/offres" element={<OffresEmp />} />
+
 
         {/* Route pour la page des offres */}
         <Route path="/carrieres/offres" element={<OffresEmp />} />

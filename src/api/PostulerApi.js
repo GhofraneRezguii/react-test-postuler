@@ -1,16 +1,19 @@
 // services/postulerService.js
 import axios from "axios";
 
-// URL de base de ton backend
 const API_URL = "http://localhost:5000/postuler";
 const API_CANDIDATURE = "http://localhost:5000/candidature";
 
-
-// Fonction pour envoyer une candidature
+// 🔥 POSTULANT - Envoi candidature (avec auth token)
 export const envoyerCandidature = async (formData) => {
   try {
+    const token = localStorage.getItem('candidatToken');
+    
     const response = await axios.post(`${API_URL}/envoyer`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: { 
+        "Content-Type": "multipart/form-data",
+        ...(token && { Authorization: `Bearer ${token}` })
+      },
       withCredentials: true,
     });
     
@@ -20,7 +23,20 @@ export const envoyerCandidature = async (formData) => {
   }
 };
 
-// Fonction pour récupérer toutes les candidatures (admin)
+// 🔥 ADMIN - Créer candidature MANUELLE (POUR GestionCondidatures)
+export const createCandidature = async (formData) => {
+  try {
+    const response = await axios.post(`${API_CANDIDATURE}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ADMIN - Récupérer candidatures
 export const getCandidatures = async () => {
   try {
     const response = await axios.get(`${API_URL}/candidatures`);
@@ -30,11 +46,10 @@ export const getCandidatures = async () => {
   }
 };
 
-// 🔎 Récupérer les candidatures filtrées
 export const getCandidaturesFiltrees = async (filters) => {
   try {
     const response = await axios.get(`${API_URL}/candidatures`, {
-      params: filters, // exemple : { nom: "Dupont", offre: "Développeur" }
+      params: filters,
     });
     return response.data;
   } catch (error) {
@@ -42,12 +57,18 @@ export const getCandidaturesFiltrees = async (filters) => {
   }
 };
 
-// Créer une nouvelle candidature avec fichiers
-// Créer une nouvelle candidature avec fichiers
-export const createCandidature = async (formData) => {
-  const response = await axios.post(API_CANDIDATURE, formData, {
-    withCredentials: true,
-  });
-  return response.data;
+// 🔥 DASHBOARD CANDIDAT
+// Dans PostulerApi.js
+ // 🔥 DASHBOARD CANDIDAT
+ export const getDashboardCandidat = async () => {
+  try {
+    const token = localStorage.getItem('candidatToken');
+    const response = await axios.get('http://localhost:5000/api/candidat/dashboard', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 

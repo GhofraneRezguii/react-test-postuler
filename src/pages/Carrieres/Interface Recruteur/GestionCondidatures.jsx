@@ -1141,71 +1141,90 @@ function GestionCondidatures() {
                       )}
                       {visibleFields.statut && (
                         <td>
-                          <select
-                            value={condidat.statut}
-                            onChange={(e) => {
-                              const newStatut = e.target.value;
-                          
-                              // 1️⃣ Met à jour le state principal des candidatures
-                              setCondidatures((prev) => {
-                                const updated = prev.map((c) =>
-                                  c.id === condidat.id ? { ...c, statut: newStatut } : c
-                                );
-                          
-                                // 2️⃣ Recalcul des stats immédiatement après mise à jour
-                                const nouveaux = updated.filter(c => c.statut === "nouveau").length;
-                                const enCours = updated.filter(c => c.statut === "en-cours").length;
-                                const acceptes = updated.filter(c => c.statut === "accepté").length;
-                                const refuses = updated.filter(c => c.statut === "refusé").length;
-                          
-                                setStats({
-                                  total: updated.length,
-                                  nouveaux,
-                                  enCours,
-                                  acceptes,
-                                  refuses,
-                                });
-                          
-                                return updated;
-                              });
-                          
-                              // 3️⃣ Sauvegarde dans localStorage
-                              const stored = JSON.parse(localStorage.getItem("candidaturesStatut") || "{}");
-                              stored[condidat.id] = newStatut;
-                              localStorage.setItem("candidaturesStatut", JSON.stringify(stored));
-                            }}
-                          
-                            style={{
-                              padding: "4px 8px",
-                              borderRadius: "6px",
-                              border: "1px solid #ccc",
-                              backgroundColor:
-                                condidat.statut === "accepté"
-                                  ? "#9bdea4"
-                                  : condidat.statut === "refusé"
-                                  ? "#f1b5aa"
-                                  : condidat.statut === "en-cours"
-                                  ? "#fcbef9"
-                                  : condidat.statut === "nouveau"
-                                  ? "rgb(183, 240, 250)"
-                                  : "#333",
-                              color:
-                                condidat.statut === "accepté"
-                                  ? "green"
-                                  : condidat.statut === "refusé"
-                                  ? "red"
-                                  : condidat.statut === "en-cours"
-                                  ? "#a000b0"
-                                  : condidat.statut === "nouveau"
-                                  ? "rgb(5, 73, 85)"
-                                  : "white",
-                            }}
-                          >
-                            <option value="nouveau">Nouveau</option>
-                            <option value="en-cours">En cours</option>
-                            <option value="accepté">Accepté</option>
-                            <option value="refusé">Refusé</option>
-                          </select>
+                         <select
+  value={condidat.statut}
+  onChange={async (e) => {
+    const newStatut = e.target.value;
+    console.log(`🔄 Changement statut ${condidat.id} → ${newStatut}`);
+    
+    try {
+      // 🔥 1️⃣ APPEL BACKEND (Socket.IO vers dashboard)
+      const response = await fetch(`http://localhost:5000/candidature/${condidat.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ statut: newStatut })
+      });
+
+      if (!response.ok) throw new Error('Erreur backend');
+      
+      console.log('✅ Backend OK:', condidat.id);
+
+      // 2️⃣ Ton code existant (state + stats + localStorage)
+      setCondidatures((prev) => {
+        const updated = prev.map((c) =>
+          c.id === condidat.id ? { ...c, statut: newStatut } : c
+        );
+        
+        // Recalcul des stats
+        const nouveaux = updated.filter(c => c.statut === "nouveau").length;
+        const enCours = updated.filter(c => c.statut === "en-cours").length;
+        const acceptes = updated.filter(c => c.statut === "accepté").length;
+        const refuses = updated.filter(c => c.statut === "refusé").length;
+
+        setStats({
+          total: updated.length,
+          nouveaux,
+          enCours,
+          acceptes,
+          refuses,
+        });
+
+        return updated;
+      });
+
+      // 3️⃣ LocalStorage (inchangé)
+      const stored = JSON.parse(localStorage.getItem("candidaturesStatut") || "{}");
+      stored[condidat.id] = newStatut;
+      localStorage.setItem("candidaturesStatut", JSON.stringify(stored));
+      
+    } catch (error) {
+      console.error('❌ Erreur mise à jour:', error);
+      alert(`Erreur mise à jour statut: ${error.message}`);
+    }
+  }}
+  
+  style={{
+    padding: "4px 8px",
+    borderRadius: "6px",
+    border: "1px solid #ccc",
+    backgroundColor:
+      condidat.statut === "accepté"
+        ? "#9bdea4"
+        : condidat.statut === "refusé"
+        ? "#f1b5aa"
+        : condidat.statut === "en-cours"
+        ? "#fcbef9"
+        : condidat.statut === "nouveau"
+        ? "rgb(183, 240, 250)"
+        : "#333",
+    color:
+      condidat.statut === "accepté"
+        ? "green"
+        : condidat.statut === "refusé"
+        ? "red"
+        : condidat.statut === "en-cours"
+        ? "#a000b0"
+        : condidat.statut === "nouveau"
+        ? "rgb(5, 73, 85)"
+        : "white",
+  }}
+>
+  <option value="nouveau">Nouveau</option>
+  <option value="en-cours">En cours</option>
+  <option value="accepté">Accepté</option>
+  <option value="refusé">Refusé</option>
+</select>
+
                         </td>
                       )}
 
